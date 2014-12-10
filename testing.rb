@@ -18,7 +18,7 @@ class NETest
 		
 		zaehler = 0 #gibt die Zeile des Arrays an
 		CSV.foreach(datei1, {:col_sep => "\t", :quote_char => "\0" }) do |row|
-			if zaehler >= foo.length
+			if zaehler >= datei2array.length
 				break
 			end
 			if row.empty?() || row[0] == '#' #ignoriere leere Zeilen und Zeilen die mit "#" beginnen
