@@ -1,0 +1,1 @@
+[POS.0 = NN, token.0 = ElementOf.ListeVornamen, POS.1 = NN] => PER 0,2
