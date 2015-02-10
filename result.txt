@@ -1,0 +1,8 @@
+Merkel      PER
+war
+mit
+Gauck      PER
+bei
+BASF      ORG
+in
+Berlin      LOC
