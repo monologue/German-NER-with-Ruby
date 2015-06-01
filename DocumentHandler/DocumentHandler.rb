@@ -21,24 +21,23 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 =begin		if @@count_text == 1 #only in purpose of testing
 				return
 			end
-=end		
+=end
+		#Create a new instance of type Text for every text and push it to the @@current_element array.
 		if name == "text"
 			t = Text.new(attrs[0][1])
 			@@current_element << t
 		end
+		#Create a new instance of type Sentence for every sentence and push it to the @@current_element array.
 		if name == 'sentence'
-			puts 'sentence'
 			s = Sentence.new(attrs[1])
 			@@current_element.last.add_content(s)
 			@@current_element << s
 		end
 		if name == 'word'
-			puts 'word'
 			w = Word.new(attrs[0,1], attrs[1,1])
 			@@current_element << w
 		end
 		if name == 'node'
-			puts 'node'
 			case attrs.length
 				when 3
 					n = Knoten.new(attrs[0][1], attrs[1][1], attrs[2][1])
@@ -52,8 +51,7 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 		end
 
 		if name == 'ne'
-			puts 'ne'
-			ne = NE.new(attrs[0][1])
+			ne = NE.new(attrs[0][1], attrs[1][1])
 			@@current_element.last.add_content(ne) 
 			@@current_element << ne
 		end
@@ -62,8 +60,6 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 	def end_element(name)
 		if name =='text'
 			texts << @@current_element
-			#puts @@current_element.last.to_s
-			
 			@@current_element.pop
 			#puts texts.to_s
 		end
@@ -74,7 +70,7 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 			#end
 		end
 		if name == 'node'
-			puts @@current_element.last.id
+			#puts @@current_element.last.id
 			#if @@current_element[-1] =! @@current_element.first
 				@@current_element.pop
 			#end
@@ -86,15 +82,20 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 			#end
 		end
 		if name == 'ne'
-			puts @@current_element.last.to_s
 			if @@current_element[-1] =! @@current_element.first
 				@@current_element.pop
 			end
+				
 		end
 	end
 
 	
 	def end_document
+		texts.each { |sentences|
+			sentences.each { |parts|
+					puts parts.to_s}}
+		#funktioniert, aber wie Kontrolle? wie iterieren?		
+		#puts texts[1][0].sentences[0].sentence_parts[1]
 	end
 	
 	#this method simply counts the number of texts and sentences existing in the input-document.
@@ -184,12 +185,16 @@ end
 
 class Punctuation
 
+	def initialize()
+	end
+	
 end
 
 class NE
-	attr_accessor :type, :ne
+	attr_accessor :type, :ne, :id
 	type_list = %w{ORG OTH LOC GPE PER}
-	def initialize(type)
+	def initialize(name, type)
+		@id = name
 		@type = type
 		@ne = Array.new
 	end
@@ -199,4 +204,4 @@ class NE
 	end
 end
 parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
-parser.parse_file('mini.xml')
+parser.parse_file('micro.xml')
