@@ -93,10 +93,10 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 
 	
 	def end_document
-		
-		texts.each { |sentences|
-			sentences.each { |sentence|
-		puts print(sentence)}}
+		puts texts[0].@sentences
+		texts.each { |text|
+			text.sentences.each { |sentence|
+				sentence.print()}}
 		#funktioniert, aber wie Kontrolle? wie iterieren?		
 		#puts texts[1][0].sentences[0].sentence_parts[1]
 	end
