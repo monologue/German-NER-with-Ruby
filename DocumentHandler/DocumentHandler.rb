@@ -35,6 +35,7 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 		end
 		if name == 'word'
 			w = Word.new(attrs[0,1], attrs[1,1])
+			@@current_element.last.add_content(w)
 			@@current_element << w
 		end
 		if name == 'node'
@@ -59,6 +60,7 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 	
 	def end_element(name)
 		if name =='text'
+			puts @@current_element.first.id
 			texts << @@current_element
 			@@current_element.pop
 			#puts texts.to_s
@@ -91,9 +93,10 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 
 	
 	def end_document
-		texts.each { |sentences|
-			sentences.each { |parts|
-					puts parts.to_s}}
+		
+		#texts.each { |sentences|
+#sentences.each { |sentence|
+		#			puts print(sentence)}}
 		#funktioniert, aber wie Kontrolle? wie iterieren?		
 		#puts texts[1][0].sentences[0].sentence_parts[1]
 	end
@@ -143,6 +146,11 @@ class Sentence
 	def add_content(obj)
 		sentence_parts << obj
 	end
+	
+	def print(sentence)
+		sentence.each {|part|
+			print(part)}
+	end
 end
 
 class Knoten 
@@ -158,6 +166,10 @@ class Knoten
 	
 	def add_content(obj)
 		knoten << obj
+	end
+	
+	def print(k)
+		puts k
 	end
 end
 
@@ -180,6 +192,9 @@ class Word
 		if pos =! pos_list
 			puts "/n Fehler, unbekanntes pos /n" 
 		end
+	end
+	def print(word)
+		puts form
 	end
 end
 
