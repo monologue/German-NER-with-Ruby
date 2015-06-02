@@ -94,9 +94,9 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 	
 	def end_document
 		
-		#texts.each { |sentences|
-#sentences.each { |sentence|
-		#			puts print(sentence)}}
+		texts.each { |sentences|
+			sentences.each { |sentence|
+		puts print(sentence)}}
 		#funktioniert, aber wie Kontrolle? wie iterieren?		
 		#puts texts[1][0].sentences[0].sentence_parts[1]
 	end
@@ -147,9 +147,9 @@ class Sentence
 		sentence_parts << obj
 	end
 	
-	def print(sentence)
-		sentence.each {|part|
-			print(part)}
+	def print()
+		sentence_parts.each {|part|
+			part.print()}
 	end
 end
 
@@ -168,8 +168,9 @@ class Knoten
 		knoten << obj
 	end
 	
-	def print(k)
-		puts k
+	def print()
+		knoten.each {|k|
+			k.print()}
 	end
 end
 
@@ -193,7 +194,7 @@ class Word
 			puts "/n Fehler, unbekanntes pos /n" 
 		end
 	end
-	def print(word)
+	def print()
 		puts form
 	end
 end
@@ -216,6 +217,11 @@ class NE
 	
 	def add_content(obj)
 		ne << obj
+	end
+	
+	def print()
+		ne.each {|part|
+			print.part}
 	end
 end
 parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
