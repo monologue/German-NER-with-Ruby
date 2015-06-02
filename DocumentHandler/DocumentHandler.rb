@@ -24,8 +24,10 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 =end
 		#Create a new instance of type Text for every text and push it to the @@current_element array.
 		if name == "text"
+			puts ENV['RUBY_THREAD_VM_STACK_SIZE']
 			t = Text.new(attrs[0][1])
 			@@current_element << t
+			texts << t
 		end
 		#Create a new instance of type Sentence for every sentence and push it to the @@current_element array.
 		if name == 'sentence'
@@ -60,9 +62,9 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 	
 	def end_element(name)
 		if name =='text'
-			puts @@current_element.first.id
-			texts << @@current_element
+			puts @@current_element.last.id
 			@@current_element.pop
+			#texts << @@current_element.pop
 			#puts texts.to_s
 		end
 		if name == 'sentence'
@@ -93,7 +95,7 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 
 	
 	def end_document
-		puts texts[0].@sentences
+		#puts texts[0].sentences
 		texts.each { |text|
 			text.sentences.each { |sentence|
 				sentence.print()}}
@@ -221,7 +223,7 @@ class NE
 	
 	def print()
 		ne.each {|part|
-			print.part}
+			part.print}
 	end
 end
 parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
