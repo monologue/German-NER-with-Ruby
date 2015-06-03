@@ -24,7 +24,6 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 =end
 		#Create a new instance of type Text for every text and push it to the @@current_element array.
 		if name == "text"
-			puts ENV['RUBY_THREAD_VM_STACK_SIZE']
 			t = Text.new(attrs[0][1])
 			@@current_element << t
 			texts << t
@@ -36,7 +35,16 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 			@@current_element << s
 		end
 		if name == 'word'
-			w = Word.new(attrs[0,1], attrs[1,1])
+			case attrs[3][0]
+				when "morph"
+					if attrs.length == 9
+					w = Word.new(attrs[0][1], attrs[1][1], attrs[2][1], attrs[4][1], attrs[5][1], attrs[6][1], attrs[3][1], attrs[7][1], attrs[8][1])
+					else
+					w = Word.new(attrs[0][1], attrs[1][1], attrs[2][1], attrs[4][1], attrs[5][1], attrs[7][1], attrs[3][1], attrs[6][1])
+					end
+				when "lemma"
+					w = Word.new(attrs[0][1], attrs[1][1], attrs[2][1], attrs[3][1], attrs[4][1], attrs[5][1])
+			end
 			@@current_element.last.add_content(w)
 			@@current_element << w
 		end
@@ -64,26 +72,15 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 		if name =='text'
 			puts @@current_element.last.id
 			@@current_element.pop
-			#texts << @@current_element.pop
-			#puts texts.to_s
 		end
 		if name == 'sentence'
-			#puts @@current_element.last.to_s
-			#if @@current_element[-1] =! @@current_element.first
 				@@current_element.pop
-			#end
 		end
 		if name == 'node'
-			#puts @@current_element.last.id
-			#if @@current_element[-1] =! @@current_element.first
 				@@current_element.pop
-			#end
 		end
 		if name == 'word'
-			#puts @@current_element.last.to_s
-			#if @@current_element[-1] =! @@current_element.first
 				@@current_element.pop
-			#end
 		end
 		if name == 'ne'
 			if @@current_element[-1] =! @@current_element.first
@@ -95,12 +92,9 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 
 	
 	def end_document
-		#puts texts[0].sentences
 		texts.each { |text|
 			text.sentences.each { |sentence|
 				sentence.print()}}
-		#funktioniert, aber wie Kontrolle? wie iterieren?		
-		#puts texts[1][0].sentences[0].sentence_parts[1]
 	end
 	
 	#this method simply counts the number of texts and sentences existing in the input-document.
@@ -178,14 +172,20 @@ end
 
 class Word
 
-	attr_accessor :id, :form, :lemma, :pos, :morph, :func, :parent, :deprel
+	attr_accessor :id, :form, :lemma, :pos, :morph, :func, :parent, :deprel, :dephead
 	
 	pos_list = %w[ADJA ADJD ADV APPR APPRART APPO APZR ART CARD FM ITJ KOUI KOUS KON KOKOM NN NE PDS PIS PIAT PIDAT PPER PPOSS PPOSAT PRELS PRELAT PRF PWS PWAT PWAV PROP PTKZU PTKNEG PTKVZ PTKANT PTKA TRUNC VVFIN VVIMP VVINF VVIZU VVPP VAFIN VAIMP VAINF VAPP VMFIN VMINF VMPP XY]
 	punctuation = ["$,","$.","$("]
 	
-	def initialize(name, form = "empty")
+	def initialize(name, form, pos, lemma, func, deprel, parent= "empty", morph = "empty",  dephead = "empty")
 		@id = name
 		@form = form
+		@lemma = lemma
+		@pos = pos
+		@morph = morph
+		@func = func
+		@parent = parent
+		@deprel = deprel
 	end
 	
 	def differentiate
