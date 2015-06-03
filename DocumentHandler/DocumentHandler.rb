@@ -39,11 +39,16 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 				when "morph"
 					if attrs.length == 9
 					w = Word.new(attrs[0][1], attrs[1][1], attrs[2][1], attrs[4][1], attrs[5][1], attrs[6][1], attrs[3][1], attrs[7][1], attrs[8][1])
-					else
+					if attrs.length == 8
+					w = Word.new(attrs[0][1], attrs[1][1], attrs[2][1], attrs[4][1], attrs[5][1], attrs[7][1], attrs[3][1], attrs[6][1])
+					else 
 					w = Word.new(attrs[0][1], attrs[1][1], attrs[2][1], attrs[4][1], attrs[5][1], attrs[7][1], attrs[3][1], attrs[6][1])
 					end
+					end
 				when "lemma"
-					w = Word.new(attrs[0][1], attrs[1][1], attrs[2][1], attrs[3][1], attrs[4][1], attrs[5][1])
+					w = Punctuation.new(attrs[0][1], attrs[1][1], attrs[2][1], attrs[3][1], attrs[4][1], attrs[5][1])
+				when "func"
+					w = Word.new(attrs[0][1], attrs[1][1], attrs[2][1], attrs[3][1], attrs[6][1], attrs[4][1], attrs[5][1])
 			end
 			@@current_element.last.add_content(w)
 			@@current_element << w
@@ -175,9 +180,8 @@ class Word
 	attr_accessor :id, :form, :lemma, :pos, :morph, :func, :parent, :deprel, :dephead
 	
 	pos_list = %w[ADJA ADJD ADV APPR APPRART APPO APZR ART CARD FM ITJ KOUI KOUS KON KOKOM NN NE PDS PIS PIAT PIDAT PPER PPOSS PPOSAT PRELS PRELAT PRF PWS PWAT PWAV PROP PTKZU PTKNEG PTKVZ PTKANT PTKA TRUNC VVFIN VVIMP VVINF VVIZU VVPP VAFIN VAIMP VAINF VAPP VMFIN VMINF VMPP XY]
-	punctuation = ["$,","$.","$("]
 	
-	def initialize(name, form, pos, lemma, func, deprel, parent= "empty", morph = "empty",  dephead = "empty")
+	def initialize(name, form, pos, func, deprel, parent= "empty", dephead = "empty", lemma = "empty", morph = "empty")
 		@id = name
 		@form = form
 		@lemma = lemma
@@ -202,8 +206,19 @@ class Word
 end
 
 class Punctuation
-
-	def initialize()
+	attr_accessor :if, :form, :pos, :lemma, :func, :deprel
+	punctuation = ["$,","$.","$("]
+	def initialize(name, form, pos, lemma, func, deprel)
+		@id = name
+		@form = form
+		@pos = pos
+		@lemma = lemma
+		@func = func
+		@deprel = deprel
+	end
+	
+	def print()
+		puts form
 	end
 	
 end
