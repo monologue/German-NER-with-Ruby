@@ -191,7 +191,7 @@ class Word
 	attr_accessor :id, :form, :lemma, :pos, :morph, :func, :parent, :deprel, :dephead
 	
 	pos_list = %w[ADJA ADJD ADV APPR APPRART APPO APZR ART CARD FM ITJ KOUI KOUS KON KOKOM NN NE PDS PIS PIAT PIDAT PPER PPOSS PPOSAT PRELS PRELAT PRF PWS PWAT PWAV PROP PTKZU PTKNEG PTKVZ PTKANT PTKA TRUNC VVFIN VVIMP VVINF VVIZU VVPP VAFIN VAIMP VAINF VAPP VMFIN VMINF VMPP XY]
-	
+=begin	
 	def initialize(name, form, pos, func, deprel, parent, lemma = "empty", morph = "empty",  dephead = "empty")
 		@id = name
 		@form = form
@@ -201,6 +201,42 @@ class Word
 		@func = func
 		@parent = parent
 		@deprel = deprel
+	end
+=end
+	def initialize(name)
+		@id = name
+	end
+	
+	def add_form(form)
+		@form = form
+	end
+	
+	def add_pos(pos)
+		@pos = pos
+	end
+	
+	def add_func(func)
+		@func = func
+	end
+	
+	def add_deprel(deprel)
+		@deprel = deprel
+	end
+	
+	def add_parent(parent)
+		@parent = parent
+	end
+	
+	def add_lemma(lemma)
+		@lemma = lemma
+	end
+	
+	def add_morpg(morph)
+		@morph = morph
+	end
+	
+	def add_dephead(dephead)
+		@dephead = dephead
 	end
 	
 	def differentiate
