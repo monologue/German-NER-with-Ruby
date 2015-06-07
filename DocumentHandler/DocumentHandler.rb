@@ -48,7 +48,6 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 						w = Word.new(attrs[0][1], attrs[1][1], attrs[2][1], attrs[4][1], attrs[5][1], attrs[6][1], attrs[3][1], attrs[7][1], attrs[8][1])
 					end
 					if attrs.length == 8
-						puts 'yeah'
 						w = Word.new(attrs[0][1], attrs[1][1], attrs[2][1], attrs[5][1], attrs[7][1], attrs[6][1], attrs[4][1], attrs[3][1])
 					end
 					if attrs.length == 7
@@ -59,6 +58,7 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 				when "func"
 					w = Word.new(attrs[0][1], attrs[1][1], attrs[2][1], attrs[3][1], attrs[6][1], attrs[4][1], attrs[5][1])
 			end
+			w.get("deprel")
 			@@current_element.last.add_content(w)
 			@@current_element << w
 		end
@@ -107,9 +107,9 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 
 	
 	def end_document
-		texts.each { |text|
-			text.sentences.each { |sentence|
-				sentence.print()}}
+		#texts.each { |text|
+		#	text.sentences.each { |sentence|
+		#		sentence.print()}}
 	end
 	
 	#this method simply counts the number of texts and sentences existing in the input-document.
@@ -175,7 +175,7 @@ class Knoten
 		@knoten = Array.new
 	end
 	
-	def add_content(obj)h
+	def add_content(obj)
 		knoten << obj
 	end
 	
@@ -214,6 +214,28 @@ class Word
 	def print()
 		puts form
 	end
+	def get(value)
+		case value
+			when "id"
+				return id
+			when "form"
+				return form
+			when "pos"
+				return pos
+			when "func"
+				puts func
+			when "deprel"
+				return deprel
+			when "parent"
+				return parent
+			when "lemma"
+				return lemma
+			when "morph"
+				return moprh
+			when "dephead"
+				return dephead
+		end
+	end
 end
 
 class Punctuation
@@ -230,6 +252,9 @@ class Punctuation
 	
 	def print()
 		puts form
+	end
+	
+	def get(value)
 	end
 	
 end
@@ -251,6 +276,69 @@ class NE
 		ne.each {|part|
 			part.print}
 	end
+	def get(value)
+	end
+end
+
+class NER
+	attr_accessor :rules, :sentences
+	
+	def initialize
+		@rules = Array.new
+		@sentences = Array.new
+	end
+	
+	#reads the rules and calls split_rule for every line, one line contains one rule
+	def read_rules
+		File.readlines(RULES).each do |line|
+			@rules << split_rule(line)
+		end
+	end
+	
+	#this function splits the rules after a pattern and saves the parts in an array and returns this array
+	def split_rule(string)
+		r = Rule.new
+		i = 0
+		splitPatternCondition = /(\w+\.\d+\s+\=\s+[\w\.]+)+/
+		splitPattern = /\>\s+(\w+)\s+(\d+).(\d+)/
+		while string.scan(splitPatternCondition)[i]
+			r.add_condition(condition_parts(string.scan(splitPatternCondition)[i].to_s))			
+			i = i + 1
+		end
+			#puts string.scan(splitPattern)[3].to_i
+			r.add_length(string.scan(splitPattern)[0][2].to_i)
+			#puts r.length
+			r.add_category(string.scan(splitPattern)[0][0].to_s)
+			#puts r.category
+			r.add_start(string.scan(splitPattern)[0][1])
+		return r
+	end
+	
+	#splitting the ruleParts/conditions into the three elements feature, position, value
+	def condition_parts(string)
+		splitPattern = /\w+\.[a-zA-Z]+|\w+/ # Klammern hinzugefügt, noch nicht getestet!
+		element = string.scan(splitPattern)
+		#test
+		#if element[2].start_with?("ElementOf") then puts element[2]
+		#end
+		case element[0]
+			when "POS" then  return POSCondition.new(element[1].to_i, element[2])							
+			when "token" then return TokenCondition.new(element[1].to_i, element[2].to_s)
+		end
+		
+	end
+	def get_input()
+	end
 end
 parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
 parser.parse_file('micro.xml')
+
+
+
+
+
+
+
+
+
+
