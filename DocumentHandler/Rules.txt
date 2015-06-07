@@ -1,0 +1,5 @@
+[POS.0 = NN, token.0 = ElementOf.NameList, POS.1 = NN] => PER 0,2
+[POS.0 = NE, token.0 = ElementOf.NameList, POS.1 = NE] => PER 0,2
+[POS.0 = NE, token.0 = ElementOf.NameList, POS.1 = NN] => PER 0,2
+[POS.0 = NN, token.0 = ElementOf.NameList] => PER 0,1
+[POS.0 = NE, token.0 = ElementOf.NameList] => PER 0,1

@@ -1,4 +1,6 @@
 require 'nokogiri'
+require_relative 'Rule.rb'
+require 'csv'
 filename = 'micro.xml'
 #require 'parts.rb'
 =begin
@@ -9,12 +11,13 @@ The DocumentHandler creates three arrays: text, sentence and word.
 =end
 #this class parses the input-document and gives back an array for every text.
 class DocumentHandler < Nokogiri::XML::SAX::Document
-	attr_accessor :texts
+	attr_accessor :texts, :rules
 	@@count_text = 0
 	@@current_element = Array.new
 	
 	def initialize()
 		@texts = Array.new
+		@rules = Array.new
 	end
 	
 	def start_element( name, attrs=[])
@@ -109,11 +112,54 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 				
 		end
 	end
+	
+	def read_rules
+		File.readlines("Rules.txt").each do |line|
+			@rules << split_rule(line)
+		end
+	end
+	
+	#this function splits the rules after a pattern and saves the parts in an array and returns this array
+	def split_rule(string)
+		r = Rule.new
+		i = 0
+		splitPatternCondition = /(\w+\.\d+\s+\=\s+[\w\.]+)+/
+		splitPattern = /\>\s+(\w+)\s+(\d+).(\d+)/
+		while string.scan(splitPatternCondition)[i]
+			r.add_condition(condition_parts(string.scan(splitPatternCondition)[i].to_s))			
+			i = i + 1
+		end
+			#puts string.scan(splitPattern)[3].to_i
+			r.add_length(string.scan(splitPattern)[0][2].to_i)
+			#puts r.length
+			r.add_category(string.scan(splitPattern)[0][0].to_s)
+			#puts r.category
+			r.add_start(string.scan(splitPattern)[0][1])
+		return r
+	end
+	
+	#splitting the ruleParts/conditions into the three elements feature, position, value
+	def condition_parts(string)
+		splitPattern = /\w+\.[a-zA-Z]+|\w+/ # Klammern hinzugefügt, noch nicht getestet!
+		element = string.scan(splitPattern)
 
+		case element[0]
+			when "POS" then  return POSCondition.new(element[1].to_i, element[2])							
+			when "token" then return TokenCondition.new(element[1].to_i, element[2].to_s)
+		end
+		
+	end
+	def parse_sentence
+		read_rules
+		texts.each { |text|
+			text.sentences.each { |sentence|
+				puts sentence.length
+				sentence.print()}}
+	end
 	#print-method for testing
 	def end_document
-		n = NER.new
-		n.parse_sentence()
+		read_rules
+		parse_sentence
 		#texts.each { |text|
 		#	text.sentences.each { |sentence|
 		#		sentence.print()}}
@@ -311,8 +357,11 @@ class NE
 	def get(value)
 	end
 end
-
-class NER < DocumentHandler
+=begin
+require_relative 'Rule.rb'
+require 'csv'
+require_relative 'DocumentHandler'
+class NER  
 	attr_accessor :rules, :sentences
 	
 	def initialize
@@ -322,7 +371,7 @@ class NER < DocumentHandler
 	
 	#reads the rules and calls split_rule for every line, one line contains one rule
 	def read_rules
-		File.readlines(Rules.txt).each do |line|
+		File.readlines("Rules.txt").each do |line|
 			@rules << split_rule(line)
 		end
 	end
@@ -358,14 +407,176 @@ class NER < DocumentHandler
 		
 	end
 	def parse_sentence()
+		read_rules
 		texts.each { |text|
 			text.sentences.each { |sentence|
 				sentence.print()}}
 	end
 end
+=end
+require_relative 'ElementOf.rb'
+
+class Condition
+	attr_reader :feature, :position, :value
+	def initialize(feature, position, value)
+		@feature = feature
+		@position = position
+		@value = value
+	end
+	#a condition used on a line from a sentence can be true or false
+	def matched?(sentence, line)
+	end
+end 
+
+class Rule
+	attr_accessor :conditions, :category, :start, :length
+	def initialize
+		@conditions = Array.new
+		@category = String.new
+	end
+	def add_condition(condition)
+		@conditions << condition
+	end
+	def add_length(length)
+		@length = length
+	end
+	def add_category(category)
+		@category = category
+		#puts @category
+	end
+	def show_category
+		puts @category
+	end
+	def add_start(start)
+		@start = start
+	end
+	def matched?(sentence, line)
+		result = false
+		@conditions.each do |condition|
+			if condition.matched?(sentence, line) == false
+				#puts("S did not match for line " + line.to_s + " for condition " + condition.value + "\n")
+				return false				
+			else
+				result = true
+			end
+		end
+		puts("Sentence did match for line " + line.to_s + "\n")		
+		return result
+	end
+	def apply(sentence, line)
+		i = 1
+		File.open(OUTPUT, 'a') {|f| f.write(sentence[line+@start.to_i][0] + "\t" + "B-" + @category + "\t" +"O" +"\n")}
+		while i < @length
+			File.open(OUTPUT, 'a') {|f| f.write(sentence[line+i][0] + "\t" + "I-" + @category + "\t" +"O"+"\n")}
+			i = i+ 1
+		end
+	end
+end
+
+class POSCondition < Condition
+	
+	def initialize(position, value)
+		@position = position
+		@value = value
+	end
+	
+	def matched?(sentence, line)
+		if (sentence.length < line + @position)
+			#puts @value
+			return false
+		end
+		if @value == sentence[line + @position][1]
+			#puts @value
+			return true
+		end
+		return false
+	end
+end
+
+class TokenCondition < Condition
+	def initialize(position, value)
+		@position = position
+		@value = value
+	end
+	#
+	#
+	def matched?(sentence, line)
+		#puts @value
+		if (sentence.length < line + @position)
+			#puts @value
+			return false
+		end
+		if @value == sentence[line + @position][0]
+			puts @value
+			return true
+		end
+		#iwas
+		if @value =~ /ElementOf/
+			e = ElementOf.new
+			#puts @position
+			case @value
+				when  /NameList/ then return e.NameList(sentence[line + @position][0]) 
+				when /LocationList/ then return ElementOf.LocationList(sentence[line + @position][0])
+				when "OrganizationList" then return ElementOf.OrganizationList(sentence[line + @position][0])
+			end
+		end
+		return false
+	end
+end
+
+
+class SuffixCondition < Condition
+	def initialize(position, value)
+		@position = position
+		@value = value
+	end
+	def matched?(sentence, line)
+		if (sentence.length < line + @position)
+			return false
+		end
+		#if sentence[line + @position][0] end.with? @value
+	end
+end
+
+class PrefixCondition < Condition
+	def initialize(position, value)
+		@position = position
+		@value = value
+	end
+	def matched?(sentence, line)
+		if (sentence.length < line + @position)
+			return false
+		end
+	end
+end
+
+class PartOfWordCondition < Condition
+	def initialize(position, value)
+		@position = position
+		@value = value
+	end
+	def matched?(sentence, line)
+		if (sentence.length < line + @position)
+			return false
+		end
+	end
+end
+
+class PunctationCondition < Condition
+	def initialize(position, value)
+		@position = position
+		@value = value
+	end
+	def matched?(sentence, line)
+		if (sentence.length < line + @position)
+			return false
+		end
+	end
+end
+
 parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
 parser.parse_file('micro.xml')
-
+#parser.read_rules
 
 
 
