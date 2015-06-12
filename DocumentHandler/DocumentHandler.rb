@@ -14,6 +14,7 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 	attr_accessor :texts, :rules
 	@@count_text = 0
 	@@current_element = Array.new
+	@@ne = nil
 	
 	def initialize()
 		@texts = Array.new
@@ -66,103 +67,41 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 					end
 					
 				}
+				puts w.id
 			@@current_element.last.add_content(w)
 			@@current_element << w
 		end
-		
-		if name == 'node'
-			case attrs.length
-				when 3
-					n = Knoten.new(attrs[0][1], attrs[1][1], attrs[2][1])
-				when 4
-					n = Knoten.new(attrs[0][1], attrs[1][1], attrs[2][1], attrs[3][1])
-				when 2 
-					n = Knoten.new(attrs[0][1], attrs[1][1])
-				else puts "-------------------------------------------- \n Fehler: #{attrs} \n ----------------------------------------"
-			end
-			@@current_element.last.add_content(n) 
-			@@current_element << n
-		end
-
+	
 		if name == 'ne'
-			ne = NE.new(attrs[0][1], attrs[1][1])
-			@@current_element.last.add_content(ne) 
-			@@current_element << ne
+			@@ne = attrs[1][1]		
 		end
 	end
-	
+
 	def end_element(name)
 		if name =='text'
-			puts @@current_element.last.id
 			@@current_element.pop
 		end
 		if name == 'sentence'
 				@@current_element.pop
 		end
-		if name == 'node'
-				@@current_element.pop
-		end
 		if name == 'word'
+			if @@ne == nil
 				@@current_element.pop
-		end
-		if name == 'ne'
-			if @@current_element[-1] =! @@current_element.first
+			else @@current_element.last.add_ne(@@ne)
 				@@current_element.pop
 			end
-				
 		end
-	end
-	
-	def read_rules
-		File.readlines("Rules.txt").each do |line|
-			@rules << split_rule(line)
-		end
-	end
-	
-	#this function splits the rules after a pattern and saves the parts in an array and returns this array
-	def split_rule(string)
-		r = Rule.new
-		i = 0
-		splitPatternCondition = /(\w+\.\d+\s+\=\s+[\w\.]+)+/
-		splitPattern = /\>\s+(\w+)\s+(\d+).(\d+)/
-		while string.scan(splitPatternCondition)[i]
-			r.add_condition(condition_parts(string.scan(splitPatternCondition)[i].to_s))			
-			i = i + 1
-		end
-			#puts string.scan(splitPattern)[3].to_i
-			r.add_length(string.scan(splitPattern)[0][2].to_i)
-			#puts r.length
-			r.add_category(string.scan(splitPattern)[0][0].to_s)
-			#puts r.category
-			r.add_start(string.scan(splitPattern)[0][1])
-		return r
-	end
-	
-	#splitting the ruleParts/conditions into the three elements feature, position, value
-	def condition_parts(string)
-		splitPattern = /\w+\.[a-zA-Z]+|\w+/ # Klammern hinzugefügt, noch nicht getestet!
-		element = string.scan(splitPattern)
-
-		case element[0]
-			when "POS" then  return POSCondition.new(element[1].to_i, element[2])							
-			when "token" then return TokenCondition.new(element[1].to_i, element[2].to_s)
+		if name == 'ne'
+			@@ne = nil
 		end
 		
 	end
-	def parse_sentence
-		read_rules
-		texts.each { |text|
-			text.sentences.each { |sentence|
-				puts sentence.length
-				sentence.print()}}
-	end
+
 	#print-method for testing
 	def end_document
-		read_rules
-		parse_sentence
-		#texts.each { |text|
-		#	text.sentences.each { |sentence|
-		#		sentence.print()}}
+		texts.each { |text|
+			text.sentences.each { |sentence|
+				sentence.print()}}
 	end
 	
 	#this method simply counts the number of texts and sentences existing in the input-document.
@@ -174,7 +113,6 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 			@@count_sentence += 1
 		end
 	end	
-
 end
 
 class Text
@@ -212,8 +150,8 @@ class Sentence
 	end
 	
 	def print()
-		sentence_parts.each {|part|
-			part.print()}
+		sentence_parts.each {|word|
+			word.print()}
 	end
 end
 
@@ -241,12 +179,20 @@ end
 
 class Word
 
-	attr_accessor :id, :form, :lemma, :pos, :morph, :func, :parent, :deprel, :dephead
+	attr_accessor :id, :form, :lemma, :pos, :morph, :func, :parent, :deprel, :dephead, :ne_type, :ne, :punctuation
 	
-	pos_list = %w[ADJA ADJD ADV APPR APPRART APPO APZR ART CARD FM ITJ KOUI KOUS KON KOKOM NN NE PDS PIS PIAT PIDAT PPER PPOSS PPOSAT PRELS PRELAT PRF PWS PWAT PWAV PROP PTKZU PTKNEG PTKVZ PTKANT PTKA TRUNC VVFIN VVIMP VVINF VVIZU VVPP VAFIN VAIMP VAINF VAPP VMFIN VMINF VMPP XY]
-
+	@@pos_list = %w[ADJA ADJD ADV APPR APPRART APPO APZR ART CARD FM ITJ KOUI KOUS KON KOKOM NN NE PDS PDAT PIS PIAT PIDAT PPER PPOSS PPOSAT PRELS PRELAT PRF PWS PWAT PWAV PROP PTKZU PTKNEG PTKVZ PTKANT PTKA TRUNC VVFIN VVIMP VVINF VVIZU VVPP VAFIN VAIMP VAINF VAPP VMFIN VMINF VMPP XY]
+	@@punctuation = ["$,","$.","$("]
+	
 	def initialize(name)
 		@id = name
+		@ne = false
+		@punctuation = false
+	end
+	
+	def add_ne(ne)
+		@ne = true
+		@ne_type = ne
 	end
 	
 	def add_form(form)
@@ -254,7 +200,15 @@ class Word
 	end
 	
 	def add_pos(pos)
-		@pos = pos
+		if @@pos_list.include?(pos)
+			@pos = pos
+		else if @@punctuation.include?(pos)
+			@pos = pos
+			@punctuation = true
+		else puts "------------------------------\n Fehler! Unbekanntes POS \n -------------------------------------------#{id}"
+			exit
+		end
+		end
 	end
 	
 	def add_func(func)
@@ -357,222 +311,7 @@ class NE
 	def get(value)
 	end
 end
-=begin
-require_relative 'Rule.rb'
-require 'csv'
-require_relative 'DocumentHandler'
-class NER  
-	attr_accessor :rules, :sentences
-	
-	def initialize
-		@rules = Array.new
-		@sentences = Array.new
-	end
-	
-	#reads the rules and calls split_rule for every line, one line contains one rule
-	def read_rules
-		File.readlines("Rules.txt").each do |line|
-			@rules << split_rule(line)
-		end
-	end
-	
-	#this function splits the rules after a pattern and saves the parts in an array and returns this array
-	def split_rule(string)
-		r = Rule.new
-		i = 0
-		splitPatternCondition = /(\w+\.\d+\s+\=\s+[\w\.]+)+/
-		splitPattern = /\>\s+(\w+)\s+(\d+).(\d+)/
-		while string.scan(splitPatternCondition)[i]
-			r.add_condition(condition_parts(string.scan(splitPatternCondition)[i].to_s))			
-			i = i + 1
-		end
-			#puts string.scan(splitPattern)[3].to_i
-			r.add_length(string.scan(splitPattern)[0][2].to_i)
-			#puts r.length
-			r.add_category(string.scan(splitPattern)[0][0].to_s)
-			#puts r.category
-			r.add_start(string.scan(splitPattern)[0][1])
-		return r
-	end
-	
-	#splitting the ruleParts/conditions into the three elements feature, position, value
-	def condition_parts(string)
-		splitPattern = /\w+\.[a-zA-Z]+|\w+/ # Klammern hinzugefügt, noch nicht getestet!
-		element = string.scan(splitPattern)
 
-		case element[0]
-			when "POS" then  return POSCondition.new(element[1].to_i, element[2])							
-			when "token" then return TokenCondition.new(element[1].to_i, element[2].to_s)
-		end
-		
-	end
-	def parse_sentence()
-		read_rules
-		texts.each { |text|
-			text.sentences.each { |sentence|
-				sentence.print()}}
-	end
-end
-=end
-require_relative 'ElementOf.rb'
-
-class Condition
-	attr_reader :feature, :position, :value
-	def initialize(feature, position, value)
-		@feature = feature
-		@position = position
-		@value = value
-	end
-	#a condition used on a line from a sentence can be true or false
-	def matched?(sentence, line)
-	end
-end 
-
-class Rule
-	attr_accessor :conditions, :category, :start, :length
-	def initialize
-		@conditions = Array.new
-		@category = String.new
-	end
-	def add_condition(condition)
-		@conditions << condition
-	end
-	def add_length(length)
-		@length = length
-	end
-	def add_category(category)
-		@category = category
-		#puts @category
-	end
-	def show_category
-		puts @category
-	end
-	def add_start(start)
-		@start = start
-	end
-	def matched?(sentence, line)
-		result = false
-		@conditions.each do |condition|
-			if condition.matched?(sentence, line) == false
-				#puts("S did not match for line " + line.to_s + " for condition " + condition.value + "\n")
-				return false				
-			else
-				result = true
-			end
-		end
-		puts("Sentence did match for line " + line.to_s + "\n")		
-		return result
-	end
-	def apply(sentence, line)
-		i = 1
-		File.open(OUTPUT, 'a') {|f| f.write(sentence[line+@start.to_i][0] + "\t" + "B-" + @category + "\t" +"O" +"\n")}
-		while i < @length
-			File.open(OUTPUT, 'a') {|f| f.write(sentence[line+i][0] + "\t" + "I-" + @category + "\t" +"O"+"\n")}
-			i = i+ 1
-		end
-	end
-end
-
-class POSCondition < Condition
-	
-	def initialize(position, value)
-		@position = position
-		@value = value
-	end
-	
-	def matched?(sentence, line)
-		if (sentence.length < line + @position)
-			#puts @value
-			return false
-		end
-		if @value == sentence[line + @position][1]
-			#puts @value
-			return true
-		end
-		return false
-	end
-end
-
-class TokenCondition < Condition
-	def initialize(position, value)
-		@position = position
-		@value = value
-	end
-	#
-	#
-	def matched?(sentence, line)
-		#puts @value
-		if (sentence.length < line + @position)
-			#puts @value
-			return false
-		end
-		if @value == sentence[line + @position][0]
-			puts @value
-			return true
-		end
-		#iwas
-		if @value =~ /ElementOf/
-			e = ElementOf.new
-			#puts @position
-			case @value
-				when  /NameList/ then return e.NameList(sentence[line + @position][0]) 
-				when /LocationList/ then return ElementOf.LocationList(sentence[line + @position][0])
-				when "OrganizationList" then return ElementOf.OrganizationList(sentence[line + @position][0])
-			end
-		end
-		return false
-	end
-end
-
-
-class SuffixCondition < Condition
-	def initialize(position, value)
-		@position = position
-		@value = value
-	end
-	def matched?(sentence, line)
-		if (sentence.length < line + @position)
-			return false
-		end
-		#if sentence[line + @position][0] end.with? @value
-	end
-end
-
-class PrefixCondition < Condition
-	def initialize(position, value)
-		@position = position
-		@value = value
-	end
-	def matched?(sentence, line)
-		if (sentence.length < line + @position)
-			return false
-		end
-	end
-end
-
-class PartOfWordCondition < Condition
-	def initialize(position, value)
-		@position = position
-		@value = value
-	end
-	def matched?(sentence, line)
-		if (sentence.length < line + @position)
-			return false
-		end
-	end
-end
-
-class PunctationCondition < Condition
-	def initialize(position, value)
-		@position = position
-		@value = value
-	end
-	def matched?(sentence, line)
-		if (sentence.length < line + @position)
-			return false
-		end
-	end
-end
 
 parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
 parser.parse_file('micro.xml')
