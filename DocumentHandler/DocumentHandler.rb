@@ -97,11 +97,17 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 		
 	end
 
+	def	output
+		texts.each {|text|
+			text.sentences.each {|sentence|
+				sentence.output()}}
+	end
 	#print-method for testing
 	def end_document
-		texts.each { |text|
-			text.sentences.each { |sentence|
-				sentence.print()}}
+		output
+		#texts.each { |text|
+		#	text.sentences.each { |sentence|
+		#		sentence.print()}}
 	end
 	
 	#this method simply counts the number of texts and sentences existing in the input-document.
@@ -149,9 +155,15 @@ class Sentence
 		sentence_parts << obj
 	end
 	
+	#print-method for testing purpose
 	def print()
 		sentence_parts.each {|word|
 			word.print()}
+	end
+	
+	def output
+		sentence_parts.each {|word|
+			word.output()}
 	end
 end
 
@@ -268,6 +280,11 @@ class Word
 				return dephead
 		end
 	end
+	
+	def output
+		w = [id, lemma, pos]
+	end
+	
 end
 
 class Punctuation
@@ -315,7 +332,6 @@ end
 
 parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
 parser.parse_file('micro.xml')
-#parser.read_rules
 
 
 

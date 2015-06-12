@@ -43,10 +43,4 @@ class RuleHandler
 		end	
 	end	
 	
-	def parse_sentence()
-		read_rules
-		texts.each { |text|
-			text.sentences.each { |sentence|
-				sentence.print()}}
-	end	
 end
