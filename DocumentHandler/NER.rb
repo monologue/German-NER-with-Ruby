@@ -4,8 +4,9 @@ of one to infinite number of conditions, if all conditions of one rules are true
 =end
 
 require_relative 'RuleHandler.rb'
+require_relative 'DocumentHandler.rb'
 require_relative 'Rule.rb'
-
+require 'nokogiri'
 require 'csv'
 class NER 
 
@@ -28,8 +29,8 @@ class NER
 		line = 0
 		data = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
 		data.parse_file('micro.xml')
-		t = data.output
-		t.each {|text|
+		#t = data.output
+		data.texts.each {|text|
 			text.each {|sentence|
 				while line < sentence.sentence_parts.length
 					rules.each_with_index do |rule, index|

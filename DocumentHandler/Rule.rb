@@ -38,9 +38,12 @@ class Rule
 			if condition.matched?(sentence, line) == false
 				#puts("S did not match for line " + line.to_s + " for condition " + condition.value + "\n")
 				return false
+			end
 			if 	condition.matched?(sentence, line) == true
 				result = true
-			else puts "unbekannter Fehler in Rule.matched?" exit
+			else 
+				puts "unbekannter Fehler in Rule.matched?" 
+				exit
 			end
 		end
 		puts("Sentence did match for line " + line.to_s + "\n")		
@@ -48,9 +51,9 @@ class Rule
 	end
 	def apply(sentence, line)
 		i = 1
-		File.open(OUTPUT, 'a') {|f| f.write(sentence[line+@start.to_i][0] + "\t" + "B-" + @category + "\t" +"O" +"\n")}
+		File.open(OUTPUT, 'a') {|f| f.write(sentence[line+@start.to_i].form + "\t"  + @category + "\t" +"O" +"\n")}
 		while i < @length
-			File.open(OUTPUT, 'a') {|f| f.write(sentence[line+i][0] + "\t" + "I-" + @category + "\t" +"O"+"\n")}
+			File.open(OUTPUT, 'a') {|f| f.write(sentence[line+i].form + "\t"  + @category + "\t" +"O"+"\n")}
 			i = i+ 1
 		end
 	end
@@ -89,7 +92,7 @@ class TokenCondition < Condition
 			#puts @value
 			return false
 		end
-		if @value == sentence[line + @position][0]
+		if @value == sentence[line + @position].form
 			puts @value
 			return true
 		end
@@ -98,9 +101,9 @@ class TokenCondition < Condition
 			e = ElementOf.new
 			#puts @position
 			case @value
-				when  /NameList/ then return e.NameList(sentence[line + @position][0]) 
-				when /LocationList/ then return ElementOf.LocationList(sentence[line + @position][0])
-				when "OrganizationList" then return ElementOf.OrganizationList(sentence[line + @position][0])
+				when  /NameList/ then return e.NameList(sentence[line + @position].form) 
+				when /LocationList/ then return ElementOf.LocationList(sentence[line + @position].form)
+				when "OrganizationList" then return ElementOf.OrganizationList(sentence[line + @position].form)
 			end
 		end
 		return false

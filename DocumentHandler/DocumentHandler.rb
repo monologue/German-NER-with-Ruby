@@ -330,8 +330,8 @@ class NE
 end
 =end
 
-parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
-parser.parse_file('micro.xml')
+#parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
+#parser.parse_file('micro.xml')
 
 
 
