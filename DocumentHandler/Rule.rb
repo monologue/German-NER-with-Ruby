@@ -38,7 +38,7 @@ class Rule
 			if condition.matched?(sentence, line) == false
 				#puts("S did not match for line " + line.to_s + " for condition " + condition.value + "\n")
 				return false
-			if 	condition.matched?(sentence, line) == false
+			if 	condition.matched?(sentence, line) == true
 				result = true
 			else puts "unbekannter Fehler in Rule.matched?" exit
 			end
@@ -68,7 +68,8 @@ class POSCondition < Condition
 			#puts @value
 			return false
 		end
-		if @value == sentence[line + @position][1]
+		if @value == sentence[line + @position].pos
+			puts "funktioniert"
 			#puts @value
 			return true
 		end

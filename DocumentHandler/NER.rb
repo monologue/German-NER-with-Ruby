@@ -34,8 +34,8 @@ class NER
 				while line < sentence.sentence_parts.length
 					rules.each_with_index do |rule, index|
 						if rule.matched?(sentence.sentence_parts, line)
-							rule.apply(sentence, line)
-							puts sentence[line][0]
+							rule.apply(sentence.sentence_parts, line)
+							puts sentence.sentence_parts[line][0]
 							line = line + rule.length
 							break
 						else if index == @rules.size-1
