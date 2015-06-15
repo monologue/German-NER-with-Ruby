@@ -1,8 +1,3 @@
-require 'nokogiri'
-require_relative 'Rule.rb'
-require 'csv'
-filename = 'micro.xml'
-#require 'parts.rb'
 =begin
 The class DocumentHandler takes a xml-Document (in this case mini.xml) and parses it with Nokogiris Saxparser.
 Therefore the methods start_element und end_element looksup elements in the data and performes tasks when they 
@@ -10,6 +5,12 @@ arrive.
 The DocumentHandler creates three arrays: text, sentence and word.
 =end
 #this class parses the input-document and gives back an array for every text.
+
+require_relative 'RuleHandler.rb'
+require_relative 'DocumentHandler.rb'
+require_relative 'Rule.rb'
+require 'nokogiri'
+require 'csv'
 class DocumentHandler < Nokogiri::XML::SAX::Document
 	attr_accessor :texts, :rules
 	@@count_text = 0
@@ -101,13 +102,41 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 		
 	end
 
-	def	output
+	def parse_sentence
+		nrules = RuleHandler.new #uninitialized constant DocumentHandler::RuleHandler
+		nrules.read_rules
+		line = 0
+		#data = DocumentHandler.new
+		#data.parse_file('micro.xml')
+		#t = data.output
+		#puts data.get_texts
 		texts.each {|text|
-			text.sentences.each {|sentence|
-				sentence.output()}}
+			#puts text
+			text.each {|sentence|
+				puts sentence.sentence_parts
+				while line < sentence.sentence_parts.length
+					nrules.each_with_index do |rule, index|
+						if rule.matched?(sentence.sentence_parts, line)
+							puts "matched"
+							rule.apply(sentence.sentence_parts, line)
+							puts sentence.sentence_parts[line].form
+							line = line + rule.length
+							break
+						else if index == @rules.size-1
+							puts "not matched"
+							File.open(OUTPUT, 'a') {|f| f.write(sentence.sentence_parts[line].form + "\t" + "O"+ "\t" + "O" +"\n")}
+							line = line +1 
+						end
+						end
+					end
+					
+				end
+				}}
 	end
-	#print-method for testing
+
 	def end_document
+		parse_sentence
+		#print-method for testing
 		#texts.each { |text|
 			#text.sentences.each { |sentence|
 				#puts sentence.sentence_parts.length}}
