@@ -1,3 +1,4 @@
+require_relative 'DocumentHandler.rb'
 class Condition
 	attr_reader :feature, :position, :value
 	def initialize(feature, position, value)
@@ -66,7 +67,8 @@ class POSCondition < Condition
 		@value = value
 	end
 	
-	def matched?(sentence,line)
+	def matched?(sentence, line)
+		puts "matched?"
 		if (sentence.length < line + @position)
 			#puts @value
 			return false
@@ -87,7 +89,7 @@ class TokenCondition < Condition
 	end
 	
 	def matched?(sentence, line)
-		#puts @value
+		puts @value
 		if (sentence.length < line + @position)
 			#puts @value
 			return false

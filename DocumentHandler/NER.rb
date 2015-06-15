@@ -8,7 +8,7 @@ require_relative 'DocumentHandler.rb'
 require_relative 'Rule.rb'
 require 'nokogiri'
 require 'csv'
-class NER 
+class NER < Nokogiri::XML::SAX::Document
 
 	#attr_accessor :rules, :sentences
 	
@@ -27,20 +27,25 @@ class NER
 		rules = RuleHandler.new
 		rules.read_rules
 		line = 0
-		data = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
-		data.parse_file('micro.xml')
+		data = DocumentHandler.new
+		#data.parse_file('micro.xml')
 		#t = data.output
-		data.texts.each {|text|
+		#puts data.get_texts
+		data.get_texts.each {|text|
+			puts text
 			text.each {|sentence|
+				puts sentence.sentence_parts
 				while line < sentence.sentence_parts.length
 					rules.each_with_index do |rule, index|
 						if rule.matched?(sentence.sentence_parts, line)
+							puts "matched"
 							rule.apply(sentence.sentence_parts, line)
-							puts sentence.sentence_parts[line][0]
+							puts sentence.sentence_parts[line].form
 							line = line + rule.length
 							break
 						else if index == @rules.size-1
-							File.open(OUTPUT, 'a') {|f| f.write(sentence.sentence_parts[line][0] + "\t" + "O"+ "\t" + "O" +"\n")}
+							puts "not matched"
+							File.open(OUTPUT, 'a') {|f| f.write(sentence.sentence_parts[line].form + "\t" + "O"+ "\t" + "O" +"\n")}
 							line = line +1 
 						end
 						end

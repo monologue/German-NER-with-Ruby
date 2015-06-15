@@ -26,6 +26,7 @@ class RuleHandler
 		end
 			#puts string.scan(splitPattern)[3].to_i
 			r.add_length(string.scan(splitPattern)[0][2].to_i)
+			puts r.add_length(string.scan(splitPattern)[0][2].to_i)
 			#puts r.length
 			r.add_category(string.scan(splitPattern)[0][0].to_s)
 			#puts r.category
@@ -37,9 +38,10 @@ class RuleHandler
 	def condition_parts(string)
 		splitPattern = /\w+\.[a-zA-Z]+|\w+/ # Klammern hinzugefügt, noch nicht getestet!
 		element = string.scan(splitPattern)
-
 		case element[0]
-			when "POS" then  return POSCondition.new(element[1].to_i, element[2])							
+			when "POS" then
+				#puts "pos, #{element[1].to_i}, #{element[2]}"
+				return POSCondition.new(element[1].to_i, element[2])							
 			when "token" then return TokenCondition.new(element[1].to_i, element[2].to_s)
 		end	
 	end	

@@ -21,6 +21,10 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 		@rules = Array.new
 	end
 	
+	def get_texts()
+		@texts
+	end
+	
 	def start_element( name, attrs=[])
 =begin		if @@count_text == 1 #only in purpose of testing
 				return
@@ -67,7 +71,7 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 					end
 					
 				}
-				puts w.id
+				#puts w.id
 			@@current_element.last.add_content(w)
 			@@current_element << w
 		end
@@ -104,10 +108,9 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 	end
 	#print-method for testing
 	def end_document
-		#output
-		texts.each { |text|
-			text.sentences.each { |sentence|
-				puts sentence.sentence_parts.length}}
+		#texts.each { |text|
+			#text.sentences.each { |sentence|
+				#puts sentence.sentence_parts.length}}
 	end
 	
 	#this method simply counts the number of texts and sentences existing in the input-document.
@@ -330,8 +333,8 @@ class NE
 end
 =end
 
-#parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
-#parser.parse_file('micro.xml')
+parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
+parser.parse_file('micro.xml')
 
 
 
