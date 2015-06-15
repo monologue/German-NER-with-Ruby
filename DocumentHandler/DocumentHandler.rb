@@ -104,10 +104,10 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 	end
 	#print-method for testing
 	def end_document
-		output
-		#texts.each { |text|
-		#	text.sentences.each { |sentence|
-		#		sentence.print()}}
+		#output
+		texts.each { |text|
+			text.sentences.each { |sentence|
+				puts sentence.sentence_parts.length}}
 	end
 	
 	#this method simply counts the number of texts and sentences existing in the input-document.
@@ -166,7 +166,7 @@ class Sentence
 			word.output()}
 	end
 end
-
+=begin
 class Knoten 
 	attr_accessor :func, :parent, :category, :knoten, :id
 	category_list = %w{ADJX ADVY DP FX NX PX VXFIN VXINF LV C FKOORD KOORD LK MF MFE NF PARORD VC VCE VF FKONJ DM P-SIMPX R-SIMPX SIMPX}
@@ -188,7 +188,7 @@ class Knoten
 			k.print()} # NoMethodError: private method 'print' called for nil:NilClass ?
 	end
 end
-
+=end
 class Word
 
 	attr_accessor :id, :form, :lemma, :pos, :morph, :func, :parent, :deprel, :dephead, :ne_type, :ne, :punctuation
@@ -258,7 +258,7 @@ class Word
 	def print()
 		puts form
 	end
-	def get(value)
+=begin	def get(value)
 		case value
 			when "id"
 				return id
@@ -279,14 +279,14 @@ class Word
 			when "dephead"
 				return dephead
 		end
-	end
+=end	
 	
 	def output
 		w = [id, lemma, pos]
 	end
 	
 end
-
+=begin
 class Punctuation
 	attr_accessor :if, :form, :pos, :lemma, :func, :deprel
 	punctuation = ["$,","$.","$("]
@@ -328,7 +328,7 @@ class NE
 	def get(value)
 	end
 end
-
+=end
 
 parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
 parser.parse_file('micro.xml')

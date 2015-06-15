@@ -1,3 +1,4 @@
+require_relative 'Rule.rb'
 class RuleHandler
 	attr_accessor :rules, :sentences
 	

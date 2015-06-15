@@ -26,9 +26,9 @@ class Rule
 		@category = category
 		#puts @category
 	end
-	def show_category
-		puts @category
-	end
+	#def show_category
+	#	puts @category
+	#end
 	def add_start(start)
 		@start = start
 	end
@@ -37,9 +37,10 @@ class Rule
 		@conditions.each do |condition|
 			if condition.matched?(sentence, line) == false
 				#puts("S did not match for line " + line.to_s + " for condition " + condition.value + "\n")
-				return false				
-			else
+				return false
+			if 	condition.matched?(sentence, line) == false
 				result = true
+			else puts "unbekannter Fehler in Rule.matched?" exit
 			end
 		end
 		puts("Sentence did match for line " + line.to_s + "\n")		
