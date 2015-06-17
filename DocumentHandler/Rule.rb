@@ -42,7 +42,7 @@ class Rule
 				result = true
 			else 
 				puts "unbekannter Fehler in Rule.matched?" 
-				exit
+				#exit
 			end
 		end
 		puts("Sentence did match for line " + line.to_s + "\n")		
@@ -66,7 +66,7 @@ class POSCondition < Condition
 	end
 	
 	def matched?(sentence, line)
-		if (sentence.length < line + @position)
+		if (sentence.length-1 < line + @position)
 			return false
 		end
 		if @value == sentence[line + @position].pos
@@ -83,12 +83,12 @@ class TokenCondition < Condition
 	end
 	
 	def matched?(sentence, line)
-		puts @value
-		if (sentence.length < line + @position)
+		#puts @value
+		if (sentence.length-1 < line + @position)
 			return false
 		end
 		if @value == sentence[line + @position].form
-			puts @value
+			#puts @value
 			return true
 		end
 		if @value =~ /ElementOf/
@@ -110,7 +110,7 @@ class SuffixCondition < Condition
 		@value = value
 	end
 	def matched?(sentence, line)
-		if (sentence.length < line + @position)
+		if (sentence.length-1 < line + @position)
 			return false
 		end
 		#if sentence[line + @position][0] end.with? @value
@@ -123,7 +123,7 @@ class PrefixCondition < Condition
 		@value = value
 	end
 	def matched?(sentence, line)
-		if (sentence.length < line + @position)
+		if (sentence.length-1 < line + @position)
 			return false
 		end
 	end
@@ -135,7 +135,7 @@ class PartOfWordCondition < Condition
 		@value = value
 	end
 	def matched?(sentence, line)
-		if (sentence.length < line + @position)
+		if (sentence.length-1 < line + @position)
 			return false
 		end
 	end
@@ -147,7 +147,7 @@ class PunctationCondition < Condition
 		@value = value
 	end
 	def matched?(sentence, line)
-		if (sentence.length < line + @position)
+		if (sentence.length-1 < line + @position)
 			return false
 		end
 	end
@@ -160,16 +160,15 @@ class CaseCondition < Condition
 	end
 	
 	def matched?(sentence, line)
-		if (sentence.length < line + @position)
+		if (sentence.length-1 < line + @position)
 			return false
 		end
 		
-		case value
-			when "aC" 
-				if sentence[line + @position].form == /A-Z*/ 
-					return true
-				end
-			return false
+		if @value == "aC" 
+			if sentence[line + @position].form =~ /[A-Z]+$/ 
+				return true
+			end
+			return false		
 		end
 	end
 end
