@@ -1,4 +1,5 @@
 require_relative 'DocumentHandler.rb'
+require_relative 'ElementOf.rb'
 class Condition
 	attr_reader :feature, :position, :value
 	def initialize(feature, position, value)
@@ -25,11 +26,8 @@ class Rule
 	end
 	def add_category(category)
 		@category = category
-		#puts @category
 	end
-	#def show_category
-	#	puts @category
-	#end
+
 	def add_start(start)
 		@start = start
 	end
@@ -52,9 +50,9 @@ class Rule
 	end
 	def apply(sentence, line)
 		i = 1
-		File.open(OUTPUT, 'a') {|f| f.write(sentence[line+@start.to_i].form + "\t"  + @category + "\t" +"O" +"\n")}
+		File.open("out.txt", 'a') {|f| f.write(sentence[line].form + "\t"  + @category + "\t" +"O" +"\n")}
 		while i < @length
-			File.open(OUTPUT, 'a') {|f| f.write(sentence[line+i].form + "\t"  + @category + "\t" +"O"+"\n")}
+			File.open("out.txt", 'a') {|f| f.write(sentence[line+i].form + "\t"  + @category + "\t" +"O"+"\n")}
 			i = i+ 1
 		end
 	end
@@ -68,14 +66,10 @@ class POSCondition < Condition
 	end
 	
 	def matched?(sentence, line)
-		puts "matched?"
 		if (sentence.length < line + @position)
-			#puts @value
 			return false
 		end
 		if @value == sentence[line + @position].pos
-			puts "funktioniert"
-			#puts @value
 			return true
 		end
 		return false
@@ -91,21 +85,18 @@ class TokenCondition < Condition
 	def matched?(sentence, line)
 		puts @value
 		if (sentence.length < line + @position)
-			#puts @value
 			return false
 		end
 		if @value == sentence[line + @position].form
 			puts @value
 			return true
 		end
-		#if @value == 
 		if @value =~ /ElementOf/
-			e = ElementOf.new
-			#puts @position
+			e = ::ElementOf.new
 			case @value
 				when  /NameList/ then return e.NameList(sentence[line + @position].form) 
 				when /LocationList/ then return ElementOf.LocationList(sentence[line + @position].form)
-				when "OrganizationList" then return ElementOf.OrganizationList(sentence[line + @position].form)
+				when /OrgEnding/ then return ElementOf.OrgEnding(sentence[line + @position].form)
 			end
 		end
 		return false
@@ -158,6 +149,26 @@ class PunctationCondition < Condition
 	def matched?(sentence, line)
 		if (sentence.length < line + @position)
 			return false
+		end
+	end
+end
+
+class CaseCondition < Condition
+	def initialize(position, value)
+		@position = position
+		@value = value
+	end
+	
+	def matched?(sentence, line)
+		if (sentence.length < line + @position)
+			return false
+		end
+		
+		case value
+			when "aC" 
+				if sentence[line + @position].form == /A-Z*/ 
+					return true
+				end
 		end
 	end
 end

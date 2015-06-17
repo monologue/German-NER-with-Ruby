@@ -1,0 +1,6 @@
+[POS.0 = NN, POS.1 = NN, POS.2 = NN, token.2 = ElementOf.OrgEnding] => ORG 0,3
+[POS.0 = NN, POS.1 = NN, token.2 = ElementOf.OrgEnding] => ORG 0,2
+[POS.0 = NN, token.1 = ElementOf.OrgEnding] => ORG 0,1
+[POS.0 = NN, case.0 = aC, POS.1 = NN, POS.2 = NN] => ORG 0,3
+[POS.0 = NN, case.0 = aC, POS.1 = NN] => ORG 0,2
+[POS.0 = NN, case.0 = aC] => ORG 0,1

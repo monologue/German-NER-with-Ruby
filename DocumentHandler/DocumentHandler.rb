@@ -7,7 +7,7 @@ The DocumentHandler creates three arrays: text, sentence and word.
 #this class parses the input-document and gives back an array for every text.
 
 require_relative 'RuleHandler.rb'
-require_relative 'DocumentHandler.rb'
+#require_relative 'DocumentHandler.rb'
 require_relative 'Rule.rb'
 require 'nokogiri'
 require 'csv'
@@ -23,7 +23,7 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 	end
 	
 	def get_texts()
-		@texts
+		puts @texts
 	end
 	
 	def start_element( name, attrs=[])
@@ -102,44 +102,12 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 		
 	end
 
-	def parse_sentence
-		nrules = RuleHandler.new #uninitialized constant DocumentHandler::RuleHandler
-		nrules.read_rules
-		line = 0
-		#data = DocumentHandler.new
-		#data.parse_file('micro.xml')
-		#t = data.output
-		#puts data.get_texts
-		texts.each {|text|
-			#puts text
-			text.each {|sentence|
-				puts sentence.sentence_parts
-				while line < sentence.sentence_parts.length
-					nrules.each_with_index do |rule, index|
-						if rule.matched?(sentence.sentence_parts, line)
-							puts "matched"
-							rule.apply(sentence.sentence_parts, line)
-							puts sentence.sentence_parts[line].form
-							line = line + rule.length
-							break
-						else if index == @rules.size-1
-							puts "not matched"
-							File.open(OUTPUT, 'a') {|f| f.write(sentence.sentence_parts[line].form + "\t" + "O"+ "\t" + "O" +"\n")}
-							line = line +1 
-						end
-						end
-					end
-					
-				end
-				}}
+	def new_Element()
+		parser = Nokogiri::XML::SAX::Parser.new(self)
+		parser.parse_file('micro.xml')
 	end
 
 	def end_document
-		parse_sentence
-		#print-method for testing
-		#texts.each { |text|
-			#text.sentences.each { |sentence|
-				#puts sentence.sentence_parts.length}}
 	end
 	
 	#this method simply counts the number of texts and sentences existing in the input-document.
@@ -362,8 +330,8 @@ class NE
 end
 =end
 
-parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
-parser.parse_file('micro.xml')
+#parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
+#parser.parse_file('micro.xml')
 
 
 

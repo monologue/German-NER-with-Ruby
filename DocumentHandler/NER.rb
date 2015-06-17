@@ -16,44 +16,36 @@ class NER < Nokogiri::XML::SAX::Document
 		#@rules = Array.new
 		#@sentences = Array.new
 	end
-
-	#def parse_sentences
-	#		@sentences.each do |sentence|
-	#			parse_sentence(sentence)
-	#		end
-	#end	
 	
 	def parse_sentence
-		rules = RuleHandler.new
-		rules.read_rules
-		line = 0
+		r = RuleHandler.new(per)
+		r.read_rules
 		data = DocumentHandler.new
-		#data.parse_file('micro.xml')
-		#t = data.output
-		#puts data.get_texts
-		data.get_texts.each {|text|
-			puts text
-			text.each {|sentence|
-				puts sentence.sentence_parts
+		data.new_Element()
+		data.texts.each {|text|
+			text.sentences.each {|sentence|
+				line = 0
 				while line < sentence.sentence_parts.length
-					rules.each_with_index do |rule, index|
+					r.rules.each_with_index do |rule, index|
 						if rule.matched?(sentence.sentence_parts, line)
 							puts "matched"
 							rule.apply(sentence.sentence_parts, line)
-							puts sentence.sentence_parts[line].form
 							line = line + rule.length
 							break
-						else if index == @rules.size-1
+						else if index == r.rules.size-1
 							puts "not matched"
-							File.open(OUTPUT, 'a') {|f| f.write(sentence.sentence_parts[line].form + "\t" + "O"+ "\t" + "O" +"\n")}
+							File.open("out.txt", 'a') {|f| f.write(sentence.sentence_parts[line].form + "\t" + "O"+ "\t" + "O" +"\n")}
 							line = line +1 
 						end
 						end
-					end
-					
+					end	
 				end
 				}}
 	end
+	
+	def rule_use
+	end
+	
 
 end
 
