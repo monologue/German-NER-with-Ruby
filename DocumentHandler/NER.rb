@@ -10,15 +10,14 @@ require 'nokogiri'
 require 'csv'
 class NER < Nokogiri::XML::SAX::Document
 
-	#attr_accessor :rules, :sentences
+
 	
 	def initialize
-		#@rules = Array.new
-		#@sentences = Array.new
+
 	end
 	
 	def parse_sentence
-		r = RuleHandler.new(per)
+		r = RuleHandler.new("org")
 		r.read_rules
 		data = DocumentHandler.new
 		data.new_Element()
@@ -43,7 +42,8 @@ class NER < Nokogiri::XML::SAX::Document
 				}}
 	end
 	
-	def rule_use
+	def rule_use(type)
+		
 	end
 	
 

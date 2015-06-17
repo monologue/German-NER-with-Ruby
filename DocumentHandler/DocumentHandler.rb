@@ -258,77 +258,13 @@ class Word
 	def print()
 		puts form
 	end
-=begin	def get(value)
-		case value
-			when "id"
-				return id
-			when "form"
-				return form
-			when "pos"
-				return pos
-			when "func"
-				puts func
-			when "deprel"
-				return deprel
-			when "parent"
-				return parent
-			when "lemma"
-				return lemma
-			when "morph"
-				return moprh
-			when "dephead"
-				return dephead
-		end
-=end	
 	
 	def output
 		w = [id, lemma, pos]
 	end
 	
 end
-=begin
-class Punctuation
-	attr_accessor :if, :form, :pos, :lemma, :func, :deprel
-	punctuation = ["$,","$.","$("]
-	def initialize(name, form, pos, lemma, func, deprel)
-		@id = name
-		@form = form
-		@pos = pos
-		@lemma = lemma
-		@func = func
-		@deprel = deprel
-	end
-	
-	def print()
-		puts form
-	end
-	
-	def get(value)
-	end
-	
-end
 
-class NE
-	attr_accessor :type, :ne, :id
-	type_list = %w{ORG OTH LOC GPE PER}
-	def initialize(name, type)
-		@id = name
-		@type = type
-		@ne = Array.new
-	end
-	
-	def add_content(obj)
-		ne << obj
-	end
-	
-	def print()
-		ne.each {|part|
-			part.print}
-	end
-	def get(value)
-	end
-end
-=end
 
 #parser = Nokogiri::XML::SAX::Parser.new(DocumentHandler.new)
 #parser.parse_file('micro.xml')

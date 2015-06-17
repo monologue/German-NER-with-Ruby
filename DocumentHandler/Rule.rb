@@ -95,8 +95,8 @@ class TokenCondition < Condition
 			e = ::ElementOf.new
 			case @value
 				when  /NameList/ then return e.NameList(sentence[line + @position].form) 
-				when /LocationList/ then return ElementOf.LocationList(sentence[line + @position].form)
-				when /OrgEnding/ then return ElementOf.OrgEnding(sentence[line + @position].form)
+				when /LocationList/ then return e.LocationList(sentence[line + @position].form)
+				when /OrgEnding/ then return e.OrgEnding(sentence[line + @position].form)
 			end
 		end
 		return false
@@ -169,6 +169,7 @@ class CaseCondition < Condition
 				if sentence[line + @position].form == /A-Z*/ 
 					return true
 				end
+			return false
 		end
 	end
 end

@@ -2,7 +2,7 @@ class ElementOf
 	#Methods should check if List contains word
 	loc = File.readlines("Cities.txt").map { |l| l.chomp  }
 	PER = File.readlines("FirstNames.txt").map { |l| l.chomp  }
-	org = File.readlines("OrgEnding.txt").map { |l| l.chomp  }
+	ORG = File.readlines("OrgEnding.txt").map { |l| l.chomp  }
 	
 	def initialize()
 	end
@@ -15,6 +15,6 @@ class ElementOf
 	end
 	
 	def OrgEnding(word)
-		return org.include?(word)
+		return ORG.include?(word)
 	end
 end
