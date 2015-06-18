@@ -13,7 +13,11 @@ class Condition
 end 
 
 class Rule
+	
 	attr_accessor :conditions, :category, :start, :length
+	
+	@@current_lexicon = Array.new
+	
 	def initialize
 		@conditions = Array.new
 		@category = String.new
@@ -50,29 +54,38 @@ class Rule
 	end
 	def apply(sentence, line)
 		i = 1
+		e = ElementOf.new
 		case @category	
 			when "PER"
 				sentence[line].add_per 
+				e.add_word(sentence[line].form)
 				while i < @length 
 					sentence[line+i].add_per 
+					e.add_word(sentence[line + i].form)
 					i = i +1
 				end
 			when "ORG" 
 				sentence[line].add_org
+				e.add_word(sentence[line].form)
 				while i < @length 
 					sentence[line+i].add_org
+					e.add_word(sentence[line + i].form)
 					i = i +1
 				end
 			when "OTH" 
 				sentence[line].add_oth
+				e.add_word(sentence[line].form)
 				while i < @length 
 					sentence[line+i].add_oth
+					e.add_word(sentence[line + i].form)
 					i = i +1
 				end
 			when "LOC" 
 				sentence[line].add_loc
+				e.add_word(sentence[line].form)
 				while i < @length 
 					sentence[line+i].add_loc
+					e.add_word(sentence[line + i].form)
 					i = i +1
 				end
 		end
@@ -84,6 +97,13 @@ class Rule
 		#	i = i+ 1
 		#end
 	end
+	def current_lexicon(word)
+		@@current_lexicon << word
+	end
+	
+	#def check_lexicon(word)
+	#	@@current_lexicon.include?(word)
+	#end
 end
 
 class POSCondition < Condition
@@ -125,6 +145,7 @@ class TokenCondition < Condition
 				when  /NameList/ then return e.NameList(sentence[line + @position].form) 
 				when /LocationList/ then return e.LocationList(sentence[line + @position].form)
 				when /OrgEnding/ then return e.OrgEnding(sentence[line + @position].form)
+				when /CurrentLexicon/ then e.check_lexicon(sentence[line + @position].form)
 			end
 		end
 		return false
