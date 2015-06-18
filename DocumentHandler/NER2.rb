@@ -1,0 +1,56 @@
+require_relative 'RuleHandler.rb'
+require_relative 'DocumentHandler.rb'
+require_relative 'Rule.rb'
+require 'nokogiri'
+require 'csv'
+
+class NER2 < Nokogiri::XML::SAX::Document
+	attr_accessor :ner
+	@@rule_lists = ['Per_Rules.txt', 'Org_Rules.txt']
+	def initialize
+		@ner = Array.new
+	end
+	
+	def ner_main
+		r = RuleHandler.new
+		data = DocumentHandler.new #new object from type DocumentHandler
+		data.new_Element()	#calls the parser and reads the xml-data
+		#@@rule_lists.each {|rule_list|
+			#r.read_rules(rule_list)
+			data.texts.each {|text|
+				text.sentences.each {|sentence|
+				@@rule_lists.each {|rule_list|
+			r.read_rules(rule_list)
+				line = 0
+				while line < sentence.sentence_parts.length
+					r.rules.each_with_index do |rule, index|
+						if rule.matched?(sentence.sentence_parts, line)
+							rule.apply(sentence.sentence_parts, line)
+							line = line + rule.length
+							break
+						else if index == r.rules.size-1
+							line = line + 1
+						end
+						end
+					end
+				end
+				
+			}
+			write_ner(sentence.sentence_parts)
+			}
+				}
+	end	
+	
+	def write_ner(sentence)
+		sentence.each {|word|
+			File.open("out.txt", 'a') {|f| f.write(word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\n")}
+			#if word.per == true || word.org == true
+				#puts "#{word.form} per: #{word.per} org: #{word.org}"
+			#end
+		}
+	end		
+end
+
+
+N = NER2.new
+N.ner_main

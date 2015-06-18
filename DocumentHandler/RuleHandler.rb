@@ -1,37 +1,37 @@
 require_relative 'Rule.rb'
 class RuleHandler
-	attr_accessor :rules, :sentences, :rule
+	attr_accessor :rules, :sentences#, :rule
 	
-	def initialize(rule)
+	def initialize()
 		@rules = Array.new
 		@sentences = Array.new
-		@rule = rule
+		#@rule = rule
 	end
 	
 	#reads the rules and calls split_rule for every line, one line contains one rule
-	def read_rules
-		case rule 
-			when "per" 
-				File.readlines("Per_Rules.txt").each do |line|
+	def read_rules(data)
+		#case rule 
+			#when "per" 
+				File.readlines(data).each do |line|
 					@rules << split_rule(line)
 				end
-			when "org" 
-				File.readlines("Org_Rules.txt").each do |line|
-					@rules << split_rule(line)
-				end
-			when "loc" 
-				File.readlines("Loc_Rules.txt").each do |line|
-					@rules << split_rule(line)
-				end
-			when "oth" 
-				File.readlines("Oth_Rules.txt").each do |line|
-					@rules << split_rule(line)
-				end
-			when "mix"	
-				File.readlines("Mix_Rules.txt").each do |line|
-					@rules << split_rule(line)
-				end
-		end
+			#when "org" 
+				#File.readlines("Org_Rules.txt").each do |line|
+					#@rules << split_rule(line)
+				#end
+			#when "loc" 
+				#File.readlines("Loc_Rules.txt").each do |line|
+					#@rules << split_rule(line)
+			#	end
+			#when "oth" 
+			#	File.readlines("Oth_Rules.txt").each do |line|
+				#	@rules << split_rule(line)
+			#	end
+			#when "mix"	
+				#File.readlines("Mix_Rules.txt").each do |line|
+				#	@rules << split_rule(line)
+				#end
+		#end
 	end
 	#this function splits the rules after a pattern and saves the parts in an array and returns this array
 	def split_rule(string)

@@ -77,9 +77,10 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 			@@current_element << w
 		end
 	
-		if name == 'ne'
-			@@ne = attrs[1][1]		
-		end
+		#if name == 'ne'
+		#	@@ne = attrs[1][1]		
+		#	puts @@ne
+		#end
 	end
 
 	def end_element(name)
@@ -90,15 +91,25 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 				@@current_element.pop
 		end
 		if name == 'word'
-			if @@ne == nil
+			#if @@ne == nil
 				@@current_element.pop
-			else @@current_element.last.add_ne(@@ne)
-				@@current_element.pop
-			end
+			#else @@current_element.last.add_ne(@@ne)
+				#case @@ne
+					#when "ORG"
+					#	@@current_element.last.add_org
+					#when "PER"
+					#	@@current_element.last.add_per
+					#when "OTH"
+					#	@@current_element.last.add_oth
+					#when "LOC"
+					#	@@current_element.last.add_loc
+				#end
+				#@@current_element.pop
+			#end
 		end
-		if name == 'ne'
-			@@ne = nil
-		end
+		#if name == 'ne'
+		#	@@ne = nil
+		#end
 		
 	end
 
@@ -191,7 +202,7 @@ end
 =end
 class Word
 
-	attr_accessor :id, :form, :lemma, :pos, :morph, :func, :parent, :deprel, :dephead, :ne_type, :ne, :punctuation
+	attr_accessor :id, :form, :lemma, :pos, :morph, :func, :parent, :deprel, :dephead, :ne_type, :ne, :punctuation, :per, :org, :loc, :oth
 	
 	@@pos_list = %w[ADJA ADJD ADV APPR APPRART APPO APZR ART CARD FM ITJ KOUI KOUS KON KOKOM NN NE PDS PDAT PIS PIAT PIDAT PPER PPOSS PPOSAT PRELS PRELAT PRF PWS PWAT PWAV PROP PTKZU PTKNEG PTKVZ PTKANT PTKA TRUNC VVFIN VVIMP VVINF VVIZU VVPP VAFIN VAIMP VAINF VAPP VMFIN VMINF VMPP XY]
 	@@punctuation = ["$,","$.","$("]
@@ -200,8 +211,23 @@ class Word
 		@id = name
 		@ne = false
 		@punctuation = false
+		@loc = false
+		@org = false
+		@per = false
+		@oth = false
 	end
-	
+	def add_loc()
+		@loc = true
+	end
+	def add_org()
+		@org = true
+	end
+	def add_per()
+		@per = true
+	end
+	def add_oth()
+		@oth = true
+	end
 	def add_ne(ne)
 		@ne = true
 		@ne_type = ne

@@ -45,16 +45,44 @@ class Rule
 				#exit
 			end
 		end
-		puts("Sentence did match for line " + line.to_s + "\n")		
+		#puts("Sentence did match for line " + line.to_s + "\n")		
 		return result
 	end
 	def apply(sentence, line)
 		i = 1
-		File.open("out.txt", 'a') {|f| f.write(sentence[line].form + "\t"  + @category + "\t" +"O" +"\n")}
-		while i < @length
-			File.open("out.txt", 'a') {|f| f.write(sentence[line+i].form + "\t"  + @category + "\t" +"O"+"\n")}
-			i = i+ 1
+		case @category	
+			when "PER"
+				sentence[line].add_per 
+				while i < @length 
+					sentence[line+i].add_per 
+					i = i +1
+				end
+			when "ORG" 
+				sentence[line].add_org
+				while i < @length 
+					sentence[line+i].add_org
+					i = i +1
+				end
+			when "OTH" 
+				sentence[line].add_oth
+				while i < @length 
+					sentence[line+i].add_oth
+					i = i +1
+				end
+			when "LOC" 
+				sentence[line].add_loc
+				while i < @length 
+					sentence[line+i].add_loc
+					i = i +1
+				end
 		end
+		
+		#i = 1
+		#File.open("out.txt", 'a') {|f| f.write(sentence[line].form + "\t"  + @category + "\t" +"O" +"\n")}
+		#while i < @length
+		#	File.open("out.txt", 'a') {|f| f.write(sentence[line+i].form + "\t"  + @category + "\t" +"O"+"\n")}
+		#	i = i+ 1
+		#end
 	end
 end
 
