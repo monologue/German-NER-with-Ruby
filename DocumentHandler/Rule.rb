@@ -8,7 +8,7 @@ class Condition
 		@value = value
 	end
 	#a condition used on a line from a sentence can be true or false
-	def matched?(sentence, line)
+	def matched?(text, sentence, line)
 	end
 end 
 
@@ -16,7 +16,7 @@ class Rule
 	
 	attr_accessor :conditions, :category, :start, :length
 	
-	@@current_lexicon = Array.new
+	#@@current_lexicon = Array.new
 	
 	def initialize
 		@conditions = Array.new
@@ -35,14 +35,14 @@ class Rule
 	def add_start(start)
 		@start = start
 	end
-	def matched?(sentence, line)
+	def matched?(text, sentence, line)
 		result = false
 		@conditions.each do |condition|
-			if condition.matched?(sentence, line) == false
+			if condition.matched?(text, sentence, line) == false
 				#puts("S did not match for line " + line.to_s + " for condition " + condition.value + "\n")
 				return false
 			end
-			if 	condition.matched?(sentence, line) == true
+			if 	condition.matched?(text, sentence, line) == true
 				result = true
 			else 
 				puts "unbekannter Fehler in Rule.matched?" 
@@ -97,9 +97,9 @@ class Rule
 		#	i = i+ 1
 		#end
 	end
-	def current_lexicon(word)
-		@@current_lexicon << word
-	end
+	#def current_lexicon(word)
+	#	@@current_lexicon << word
+	#end
 	
 	#def check_lexicon(word)
 	#	@@current_lexicon.include?(word)
@@ -113,7 +113,7 @@ class POSCondition < Condition
 		@value = value
 	end
 	
-	def matched?(sentence, line)
+	def matched?(text, sentence, line)
 		if (sentence.length-1 < line + @position)
 			return false
 		end
@@ -130,7 +130,7 @@ class TokenCondition < Condition
 		@value = value
 	end
 	
-	def matched?(sentence, line)
+	def matched?(text, sentence, line)
 		#puts @value
 		if (sentence.length-1 < line + @position)
 			return false
@@ -145,7 +145,7 @@ class TokenCondition < Condition
 				when  /NameList/ then return e.NameList(sentence[line + @position].form) 
 				when /LocationList/ then return e.LocationList(sentence[line + @position].form)
 				when /OrgEnding/ then return e.OrgEnding(sentence[line + @position].form)
-				when /CurrentLexicon/ then e.check_lexicon(sentence[line + @position].form)
+				when /CurrentLexicon/ then return text.check_lexicon(sentence[line + @position].form)
 			end
 		end
 		return false
@@ -158,7 +158,7 @@ class SuffixCondition < Condition
 		@position = position
 		@value = value
 	end
-	def matched?(sentence, line)
+	def matched?(text, sentence, line)
 		if (sentence.length-1 < line + @position)
 			return false
 		end
@@ -171,7 +171,7 @@ class PrefixCondition < Condition
 		@position = position
 		@value = value
 	end
-	def matched?(sentence, line)
+	def matched?(text, sentence, line)
 		if (sentence.length-1 < line + @position)
 			return false
 		end
@@ -183,7 +183,7 @@ class PartOfWordCondition < Condition
 		@position = position
 		@value = value
 	end
-	def matched?(sentence, line)
+	def matched?(text, sentence, line)
 		if (sentence.length-1 < line + @position)
 			return false
 		end
@@ -195,7 +195,7 @@ class PunctationCondition < Condition
 		@position = position
 		@value = value
 	end
-	def matched?(sentence, line)
+	def matched?(text, sentence, line)
 		if (sentence.length-1 < line + @position)
 			return false
 		end
@@ -208,7 +208,7 @@ class CaseCondition < Condition
 		@value = value
 	end
 	
-	def matched?(sentence, line)
+	def matched?(text, sentence, line)
 		if (sentence.length-1 < line + @position)
 			return false
 		end

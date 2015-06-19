@@ -22,7 +22,8 @@ class ElementOf
 		return ORG.include?(word)
 	end
 	
-	def check_lexicon(word)
-		LEXICON.include?(word)
-	end
+	
+	#def check_lexicon(word)
+	#	LEXICON.include?(word)
+	#end
 end

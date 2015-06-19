@@ -134,11 +134,14 @@ end
 
 class Text
 
-	attr_accessor :id, :sentences
+	attr_accessor :id, :sentences, :ne_per, :ne_org, :ne_oth
 	
 	def initialize(name)
 		@id = name
 		@sentences = Array.new
+		@ne_per = Array.new
+		@ne_org = Array.new
+		@ne_oth = Array.new
 	end
 	
 #This method adds an sentence to the sentences
@@ -149,6 +152,25 @@ class Text
 	def get_current_sentence
 		return sentences.last(1)
 	end
+	
+	def current_lexicon(word, type)
+		case type
+		when "ORG" && ne_org.include?(word) == false
+			ne_org << word
+		when "PER" 
+			if ne_per.include?(word) == false
+				ne_per << word
+			end
+		when "OTH" && ne_oth.include?(word) == false
+			ne_oth << word
+		end
+	end
+	
+	def check_lexicon(word)
+		return ne_per.include?(word)
+		 
+	end
+	
 end
 
 class Sentence
