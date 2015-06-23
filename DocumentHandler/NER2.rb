@@ -13,6 +13,7 @@ class NER2 < Nokogiri::XML::SAX::Document
 	end
 	
 	def ner_main
+		File.open("out.txt", 'a') {|f| f.write("Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\n")}
 		r = RuleHandler.new
 		data = DocumentHandler.new #new object from type DocumentHandler
 		data.new_Element()	#calls the parser and reads the xml-data
@@ -54,7 +55,9 @@ class NER2 < Nokogiri::XML::SAX::Document
 	
 	def write_ner(sentence)
 		sentence.each {|word|
-			File.open("out.txt", 'a') {|f| f.write(word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\n")}
+#if word.form != "\"" #quotes will bring exeptions in csv.read
+				File.open("out.txt", 'a') {|f| f.write(word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\n")}
+			#end
 			#if word.per == true || word.org == true
 				#puts "#{word.form} per: #{word.per} org: #{word.org}"
 			#end
