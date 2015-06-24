@@ -16,18 +16,19 @@ class Rule
 	
 	attr_accessor :conditions, :category, :start, :length
 	
-	#@@current_lexicon = Array.new
-	
 	def initialize
 		@conditions = Array.new
 		@category = String.new
 	end
+	
 	def add_condition(condition)
 		@conditions << condition
 	end
+	
 	def add_length(length)
 		@length = length
 	end
+	
 	def add_category(category)
 		@category = category
 	end
@@ -35,6 +36,7 @@ class Rule
 	def add_start(start)
 		@start = start
 	end
+	
 	def matched?(text, sentence, line)
 		result = false
 		@conditions.each do |condition|
@@ -52,6 +54,7 @@ class Rule
 		#puts("Sentence did match for line " + line.to_s + "\n")		
 		return result
 	end
+	
 	def apply(sentence, line)
 		i = 1
 		e = ElementOf.new
@@ -89,21 +92,7 @@ class Rule
 					i = i +1
 				end
 		end
-		
-		#i = 1
-		#File.open("out.txt", 'a') {|f| f.write(sentence[line].form + "\t"  + @category + "\t" +"O" +"\n")}
-		#while i < @length
-		#	File.open("out.txt", 'a') {|f| f.write(sentence[line+i].form + "\t"  + @category + "\t" +"O"+"\n")}
-		#	i = i+ 1
-		#end
 	end
-	#def current_lexicon(word)
-	#	@@current_lexicon << word
-	#end
-	
-	#def check_lexicon(word)
-	#	@@current_lexicon.include?(word)
-	#end
 end
 
 class POSCondition < Condition
@@ -151,7 +140,6 @@ class TokenCondition < Condition
 		return false
 	end
 end
-
 
 class SuffixCondition < Condition
 	def initialize(position, value)

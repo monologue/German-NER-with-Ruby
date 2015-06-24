@@ -72,15 +72,9 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 					end
 					
 				}
-				#puts w.id
 			@@current_element.last.add_content(w)
 			@@current_element << w
 		end
-	
-		#if name == 'ne'
-		#	@@ne = attrs[1][1]		
-		#	puts @@ne
-		#end
 	end
 
 	def end_element(name)
@@ -91,26 +85,8 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 				@@current_element.pop
 		end
 		if name == 'word'
-			#if @@ne == nil
 				@@current_element.pop
-			#else @@current_element.last.add_ne(@@ne)
-				#case @@ne
-					#when "ORG"
-					#	@@current_element.last.add_org
-					#when "PER"
-					#	@@current_element.last.add_per
-					#when "OTH"
-					#	@@current_element.last.add_oth
-					#when "LOC"
-					#	@@current_element.last.add_loc
-				#end
-				#@@current_element.pop
-			#end
 		end
-		#if name == 'ne'
-		#	@@ne = nil
-		#end
-		
 	end
 
 	def new_Element()
@@ -199,29 +175,7 @@ class Sentence
 			word.output()}
 	end
 end
-=begin
-class Knoten 
-	attr_accessor :func, :parent, :category, :knoten, :id
-	category_list = %w{ADJX ADVY DP FX NX PX VXFIN VXINF LV C FKOORD KOORD LK MF MFE NF PARORD VC VCE VF FKONJ DM P-SIMPX R-SIMPX SIMPX}
-	def initialize(name, category, func = "empty", parent = "empty")
-		@id = name
-		@func = func 
-		@parent = parent 
-		@category = category 
-		@knoten = Array.new
-	end
-	
-	def add_content(obj)
-		knoten << obj
-	end
-	
-	def print()
-		#puts knoten
-		knoten.each {|k|
-			k.print()} # NoMethodError: private method 'print' called for nil:NilClass ?
-	end
-end
-=end
+
 class Word
 
 	attr_accessor :id, :form, :lemma, :pos, :morph, :func, :parent, :deprel, :dephead, :ne_type, :ne, :punctuation, :per, :org, :loc, :oth
@@ -310,7 +264,6 @@ class Word
 	def output
 		w = [id, lemma, pos]
 	end
-	
 end
 
 
