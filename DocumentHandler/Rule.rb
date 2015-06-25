@@ -14,7 +14,7 @@ end
 
 class Rule
 	
-	attr_accessor :conditions, :category, :start, :length
+	attr_accessor :conditions, :category, :start, :length, :type
 	
 	def initialize
 		@conditions = Array.new
@@ -23,6 +23,10 @@ class Rule
 	
 	def add_condition(condition)
 		@conditions << condition
+	end
+	
+	def add_type(string)
+		@type = string
 	end
 	
 	def add_length(length)
@@ -39,6 +43,22 @@ class Rule
 	
 	def matched?(text, sentence, line)
 		result = false
+		if type == 'PERf'
+			@conditions.each do |condition|
+			if condition.matched?(text, sentence, line) == false
+				puts "something"
+				#puts("S did not match for line " + line.to_s + " for condition " + condition.value + "\n")
+				break
+			end
+			if 	condition.matched?(text, sentence, line) == true
+				puts "some other thing"
+				result = false
+			else 
+				puts "unbekannter Fehler in Rule.matched?" 
+				#exit
+			end
+		end
+		else
 		@conditions.each do |condition|
 			if condition.matched?(text, sentence, line) == false
 				#puts("S did not match for line " + line.to_s + " for condition " + condition.value + "\n")
@@ -50,6 +70,7 @@ class Rule
 				puts "unbekannter Fehler in Rule.matched?" 
 				#exit
 			end
+		end
 		end
 		#puts("Sentence did match for line " + line.to_s + "\n")		
 		return result
@@ -92,6 +113,12 @@ class Rule
 					i = i +1
 				end
 		end
+	end
+	
+	def change(type, word)
+		
+		
+	
 	end
 end
 
