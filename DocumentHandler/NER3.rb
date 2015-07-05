@@ -12,7 +12,7 @@ class NER3 < Nokogiri::XML::SAX::Document
 	end
 	
 	def ner_main
-		File.open("out.txt", 'a') {|f| f.write("Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\n")}
+		File.open("out.txt", 'a') {|f| f.write("Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rule1" + "\t" + "Rule2" + "\t" + "Rule3" + "\n")}
 		data = DocumentHandler.new #new object from type DocumentHandler
 		data.new_Element()	#calls the parser and reads the xml-data
 		data.texts.each {|text|
@@ -23,11 +23,12 @@ class NER3 < Nokogiri::XML::SAX::Document
 					line = 0
 					while line < sentence.sentence_parts.length
 						r.rules.each_with_index do |rule, index|
-							puts "#{rule.to_s}#{index}"
+							puts rule.index
 							if rule.matched?(text, sentence.sentence_parts, line)
 								i = 0
 								rule.apply(sentence.sentence_parts, line)
 								while i < rule.length
+									sentence.sentence_parts[line + i].add_rule("#{rule_list}#{index}")
 									text.current_lexicon(sentence.sentence_parts[line + i].form, rule.category)
 									i = i +1
 								end
@@ -72,7 +73,7 @@ class NER3 < Nokogiri::XML::SAX::Document
 			sentence.sentence_parts.each {|word|
 				#if the word is no punctuation mark, it will be written in out.txt
 				if word.pos !~ /[$]/
-					File.open("out.txt", 'a') {|f| f.write(word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\n")}
+					File.open("out.txt", 'a') {|f| f.write(word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\t" + word.rule1.to_s + "\t" + word.rule2.to_s + "\t" + word.rule3.to_s + "\n")}
 				end
 			}
 		}

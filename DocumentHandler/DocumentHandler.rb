@@ -178,7 +178,7 @@ end
 
 class Word
 
-	attr_accessor :id, :form, :lemma, :pos, :morph, :func, :parent, :deprel, :dephead, :ne_type, :ne, :punctuation, :per, :org, :loc, :oth
+	attr_accessor :id, :form, :lemma, :pos, :morph, :func, :parent, :deprel, :dephead, :ne_type, :ne, :punctuation, :per, :org, :loc, :oth, :rule1, :rule2, :rule3
 	
 	@@pos_list = %w[ADJA ADJD ADV APPR APPRART APPO APZR ART CARD FM ITJ KOUI KOUS KON KOKOM NN NE PDS PDAT PIS PIAT PIDAT PPER PPOSS PPOSAT PRELS PRELAT PRF PWS PWAT PWAV PROP PTKZU PTKNEG PTKVZ PTKANT PTKA TRUNC VVFIN VVIMP VVINF VVIZU VVPP VAFIN VAIMP VAINF VAPP VMFIN VMINF VMPP XY]
 	@@punctuation = ["$,","$.","$("]
@@ -191,6 +191,25 @@ class Word
 		@org = false
 		@per = false
 		@oth = false
+		@rule1 = nil
+		@rule2 = nil
+		@rule3 = nil
+	end
+	
+	def add_rule(string)
+		if rule1 == nil
+			@rule1 = string
+		else if rule2 == nil
+			@rule2 = string
+			else if rule3 == nil
+				@rule3 = string
+				else if 
+					puts "mehr als drei Regeln bei Wort #{id} anwendbar."
+					exit
+				end
+			end
+		end
+		end
 	end
 	def add_loc()
 		@loc = true

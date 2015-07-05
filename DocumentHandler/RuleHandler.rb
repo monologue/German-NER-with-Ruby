@@ -42,13 +42,8 @@ class RuleHandler
 	
 	#splitting the ruleParts/conditions into the three elements feature, position, value
 	def condition_parts(string)
-		puts "string:#{string}##"
-		#splitPattern = /\w+\.[a-zA-Z]+|\w+/ # Klammern hinzugefügt, noch nicht getestet!
 		splitPattern = /([a-zA-Z]+).(-\d|\d)\s.\s(\w+.\w+|\w+)/
-		#splitPattern = /[a-zA-Z]+\.-\d\s.\s\w+.\w+|\w+/
-		#splitPattern = /[a-zA-Z]+.-\d\s.\s\w+.\w+|\w+/
-		element = string.scan(splitPattern)
-		puts "#{element[0]}#{element[1]}#{element[2]}"
+		element = string.scan(splitPattern)[0]
 		case element[0]
 			when "POS" then return POSCondition.new(element[1].to_i, element[2])							
 			when "token" then return TokenCondition.new(element[1].to_i, element[2].to_s)

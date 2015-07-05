@@ -38,10 +38,6 @@ class Rule
 	end
 	
 	def matched?(text, sentence, line)
-		puts "conditions:#{@conditions}###"
-		puts "text:#{text}#"
-		puts "sentence:#{sentence}#"
-		puts "line:#{line}#"
 		result = false
 		if category == 'PERf'
 			@conditions.each do |condition|
@@ -138,8 +134,6 @@ class POSCondition < Condition
 	def initialize(position, value)
 		@position = position
 		@value = value
-		puts "posi:" + position
-		puts "val:" + value
 	end
 	
 	def matched?(text, sentence, line)
