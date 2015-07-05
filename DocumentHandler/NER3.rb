@@ -19,16 +19,18 @@ class NER3 < Nokogiri::XML::SAX::Document
 			text.sentences.each {|sentence|
 				r = RuleHandler.new
 				@@rule_lists.each {|rule_list|
+					j = 1
 					r.read_rules(rule_list)
 					line = 0
+					while j < rule_list.length
 					while line < sentence.sentence_parts.length
 						r.rules.each_with_index do |rule, index|
-							puts rule.index
 							if rule.matched?(text, sentence.sentence_parts, line)
 								i = 0
+								j += 1
 								rule.apply(sentence.sentence_parts, line)
 								while i < rule.length
-									sentence.sentence_parts[line + i].add_rule("#{rule_list}#{index}")
+									sentence.sentence_parts[line + i].add_rule("#{rule_list}#{j}")
 									text.current_lexicon(sentence.sentence_parts[line + i].form, rule.category)
 									i = i +1
 								end
@@ -39,8 +41,10 @@ class NER3 < Nokogiri::XML::SAX::Document
 								end
 							end
 						end
+						
 					end
-				
+					
+					end
 				}	
 			}
 	
