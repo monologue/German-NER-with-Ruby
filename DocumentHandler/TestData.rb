@@ -133,11 +133,11 @@ class TestData < Nokogiri::XML::SAX::Document
 	
 	def write_ner(sentence)
 		sentence.each {|word|
-			#if word.form != "\"" #quotes will bring exeptions in csv.read
+			#if the word is no punctuation mark, it will be written in test.txt
+			if word.pos !~ /[$]/
 				File.open("test.txt", 'a') {|f| f.write(word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\n")}
-			#end
-		}
-			
+			end
+		}	
 	end	
 	
 	def new_Element()

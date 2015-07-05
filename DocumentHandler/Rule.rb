@@ -14,7 +14,7 @@ end
 
 class Rule
 	
-	attr_accessor :conditions, :category, :start, :length, :type
+	attr_accessor :conditions, :category, :start, :length
 	
 	def initialize
 		@conditions = Array.new
@@ -24,11 +24,7 @@ class Rule
 	def add_condition(condition)
 		@conditions << condition
 	end
-	
-	def add_type(string)
-		@type = string
-	end
-	
+
 	def add_length(length)
 		@length = length
 	end
@@ -42,41 +38,48 @@ class Rule
 	end
 	
 	def matched?(text, sentence, line)
+		puts "conditions:#{@conditions}###"
+		puts "text:#{text}#"
+		puts "sentence:#{sentence}#"
+		puts "line:#{line}#"
 		result = false
-		if type == 'PERf'
+		if category == 'PERf'
 			@conditions.each do |condition|
-			if condition.matched?(text, sentence, line) == false
-				puts "something"
-				#puts("S did not match for line " + line.to_s + " for condition " + condition.value + "\n")
-				break
+				if condition.matched?(text, sentence, line) == false
+					#puts("S did not match for line " + line.to_s + " for condition " + condition.value + "\n")
+					return false
+				end
+				if 	condition.matched?(text, sentence, line) == true
+					result = true
+				else 
+					#puts condition.position
+					#puts "unbekannter Fehler in Rule.matched?1" 
+					#exit
+				end
+				return result
 			end
-			if 	condition.matched?(text, sentence, line) == true
-				puts "some other thing"
-				result = false
-			else 
-				puts "unbekannter Fehler in Rule.matched?" 
-				#exit
-			end
-		end
 		else
 		@conditions.each do |condition|
+			
 			if condition.matched?(text, sentence, line) == false
 				#puts("S did not match for line " + line.to_s + " for condition " + condition.value + "\n")
 				return false
 			end
 			if 	condition.matched?(text, sentence, line) == true
 				result = true
-			else 
-				puts "unbekannter Fehler in Rule.matched?" 
+			else
+				puts sentence[line].id
+				puts "unbekannter Fehler in Rule.matched?2" 
 				#exit
 			end
-		end
-		end
-		#puts("Sentence did match for line " + line.to_s + "\n")		
+		end		
 		return result
+	end
 	end
 	
 	def apply(sentence, line)
+		
+		#puts sentence[line].form
 		i = 1
 		e = ElementOf.new
 		case @category	
@@ -84,6 +87,7 @@ class Rule
 				sentence[line].add_per 
 				e.add_word(sentence[line].form)
 				while i < @length 
+					#puts "#{sentence[line+i].form} #{sentence[line + i].id}"
 					sentence[line+i].add_per 
 					e.add_word(sentence[line + i].form)
 					i = i +1
@@ -115,10 +119,17 @@ class Rule
 		end
 	end
 	
-	def change(type, word)
-		
-		
-	
+	def change(sentence, line)
+		i = 0
+		e = ElementOf.new
+		case @category
+			when 'PERf'
+				while sentence[line+i].per == true
+					sentence[line+i].del_per
+					e.del_word(sentence[line+i].form)
+					i += 1
+				end
+		end
 	end
 end
 
@@ -127,9 +138,14 @@ class POSCondition < Condition
 	def initialize(position, value)
 		@position = position
 		@value = value
+		puts "posi:" + position
+		puts "val:" + value
 	end
 	
 	def matched?(text, sentence, line)
+		if position == -1
+			puts "negative position"
+		end
 		if (sentence.length-1 < line + @position)
 			return false
 		end
@@ -148,11 +164,16 @@ class TokenCondition < Condition
 	
 	def matched?(text, sentence, line)
 		#puts @value
+		if position == "-1"
+			puts "negative position"
+		end
 		if (sentence.length-1 < line + @position)
 			return false
 		end
+		#if (line + @position < 1)
+		#	return false
+		#end
 		if @value == sentence[line + @position].form
-			#puts @value
 			return true
 		end
 		if @value =~ /ElementOf/
@@ -162,9 +183,19 @@ class TokenCondition < Condition
 				when /LocationList/ then return e.LocationList(sentence[line + @position].form)
 				when /OrgEnding/ then return e.OrgEnding(sentence[line + @position].form)
 				when /CurrentLexicon/ then return text.check_lexicon(sentence[line + @position].form)
+				when /Numbers/ then return e.Numbers(sentence[line + position].form)
+				when /number/ then return e.numeric?(sentence[line + position].form)
+				when /InNach/ then return e.InNach(sentence[line + position].form)
+				when /OrgEnding/ then return e.OrgEnding(sentence[line + position].form)
+					#if e.InNach(sentence[line + position].form) == true
+					#	puts sentence[line].form
+					#	puts sentence[line + position].form
+					#	return true
+					#end
 			end
-		end
 		return false
+		
+		end
 	end
 end
 

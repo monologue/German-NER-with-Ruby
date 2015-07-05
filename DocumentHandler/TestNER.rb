@@ -2,36 +2,27 @@ require 'csv'
 
 class TestNER 
 
-	attr_accessor :data1, :data2, :true_per, :true_org, :true_loc, :true_oth, :true_all, :false_per, :false_org, :false_loc, :false_oth, :false_all, :true_negative,
-					:all_per, :all_loc, :all_org, :all_oth, :false_neg_loc, :false_neg_org, :false_neg_oth, :false_neg_per, :false_true_per, :false_true_org,
-					:false_true_loc, :false_true_oth
-
+	attr_accessor :data1, :data2, :per, :org, :loc, :oth, :ne, :not_ne, :ne_gefunden, :ne_nicht_gefunden, :per_gefunden, :org_gefunden, :oth_gefunden, :loc_gefunden, :per_falsch_gef, :org_falsch_gef, :loc_falsch_gef, :oth_falsch_gef
 	def initialize
 		@data1 = CSV.read("out.txt", {col_sep: "\t", quote_char: "\0", headers: true})
 		@data2 = CSV.read("test.txt", {col_sep: "\t", quote_char: "\0", headers: true})
-		@true_per = 0 #was found as a person and is one
-		@true_org = 0
-		@true_loc = 0
-		@true_oth = 0
-		@true_all = 0
-		@false_per = 0 #was found as a person, but isn't
-		@false_neg_per = 0	#wasn't found as a person, but is
-		@false_true_per = 0
-		@false_org = 0
-		@false_neg_org = 0
-		@false_true_org
-		@false_loc = 0
-		@false_neg_loc = 0
-		@false_true_loc = 0
-		@false_oth = 0
-		@false_neg_oth = 0
-		@false_true_oth = 0
-		@false_all = 0
-		@true_negative = 0
-		@all_per = 0
-		@all_org =0
-		@all_loc = 0
-		@all_oth = 0
+		@org = 0
+		@per = 0
+		@ne = 0
+		@loc = 0
+		@oth = 0
+		@not_ne = 0
+		@ne_gefunden = 0
+		@ne_nicht_gefunden = 0
+		@per_gefunden = 0
+		@org_gefunden = 0
+		@loc_gefunden = 0
+		@oth_gefunden = 0
+		@per_falsch_gef = 0
+		@org_falsch_gef = 0
+		@loc_falsch_gef = 0
+		@oth_falsch_gef = 0
+		
 	end
 	
 	def read_data()
@@ -39,122 +30,104 @@ class TestNER
 	end
 	
 	def compare(file1, file2)
+		#Array.try_convert(file1[0])
+		#puts file1[0][0..2].to_s
 		for i in 0..file1.size-1
+			if file2[i]['PER'] == 'true' || file2[i]['ORG'] == 'true' || file2[i]['LOC'] == 'true' || file2[i]['OTH'] == 'true'
+				@ne += 1
+			end
 			if file1[i] == file2[i] 
 				if file1[i]['PER'] == 'false' && file1[i]['ORG'] == 'false' && file1[i]['LOC'] == 'false' && file1[i]['OTH'] == 'false'
-					@true_negative += 1
+					@not_ne += 1
 				end
-=begin
-				if file1[i]['ORG'] == 'false'
-					@true_negative += 1
-				end
-				if file1[i]['LOC'] == 'false'
-					@true_negative += 1
-				end
-				if file1[i]['OTH'] == 'false'
-					@true_negative += 1
-				end
-=end
 				if file1[i]['PER'] == 'true'
-					@true_per = true_per + 1
-					@true_all = true_all + 1
+					@per += 1
+					@per_gefunden += 1
+					@ne_gefunden += 1
 				end
 				if file1[i]['ORG'] == 'true'
-					@true_org = true_org + 1
-					@true_all = true_all + 1
+					@org += 1
+					@org_gefunden += 1
+					@ne_gefunden += 1
 				end
 				if file1[i]['LOC'] == 'true'
-					@true_loc += 1
-					@true_all += 1
+					@loc += 1 
+					@loc_gefunden += 1 
+					@ne_gefunden += 1
 				end
 				if file1[i]['OTH'] == 'true'
-					@true_oth += 1
-					@true_all += 1
+					@oth += 1 
+					@oth_gefunden += 1
+					@ne_gefunden += 1
 				end
 			
 			else 
+				if file2[i]['PER'] == 'true' && file1[i]['PER'] == 'false' || file2[i]['ORG'] == 'true'  && file1[i]['ORG'] == 'false'|| file2[i]['LOC'] == 'true'  && file1[i]['LOC'] == 'false'|| file2[i]['OTH'] == 'true'  && file1[i]['ORG'] == 'false'
+				@ne_nicht_gefunden += 1
+				end
 				if file1[i]['PER'] == 'false' && file2[i]['PER'] == 'true'
-					#false_negative_per
-					@false_neg_per = false_neg_per + 1
-					@false_all += 1
+					@per += 1
 					if file1[i]['ORG'] == 'true'
-						@per_false_org += 1
 					end
 					if file1[i]['LOC'] == 'true'
-						@per_false_loc += 1
 					end
 					if file1[i]['OTH'] == 'true'
-						@per_false_oth += 1
 					end
 					
 				end
 				if file1[i]['PER'] == 'true' && file2[i]['PER'] == 'false'
-					#false_positive_per
-					@false_true_per += 1
-					@false_all += 1
+					@per_falsch_gef += 1
 					
 				end
 				if file1[i]['ORG'] == 'false' && file2[i]['ORG'] == 'true'
-					#false_negative_per
-					@false_neg_org = false_neg_org + 1
-					@false_all += 1
+					@org += 1
 					if file1[i]['PER'] == 'true'
-						@org_false_per += 1
 					end
 					if file1[i]['LOC'] == 'true'
-						@org_false_loc += 1
 					end
 					if file1[i]['OTH'] == 'true'
-						@org_false_oth += 1
 					end
 				end
 				if file1[i]['ORG'] == 'true' && file2[i]['ORG'] == 'false'
-					@false_true_org += 1
-					@false_all += 1
+					@org_falsch_gef += 1
 				end
 				if file1[i]['LOC'] == 'false' && file2[i]['LOC'] == 'true'
-					#false_negative_per
-					@false_neg_loc = false_neg_loc + 1
-					@false_all += 1
+					@loc += 1
 					if file1[i]['ORG'] == 'true'
-						@loc_false_org += 1
 					end
 					if file1[i]['PER'] == 'true'
-						@loc_false_per += 1
+
 					end
 					if file1[i]['OTH'] == 'true'
-						@loc_false_oth += 1
 					end
 					
 				end
 				if file1[i]['LOC'] == 'true' && file2[i]['LOC'] == 'false'
-					@false_true_loc += 1
-					@false_all += 1
+					@loc_falsch_gef += 1
 				end
 				if file1[i]['OTH'] == 'false' && file2[i]['OTH'] == 'true'
-					#false_negative_per
-					@false_neg_oth = false_neg_oth +1
-					@false_all += 1
+
 					if file1[i]['ORG'] == 'true'
-						@oth_false_org += 1
+		
 					end
 					if file1[i]['LOC'] == 'true'
-						@oth_false_loc += 1
+	
 					end
 					if file1[i]['PER'] == 'true'
-						@oth_false_per += 1
+	
 					end
 					
 				end
 				if file1[i]['OTH'] == 'true' && file2[i]['OTH'] == 'false'
-					@false_true_oth += 1
-					@false_all += 1
+					@oth_falsch_gef += 1
 				end
 			end
 		end
-		puts "true_all = #{@true_all} \t true_org = #{@true_org}\t true_per = #{true_per}\t false_all = #{true_negative}
-			\rlength =  #{file1.length-1}\t false= #{false_all} \t false per= #{false_neg_per} \t false oth= #{false_neg_oth}
-			\rfalse loc= #{false_neg_loc} \t false org= #{false_neg_org}"
+		puts "ne: #{ne}\t nicht ne: #{not_ne} \tne gefunden: #{ne_gefunden}\tnicht gefunden: #{ne_nicht_gefunden}
+		per: #{per}\tper gefunden: #{per_gefunden}\tfalsch gefunden: #{per_falsch_gef}
+		org: #{org}\torg gefunden: #{org_gefunden}\tfalsch gefunden: #{org_falsch_gef}
+		loc: #{loc}\tloc gefunden: #{loc_gefunden}\t\tfalsch gefunden: #{loc_falsch_gef}
+		oth: #{oth}\toth gefunden: #{oth_gefunden}\t\tfalsch gefunden: #{oth_falsch_gef}"
 	end
 
 end

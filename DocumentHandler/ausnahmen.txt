@@ -1,2 +1,2 @@
-[lemma.0 = Mark, lemma.-1 = ElementOf.Numbers] => PERf
-[lemma.0 = Mark, lemma.-1 = number] => PERf
+[token.0 = Mark, token.-1 = ElementOf.Numbers] => PERf
+[token.0 = Mark, token.-1 = ElementOf.number] => PERf

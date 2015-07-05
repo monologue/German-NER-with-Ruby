@@ -201,6 +201,9 @@ class Word
 	def add_per()
 		@per = true
 	end
+	def del_per()
+		@per = false
+	end
 	def add_oth()
 		@oth = true
 	end

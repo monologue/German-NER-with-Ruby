@@ -7,7 +7,7 @@ require 'csv'
 class NER2 < Nokogiri::XML::SAX::Document
 	attr_accessor :ner
 	#@@lexicon = Array.new
-	@@rule_lists = ['Per_Rules.txt', 'Org_Rules.txt']
+	@@rule_lists = ['Per_Rules.txt', 'Org_Rules.txt',]
 	def initialize
 		@ner = Array.new
 	end

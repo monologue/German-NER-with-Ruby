@@ -25,27 +25,30 @@ class RuleHandler
 		splitPatternRule = /\>\s+(\w+)\s+(\d+).(\d+)/
 		splitPatternRuleException = /\>\s+(\w+)/
 		while string.scan(splitPatternCondition)[i]
-			puts "condition"
 			r.add_condition(condition_parts(string.scan(splitPatternCondition)[i].to_s))			
 			i = i + 1
 		end
 			if falseRules.include?(string.scan(splitPatternRuleException)[0][0])
-				puts "falseRule"
-				r.add_category(string.scan(splitPatternRuleException.to_s))
-				r.add_type('exception')
+				r.add_category(string.scan(splitPatternRuleException)[0][0].to_s)
+				#r.add_type('exception')
 			else
 			r.add_length(string.scan(splitPatternRule)[0][2].to_i)
 			r.add_category(string.scan(splitPatternRule)[0][0].to_s)
 			r.add_start(string.scan(splitPatternRule)[0][1])
-			r.add_type('rule')
+			#r.add_type('rule')
 			end
 		return r
 	end
 	
 	#splitting the ruleParts/conditions into the three elements feature, position, value
 	def condition_parts(string)
-		splitPattern = /\w+\.[a-zA-Z]+|\w+/ # Klammern hinzugefügt, noch nicht getestet!
+		puts "string:#{string}##"
+		#splitPattern = /\w+\.[a-zA-Z]+|\w+/ # Klammern hinzugefügt, noch nicht getestet!
+		splitPattern = /([a-zA-Z]+).(-\d|\d)\s.\s(\w+.\w+|\w+)/
+		#splitPattern = /[a-zA-Z]+\.-\d\s.\s\w+.\w+|\w+/
+		#splitPattern = /[a-zA-Z]+.-\d\s.\s\w+.\w+|\w+/
 		element = string.scan(splitPattern)
+		puts "#{element[0]}#{element[1]}#{element[2]}"
 		case element[0]
 			when "POS" then return POSCondition.new(element[1].to_i, element[2])							
 			when "token" then return TokenCondition.new(element[1].to_i, element[2].to_s)
@@ -54,7 +57,9 @@ class RuleHandler
 			when "prefix" then return PrefixCondition.new(element[1].to_i, element[2].to_s)
 			when "pow" then return PartOfWordCondition.new(element[1].to_i, element[2].to_s)
 			when "punct" then return PunctuationCondition.new(element[1].to_i, element[2].to_s)
-		end	
+			when "context" then return ContextCondition.new(element[1].to_i, element[2].to_s)
+		end
+		puts "default"
 	end	
 	
 end
