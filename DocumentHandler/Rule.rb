@@ -19,6 +19,7 @@ class Rule
 	def initialize
 		@conditions = Array.new
 		@category = String.new
+		@length = 0
 	end
 	
 	def add_condition(condition)
@@ -120,11 +121,13 @@ class Rule
 		e = ElementOf.new
 		case @category
 			when 'PERf'
+			if sentence[line+i].per == true
 				while sentence[line+i].per == true
 					sentence[line+i].del_per
 					e.del_word(sentence[line+i].form)
 					i += 1
 				end
+			end
 		end
 	end
 end

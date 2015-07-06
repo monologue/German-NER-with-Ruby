@@ -11,7 +11,8 @@ class CreateSets  < Nokogiri::XML::SAX::Document
 	end
 	
 	def get_text
-		@doc = Nokogiri::XML(File.open("tuebadz-9.1-exportXML-v2.xml"))
+		#@doc = Nokogiri::XML(File.open("tuebadz-9.1-exportXML-v2.xml"))
+		@doc =  Nokogiri::XML(File.open("train.xml"))
 		@doc.xpath("//text").each {|text|
 			@@current_text = text
 			random_text
@@ -38,13 +39,13 @@ class CreateSets  < Nokogiri::XML::SAX::Document
 		case set
 			when 'test'
 				puts "test"
-				File.open("test.xml", 'a') {|f| f.write("#{@@current_text}")}
+				File.open("test.xml", 'a') {|f| f.write("#{@@current_text}\n")}
 			when 'train'
 				puts "train"
-				File.open("train.xml", 'a') {|f| f.write("#{@@current_text}")}
+				File.open("train.xml", 'a') {|f| f.write("#{@@current_text}\n")}
 			when 'develop'
 				puts "develop"
-				File.open("develop.xml", 'a') {|f| f.write("#{@@current_text}")}
+				File.open("develop.xml", 'a') {|f| f.write("#{@@current_text}\n")}
 	
 		end
 	end
