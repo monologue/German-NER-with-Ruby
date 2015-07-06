@@ -5,7 +5,8 @@ arrive.
 The DocumentHandler creates three arrays: text, sentence and word.
 =end
 #this class parses the input-document and gives back an array for every text.
-
+#Create a new instance of type Text for every text and push it to the @@current_element array.
+#Create a new instance of type Sentence for every sentence and push it to the @@current_element array.
 require_relative 'RuleHandler.rb'
 #require_relative 'DocumentHandler.rb'
 require_relative 'Rule.rb'
@@ -27,17 +28,12 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 	end
 	
 	def start_element( name, attrs=[])
-=begin		if @@count_text == 1 #only in purpose of testing
-				return
-			end
-=end
-		#Create a new instance of type Text for every text and push it to the @@current_element array.
 		if name == "text"
 			t = Text.new(attrs[0][1])
 			@@current_element << t
 			texts << t
 		end
-		#Create a new instance of type Sentence for every sentence and push it to the @@current_element array.
+		
 		if name == 'sentence'
 			s = Sentence.new(attrs[1])
 			@@current_element.last.add_content(s)
@@ -69,9 +65,8 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 					when "comment" #do nothing
 					when "wsd-lexunits" #do nothing
 					else puts "Fehler!\n ----------------------------------------------------------------\n #{w.id} #{attribute}"
-					end
-					
-				}
+				end
+			}
 			@@current_element.last.add_content(w)
 			@@current_element << w
 		end
@@ -91,7 +86,7 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 
 	def new_Element()
 		parser = Nokogiri::XML::SAX::Parser.new(self)
-		parser.parse_file('train.xml')
+		parser.parse_file('micro.xml')
 	end
 
 	def end_document
@@ -164,12 +159,6 @@ class Sentence
 		sentence_parts << obj
 	end
 	
-	#print-method for testing purpose
-	def print()
-		sentence_parts.each {|word|
-			word.print()}
-	end
-	
 	def output
 		sentence_parts.each {|word|
 			word.output()}
@@ -199,16 +188,16 @@ class Word
 	def add_rule(string)
 		if rule1 == nil
 			@rule1 = string
-		else if rule2 == nil
-			@rule2 = string
-			else if rule3 == nil
-				@rule3 = string
-				else if 
-					puts "mehr als drei Regeln bei Wort #{id} anwendbar."
-					exit
+			else if rule2 == nil
+				@rule2 = string
+				else if rule3 == nil
+					@rule3 = string
+					else if 
+						puts "mehr als drei Regeln bei Wort #{id} anwendbar."
+						exit
+					end
 				end
 			end
-		end
 		end
 	end
 	def add_loc()

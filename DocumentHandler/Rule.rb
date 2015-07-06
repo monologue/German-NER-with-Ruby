@@ -43,23 +43,21 @@ class Rule
 		if category == 'PERf'
 			@conditions.each do |condition|
 				if condition.matched?(text, sentence, line) == false
-					#puts("S did not match for line " + line.to_s + " for condition " + condition.value + "\n")
 					return false
-				end
-				if 	condition.matched?(text, sentence, line) == true
-					result = true
+				elseif condition.matched?(text, sentence, line) == true
+						result = true
 				else 
-					#puts condition.position
-					#puts "unbekannter Fehler in Rule.matched?1" 
-					#exit
+							#puts sentence[line].id
+							#puts "unbekannter Fehler in Rule.matched?1" 
+							#exit
 				end
-				return result
+					return result
 			end
+			
 		else
 		@conditions.each do |condition|
 			
 			if condition.matched?(text, sentence, line) == false
-				#puts("S did not match for line " + line.to_s + " for condition " + condition.value + "\n")
 				return false
 			end
 			if 	condition.matched?(text, sentence, line) == true
@@ -67,7 +65,7 @@ class Rule
 			else
 				puts sentence[line].id
 				puts "unbekannter Fehler in Rule.matched?2" 
-				#exit
+				exit
 			end
 		end		
 		return result
@@ -75,44 +73,43 @@ class Rule
 	end
 	
 	def apply(sentence, line)
-		
-		#puts sentence[line].form
-		i = 1
-		e = ElementOf.new
-		case @category	
-			when "PER"
-				sentence[line].add_per 
-				e.add_word(sentence[line].form)
-				while i < @length 
-					#puts "#{sentence[line+i].form} #{sentence[line + i].id}"
-					sentence[line+i].add_per 
-					e.add_word(sentence[line + i].form)
-					i = i +1
-				end
-			when "ORG" 
-				sentence[line].add_org
-				e.add_word(sentence[line].form)
-				while i < @length 
-					sentence[line+i].add_org
-					e.add_word(sentence[line + i].form)
-					i = i +1
-				end
-			when "OTH" 
-				sentence[line].add_oth
-				e.add_word(sentence[line].form)
-				while i < @length 
-					sentence[line+i].add_oth
-					e.add_word(sentence[line + i].form)
-					i = i +1
-				end
-			when "LOC" 
-				sentence[line].add_loc
-				e.add_word(sentence[line].form)
-				while i < @length 
-					sentence[line+i].add_loc
-					e.add_word(sentence[line + i].form)
-					i = i +1
-				end
+	i = 1
+	e = ElementOf.new
+	case @category	
+		when "PER"
+			sentence[line].add_per 
+			e.add_word(sentence[line].form)
+			while i < @length 
+				#puts "#{sentence[line+i].form} #{sentence[line + i].id}"
+				sentence[line+i].add_per 
+				e.add_word(sentence[line + i].form)
+				i = i +1
+			end
+		when "ORG" 
+			sentence[line].add_org
+			e.add_word(sentence[line].form)
+			while i < @length 
+				sentence[line+i].add_org
+				e.add_word(sentence[line + i].form)
+				i = i +1
+			end
+		when "OTH" 
+			sentence[line].add_oth
+			e.add_word(sentence[line].form)
+			while i < @length 
+				sentence[line+i].add_oth
+				e.add_word(sentence[line + i].form)
+				i = i +1
+			end
+		when "LOC" 
+			sentence[line].add_loc
+			e.add_word(sentence[line].form)
+			while i < @length 
+				sentence[line+i].add_loc
+				e.add_word(sentence[line + i].form)
+				i = i +1
+			end
+		else puts "andere Kategorie in apply"
 		end
 	end
 	
