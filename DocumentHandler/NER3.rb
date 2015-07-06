@@ -15,33 +15,32 @@ class NER3 < Nokogiri::XML::SAX::Document
 		File.open("outm.txt", 'a') {|f| f.write("Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rule1" + "\t" + "Rule2" + "\t" + "Rule3" + "\n")}
 		data = DocumentHandler.new #new object from type DocumentHandler
 		data.new_Element()	#calls the parser and reads the xml-data
+		r = RuleHandler.new
+		@@rule_lists.each {|rule_list| #bei mehreren LIsten, rulehandler weiterentwickeln, einlesen der Schleife in extra schleife außerhalb
+			r.read_rules(rule_list)
+		}
 		data.texts.each {|text|
 			text.sentences.each {|sentence|
-				r = RuleHandler.new
-				@@rule_lists.each {|rule_list|
-					r.read_rules(rule_list)
+				#@@rule_lists.each {|rule_list| #bei mehreren LIsten, rulehandler weiterentwickeln, einlesen der Schleife in extra schleife außerhalb
 					line = 0
-					#while j < rule_list.length
 					while line < sentence.sentence_parts.length
 						r.rules.each_with_index do |rule, index|
 							if rule.matched?(text, sentence.sentence_parts, line)
 								i = 0
-								sentence.sentence_parts[line + i].add_rule("#{rule_list}#{index}")
 								rule.apply(sentence.sentence_parts, line)
 								while i < rule.length
-									#rule_list.count(rule.to_s)
-									#sentence.sentence_parts[line + i].add_rule("#{rule_list}#{$.}")
 									text.current_lexicon(sentence.sentence_parts[line + i].form, rule.category)
 									i = i +1
 								end
-								line = line + rule.length
+								#line = line + rule.length
 								break
-							else if index == r.rules.size-1
-								line = line + 1
-								end
 							end
 							
+							#else if index == r.rules.size-1
+								#line = line + 1
+							#	end
 						end
+						line = line + 1
 					end
 					
 					#end
