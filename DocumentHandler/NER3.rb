@@ -12,39 +12,41 @@ class NER3 < Nokogiri::XML::SAX::Document
 	end
 	
 	def ner_main
-		File.open("out.txt", 'a') {|f| f.write("Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rule1" + "\t" + "Rule2" + "\t" + "Rule3" + "\n")}
+		File.open("outm.txt", 'a') {|f| f.write("Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rule1" + "\t" + "Rule2" + "\t" + "Rule3" + "\n")}
 		data = DocumentHandler.new #new object from type DocumentHandler
 		data.new_Element()	#calls the parser and reads the xml-data
 		data.texts.each {|text|
 			text.sentences.each {|sentence|
 				r = RuleHandler.new
 				@@rule_lists.each {|rule_list|
-					j = 1
+					j = 0
 					r.read_rules(rule_list)
 					line = 0
-					while j < rule_list.length
+					#while j < rule_list.length
 					while line < sentence.sentence_parts.length
 						r.rules.each_with_index do |rule, index|
 							if rule.matched?(text, sentence.sentence_parts, line)
 								i = 0
-								j += 1
+								sentence.sentence_parts[line + i].add_rule("#{rule_list}#{j}")
 								rule.apply(sentence.sentence_parts, line)
 								while i < rule.length
-									sentence.sentence_parts[line + i].add_rule("#{rule_list}#{j}")
+									#rule_list.count(rule.to_s)
+									#sentence.sentence_parts[line + i].add_rule("#{rule_list}#{$.}")
 									text.current_lexicon(sentence.sentence_parts[line + i].form, rule.category)
 									i = i +1
 								end
 								line = line + rule.length
 								break
-								else if index == r.rules.size-1
-									line = line + 1
+							else if index == r.rules.size-1
+								line = line + 1
 								end
 							end
+							
 						end
-						
+						j += 1
 					end
 					
-					end
+					#end
 				}	
 			}
 	
@@ -77,11 +79,12 @@ class NER3 < Nokogiri::XML::SAX::Document
 			sentence.sentence_parts.each {|word|
 				#if the word is no punctuation mark, it will be written in out.txt
 				if word.pos !~ /[$]/
-					File.open("out.txt", 'a') {|f| f.write(word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\t" + word.rule1.to_s + "\t" + word.rule2.to_s + "\t" + word.rule3.to_s + "\n")}
+					File.open("outm.txt", 'a') {|f| f.write(word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\t" + word.rule1.to_s + "\t" + word.rule2.to_s + "\t" + word.rule3.to_s + "\n")}
 				end
 			}
 		}
 	end		
+		
 end
 
 
