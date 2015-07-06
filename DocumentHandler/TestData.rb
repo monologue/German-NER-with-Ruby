@@ -124,11 +124,8 @@ class TestData < Nokogiri::XML::SAX::Document
 		File.open("train.txt", 'a') {|f| f.write("Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\n")}
 		texts.each {|text|
 			text.sentences.each {|sentence|
-				write_ner(sentence.sentence_parts)}}
-		
-				#sentence.sentence_parts.each {|word|
-					#puts "#{word.form}\t#{word.per}\t#{word.org}\t#{word.loc}\t#{word.oth}"}}}
-		
+				write_ner(sentence.sentence_parts)}
+		}
 	end
 	
 	def write_ner(sentence)
