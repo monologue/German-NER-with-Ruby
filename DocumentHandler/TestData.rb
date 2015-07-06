@@ -34,7 +34,7 @@ class TestData < Nokogiri::XML::SAX::Document
 			n = NE.new(attrs[0][1], attrs[1][1])
 			@@ne << n
 			case attrs[1][1]
-				when "PER" then @@per = !@@per
+				when "PER" then @@per = true
 				when "ORG" then @@org = true
 				when "LOC" then @@loc = true
 				when "GPE" then @@loc = true
@@ -100,12 +100,12 @@ class TestData < Nokogiri::XML::SAX::Document
 		end
 		
 		if name == 'sentence'
-				@@current_element.pop
+			@@current_element.pop
 		end
 		
 		if name == 'ne'
 			case @@ne.last.type
-				when "PER" then @@per = !@@per
+				when "PER" then @@per = false
 				when "ORG" then @@org = false
 				when "LOC" then @@loc = false
 				when "GPE" then @@loc = false
@@ -121,7 +121,7 @@ class TestData < Nokogiri::XML::SAX::Document
 	end
 	
 	def end_document
-		File.open("test.txt", 'a') {|f| f.write("Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\n")}
+		File.open("train.txt", 'a') {|f| f.write("Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\n")}
 		texts.each {|text|
 			text.sentences.each {|sentence|
 				write_ner(sentence.sentence_parts)}}
@@ -135,14 +135,16 @@ class TestData < Nokogiri::XML::SAX::Document
 		sentence.each {|word|
 			#if the word is no punctuation mark, it will be written in test.txt
 			if word.pos !~ /[$]/
-				File.open("test.txt", 'a') {|f| f.write(word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\n")}
+				File.open("train.txt", 'a') {|f| f.write(word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\n")}
+			else 
+			next
 			end
 		}	
 	end	
 	
 	def new_Element()
 		parser = Nokogiri::XML::SAX::Parser.new(self)
-		parser.parse_file('micro.xml')
+		parser.parse_file('train.xml')
 	end
 end
 
@@ -156,4 +158,4 @@ class NE
 	end
 end
 parser = Nokogiri::XML::SAX::Parser.new(TestData.new)
-parser.parse_file('micro.xml')
+parser.parse_file('train.xml')
