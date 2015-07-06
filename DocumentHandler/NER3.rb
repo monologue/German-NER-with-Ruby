@@ -19,7 +19,6 @@ class NER3 < Nokogiri::XML::SAX::Document
 			text.sentences.each {|sentence|
 				r = RuleHandler.new
 				@@rule_lists.each {|rule_list|
-					j = 0
 					r.read_rules(rule_list)
 					line = 0
 					#while j < rule_list.length
@@ -27,7 +26,7 @@ class NER3 < Nokogiri::XML::SAX::Document
 						r.rules.each_with_index do |rule, index|
 							if rule.matched?(text, sentence.sentence_parts, line)
 								i = 0
-								sentence.sentence_parts[line + i].add_rule("#{rule_list}#{j}")
+								sentence.sentence_parts[line + i].add_rule("#{rule_list}#{index}")
 								rule.apply(sentence.sentence_parts, line)
 								while i < rule.length
 									#rule_list.count(rule.to_s)
@@ -43,7 +42,6 @@ class NER3 < Nokogiri::XML::SAX::Document
 							end
 							
 						end
-						j += 1
 					end
 					
 					#end

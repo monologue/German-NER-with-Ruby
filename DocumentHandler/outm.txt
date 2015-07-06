@@ -1,7 +1,7 @@
 Word	PER	ORG	LOC	OTH	Rule1	Rule2	Rule3
 Veruntreute	false	false	false	false			
 die	false	false	false	false			
-AWO	false	true	false	false	Org_Rules.txt2	Loc_Rules.txt2	
+AWO	false	true	false	false	Org_Rules.txt11	Loc_Rules.txt11	
 Spendengeld	false	false	false	false			
 Staatsanwaltschaft	false	false	false	false			
 muß	false	false	false	false			
@@ -9,7 +9,7 @@ AWO-Konten	false	false	false	false
 prüfen	false	false	false	false			
 Flossen	false	false	false	false			
 165.000	false	false	false	false			
-Mark	false	false	false	false	Per_Rules.txt7	Org_Rules.txt7	Loc_Rules.txt7
+Mark	false	false	false	false	Per_Rules.txt0	Org_Rules.txt0	Loc_Rules.txt0
 Sammelgelder	false	false	false	false			
 für	false	false	false	false			
 Flutopfer	false	false	false	false			
@@ -17,7 +17,7 @@ in	false	false	false	false
 ein	false	false	false	false			
 Altenheim	false	false	false	false			
 in	false	false	false	false			
-Danzig	false	false	true	false	Loc_Rules.txt14		
+Danzig	false	false	true	false	Loc_Rules.txt16		
 Landesvorsitzende	false	false	false	false			
 Ute	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
 Wedemeier	true	false	false	false			
@@ -28,11 +28,11 @@ Januar	false	false	false	false
 hat	false	false	false	false			
 die	false	false	false	false			
 Arbeiterwohlfahrt	false	false	false	false			
-Bremen	false	false	true	false	Loc_Rules.txt5		
+Bremen	false	false	true	false	Loc_Rules.txt13		
 ihren	false	false	false	false			
 langjährigen	false	false	false	false			
 Geschäftsführer	false	false	false	false			
-Hans	true	false	false	false	Per_Rules.txt9	Org_Rules.txt9	Loc_Rules.txt9
+Hans	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
 Taake	true	false	false	false			
 fristlos	false	false	false	false			
 entlassen	false	false	false	false			
@@ -68,12 +68,12 @@ Schreiben	false	false	false	false
 einer	false	false	false	false			
 Mitarbeiterin	false	false	false	false			
 der	false	false	false	false			
-AWO	false	true	false	false	Org_Rules.txt8	Loc_Rules.txt8	
+AWO	false	true	false	false	Org_Rules.txt11	Loc_Rules.txt11	
 sei	false	false	false	false			
 die	false	false	false	false			
 Landesvorsitzende	false	false	false	false			
 Uter	false	false	false	false			
-Wedemeier	true	false	false	false	Per_Rules.txt14	Org_Rules.txt14	Loc_Rules.txt14
+Wedemeier	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
 die	false	false	false	false			
 sich	false	false	false	false			
 jetzt	false	false	false	false			
@@ -88,13 +88,13 @@ wie	false	false	false	false
 eng	false	false	false	false			
 sie	false	false	false	false			
 mit	false	false	false	false			
-Taake	true	false	false	false	Per_Rules.txt35	Org_Rules.txt35	Loc_Rules.txt35
+Taake	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
 zusammenhing	false	false	false	false			
 Vorwurf	false	false	false	false			
 Nummer	false	false	false	false			
 1	false	false	false	false			
 165.000	false	false	false	false			
-Mark	false	false	false	false	Per_Rules.txt5	Org_Rules.txt5	Loc_Rules.txt5
+Mark	false	false	false	false	Per_Rules.txt3	Org_Rules.txt3	Loc_Rules.txt3
 aus	false	false	false	false			
 der	false	false	false	false			
 bundesweiten	false	false	false	false			
@@ -103,7 +103,7 @@ für	false	false	false	false
 die	false	false	false	false			
 Flutopfer	false	false	false	false			
 in	false	false	false	false			
-Südpolen	false	false	true	false	Loc_Rules.txt14		
+Südpolen	false	false	true	false	Loc_Rules.txt15		
 seien	false	false	false	false			
 über	false	false	false	false			
 das	false	false	false	false			
@@ -112,12 +112,12 @@ des	false	false	false	false
 Bremer	false	false	false	false			
 Landesverbandes	false	false	false	false			
 der	false	false	false	false			
-AWO	false	true	false	false	Org_Rules.txt23	Loc_Rules.txt23	
+AWO	false	true	false	false	Org_Rules.txt11	Loc_Rules.txt11	
 an	false	false	false	false			
 die	false	false	false	false			
 Caritas	false	false	false	false			
 in	false	false	false	false			
-Danzig	false	false	true	false	Loc_Rules.txt28		
+Danzig	false	false	true	false	Loc_Rules.txt16		
 geflossen	false	false	false	false			
 damit	false	false	false	false			
 dort	false	false	false	false			
@@ -138,7 +138,7 @@ In	false	false	false	false
 der	false	false	false	false			
 Tat	false	false	false	false			
 sitzt	false	false	false	false			
-Ute	true	false	false	false	Per_Rules.txt4	Org_Rules.txt4	Loc_Rules.txt4
+Ute	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
 Wedemeier	true	false	false	false			
 im	false	false	false	false			
 Kuratorium	false	false	false	false			
@@ -149,7 +149,7 @@ eine	false	false	false	false
 derartige	false	false	false	false			
 Umleitung	false	false	false	false			
 von	false	false	false	false			
-Geldern	false	false	true	false	Loc_Rules.txt15		
+Geldern	false	false	true	false	Loc_Rules.txt14		
 habe	false	false	false	false			
 es	false	false	false	false			
 aber	false	false	false	false			
@@ -168,7 +168,7 @@ ist	false	false	false	false
 das	false	false	false	false			
 nicht	false	false	false	false			
 in	false	false	false	false			
-Ordnung	false	false	true	false	Loc_Rules.txt13		
+Ordnung	false	false	true	false	Loc_Rules.txt15		
 höchstens	false	false	false	false			
 einen	false	false	false	false			
 Buchungsfehler	false	false	false	false			
@@ -176,7 +176,7 @@ kann	false	false	false	false
 sie	false	false	false	false			
 sich	false	false	false	false			
 vorstellen	false	false	false	false			
-Volker	true	false	false	false	Per_Rules.txt0	Org_Rules.txt0	Loc_Rules.txt0
+Volker	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
 Tegeler	true	false	false	false			
 stellvertretender	false	false	false	false			
 Geschäftsführer	false	false	false	false			
@@ -196,7 +196,7 @@ nach	false	false	false	false
 der	false	false	false	false			
 Kündigung	false	false	false	false			
 von	false	false	false	false			
-Taake	true	false	false	false	Per_Rules.txt8	Org_Rules.txt8	Loc_Rules.txt8
+Taake	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
 sei	false	false	false	false			
 dies	false	false	false	false			
 aufgefallen	false	false	false	false			
@@ -218,10 +218,10 @@ sei	false	false	false	false
 aber	false	false	false	false			
 durchgehend	false	false	false	false			
 Herr	false	false	false	false			
-Taake	true	false	false	false	Per_Rules.txt11	Org_Rules.txt11	Loc_Rules.txt11
+Taake	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
 gewesen	false	false	false	false			
 sagt	false	false	false	false			
-Tegeler	true	false	false	false	Per_Rules.txt16	Org_Rules.txt16	Loc_Rules.txt16
+Tegeler	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
 Aufgefallen	false	false	false	false			
 bei	false	false	false	false			
 der	false	false	false	false			
@@ -233,13 +233,13 @@ Vorwurf	false	false	false	false
 Nummer	false	false	false	false			
 2	false	false	false	false			
 Die	false	false	false	false			
-AWO	false	true	false	false	Org_Rules.txt12	Loc_Rules.txt12	
+AWO	false	true	false	false	Org_Rules.txt11	Loc_Rules.txt11	
 hat	false	false	false	false			
 sich	false	false	false	false			
 für	false	false	false	false			
 Seniorenreisen	false	false	false	false			
 nach	false	false	false	false			
-Mallorca	false	false	true	false	Loc_Rules.txt18		
+Mallorca	false	false	true	false	Loc_Rules.txt16		
 von	false	false	false	false			
 Hapaq	false	false	false	false			
 Lloyd	false	false	false	false			
@@ -254,7 +254,7 @@ Konto	false	false	false	false
 des	false	false	false	false			
 Landesverbandes	false	false	false	false			
 der	false	false	false	false			
-AWO	false	true	false	false	Org_Rules.txt8	Loc_Rules.txt8	
+AWO	false	true	false	false	Org_Rules.txt11	Loc_Rules.txt11	
 geflossen	false	false	false	false			
 weil	false	false	false	false			
 sie	false	false	false	false			
@@ -265,7 +265,7 @@ Finanzamtsprüfung	false	false	false	false
 sicherer	false	false	false	false			
 gewesen	false	false	false	false			
 seien	false	false	false	false			
-Tegeler	true	false	false	false	Per_Rules.txt0	Org_Rules.txt0	Loc_Rules.txt0
+Tegeler	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
 bestätigt	false	false	false	false			
 den	false	false	false	false			
 Vorgang	false	false	false	false			
@@ -282,7 +282,7 @@ sein	false	false	false	false
 Die	false	false	false	false			
 ehrenamtliche	false	false	false	false			
 Landesvorsitzende	false	false	false	false			
-Wedemeier	true	false	false	false	Per_Rules.txt3	Org_Rules.txt3	Loc_Rules.txt3
+Wedemeier	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
 weiß	false	false	false	false			
 von	false	false	false	false			
 diesem	false	false	false	false			
@@ -311,10 +311,10 @@ des	false	false	false	false
 AWO-Landesverbandes	false	false	false	false			
 das	false	false	false	false			
 sind	false	false	false	false			
-Detlev	true	false	false	false	Per_Rules.txt13	Org_Rules.txt13	Loc_Rules.txt13
+Detlev	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
 Griesche	true	false	false	false			
 und	false	false	false	false			
-Karin	true	false	false	false	Per_Rules.txt15	Org_Rules.txt15	Loc_Rules.txt15
+Karin	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
 Freudenthal	true	false	false	false			
 Freuden-thal	false	false	false	false			
 wollte	false	false	false	false			
@@ -344,7 +344,7 @@ ganz	false	false	false	false
 kleinen	false	false	false	false			
 Haushalt	false	false	false	false			
 hat	false	false	false	false			
-Wedemeier	true	false	false	false	Per_Rules.txt17	Org_Rules.txt17	Loc_Rules.txt17
+Wedemeier	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
 hätten	false	false	false	false			
 Summen	false	false	false	false			
 von	false	false	false	false			
@@ -352,7 +352,7 @@ Hapaq	false	false	false	false
 Lloyd	false	false	false	false			
 oder	false	false	false	false			
 165.000	false	false	false	false			
-Mark	false	false	false	false	Per_Rules.txt27	Org_Rules.txt27	Loc_Rules.txt27
+Mark	false	false	false	false	Per_Rules.txt3	Org_Rules.txt3	Loc_Rules.txt3
 schon	false	false	false	false			
 auffallen	false	false	false	false			
 müssen	false	false	false	false			
@@ -361,7 +361,7 @@ Nummer	false	false	false	false
 3	false	false	false	false			
 Die	false	false	false	false			
 Landesvorsitzende	false	false	false	false			
-Ute	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
+Ute	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
 Wedemeier	true	false	false	false			
 hatte	false	false	false	false			
 auf	false	false	false	false			
@@ -380,7 +380,7 @@ von	false	false	false	false
 ehrenamtlichen	false	false	false	false			
 Kassierern	false	false	false	false			
 fünf	false	false	false	false			
-Mark	false	false	false	false	Per_Rules.txt14	Org_Rules.txt14	Loc_Rules.txt14
+Mark	false	false	false	false	Per_Rules.txt3	Org_Rules.txt3	Loc_Rules.txt3
 weise	false	false	false	false			
 gesammelt	false	false	false	false			
 werden	false	false	false	false			
@@ -393,7 +393,7 @@ die	false	false	false	false
 Staatsanwaltschaft	false	false	false	false			
 Obwohl	false	false	false	false			
 Frau	false	false	false	false			
-Wedemeier	true	false	false	false	Per_Rules.txt2	Org_Rules.txt2	Loc_Rules.txt2
+Wedemeier	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
 vor	false	false	false	false			
 allem	false	false	false	false			
 Privatgespräche	false	false	false	false			
@@ -405,9 +405,9 @@ würde	false	false	false	false
 alles	false	false	false	false			
 von	false	false	false	false			
 der	false	false	false	false			
-AWO	false	true	false	false	Org_Rules.txt17	Loc_Rules.txt17	
+AWO	false	true	false	false	Org_Rules.txt11	Loc_Rules.txt11	
 bezahlt	false	false	false	false			
-Ute	true	false	false	false	Per_Rules.txt0	Org_Rules.txt0	Loc_Rules.txt0
+Ute	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
 Wedemeier	true	false	false	false			
 hält	false	false	false	false			
 es	false	false	false	false			
@@ -427,7 +427,7 @@ wegen	false	false	false	false
 ihrer	false	false	false	false			
 Aktivitäten	false	false	false	false			
 in	false	false	false	false			
-Riga	false	false	true	false	Loc_Rules.txt5		
+Riga	false	false	true	false	Loc_Rules.txt16		
 und	false	false	false	false			
 Danzig	false	false	false	false			
 müsse	false	false	false	false			
@@ -453,7 +453,7 @@ geht	false	false	false	false
 direkt	false	false	false	false			
 an	false	false	false	false			
 die	false	false	false	false			
-AWO	false	true	false	false	Org_Rules.txt18	Loc_Rules.txt18	
+AWO	false	true	false	false	Org_Rules.txt11	Loc_Rules.txt11	
 Hintergrund	false	false	false	false			
 der	false	false	false	false			
 gegenseitigen	false	false	false	false			
@@ -489,7 +489,7 @@ diese	false	false	false	false
 Differenzen	false	false	false	false			
 wieder	false	false	false	false			
 aufgebrochen	false	false	false	false			
-Lothar	true	false	false	false	Per_Rules.txt0	Org_Rules.txt0	Loc_Rules.txt0
+Lothar	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
 Koring	true	false	false	false			
 Bremerhavener	false	false	false	false			
 AWO-Vorsitzender	false	false	false	false			
@@ -497,7 +497,7 @@ wollte	false	false	false	false
 seinen	false	false	false	false			
 Bremerhavener	false	false	false	false			
 Geschäftsführer	false	false	false	false			
-Volker	true	false	false	false	Per_Rules.txt9	Org_Rules.txt9	Loc_Rules.txt9
+Volker	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
 Tegeler	true	false	false	false			
 auch	false	false	false	false			
 im	false	false	false	false			
@@ -505,20 +505,20 @@ Landesverband	false	false	false	false
 zum	false	false	false	false			
 Geschäftsführer	false	false	false	false			
 machen	false	false	false	false			
-Koring	true	false	false	false	Per_Rules.txt0	Org_Rules.txt0	Loc_Rules.txt0
+Koring	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
 selbst	false	false	false	false			
 hatte	false	false	false	false			
 früher	false	false	false	false			
 auch	false	false	false	false			
 gegen	false	false	false	false			
-Ute	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
+Ute	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
 Wedemeier	true	false	false	false			
 für	false	false	false	false			
 den	false	false	false	false			
 Landesvorsitz	false	false	false	false			
 kandidiert	false	false	false	false			
 Gegen	false	false	false	false			
-Tegeler	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
+Tegeler	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
 sprach	false	false	false	false			
 allerdings	false	false	false	false			
 daß	false	false	false	false			
@@ -530,7 +530,7 @@ gegen	false	false	false	false
 ihn	false	false	false	false			
 läuft	false	false	false	false			
 Und	false	false	false	false			
-Koring	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
+Koring	true	false	false	false	Per_Rules.txt6	Org_Rules.txt6	Loc_Rules.txt6
 war	false	false	false	false			
 früher	false	false	false	false			
 einmal	false	false	false	false			
@@ -548,7 +548,7 @@ Vorstand	false	false	false	false
 war	false	false	false	false			
 die	false	false	false	false			
 die	false	false	false	false			
-AWO	false	true	false	false	Org_Rules.txt21	Loc_Rules.txt21	
+AWO	false	true	false	false	Org_Rules.txt11	Loc_Rules.txt11	
 wo	false	false	false	false			
 er	false	false	false	false			
 Kreisvorsitzender	false	false	false	false			
@@ -568,14 +568,14 @@ AWO-Posten	false	false	false	false
 nicht	false	false	false	false			
 K.	false	false	false	false			
 W.	false	false	false	false			
-SPD	false	true	false	false	Org_Rules.txt0	Loc_Rules.txt0	
-CDU	false	true	false	false	Org_Rules.txt2	Loc_Rules.txt2	
-AfB	false	true	false	false	Org_Rules.txt4	Loc_Rules.txt4	
+SPD	false	true	false	false	Org_Rules.txt12	Loc_Rules.txt12	
+CDU	false	true	false	false	Org_Rules.txt12	Loc_Rules.txt12	
+AfB	false	true	false	false	Org_Rules.txt12	Loc_Rules.txt12	
 für	false	false	false	false			
 Daewoo-Millionen	false	false	false	false			
 Aber	false	false	false	false			
 Bremerhavens	false	false	false	false			
-AfB	false	true	false	false	Org_Rules.txt2	Loc_Rules.txt2	
+AfB	false	true	false	false	Org_Rules.txt12	Loc_Rules.txt12	
 fordert	false	false	false	false			
 jetzt	false	false	false	false			
 Untersuchungsausschuß	false	false	false	false			
@@ -589,7 +589,7 @@ von	false	false	false	false
 insgesamt	false	false	false	false			
 86	false	false	false	false			
 Millionen	false	false	false	false			
-Mark	false	false	false	false	Per_Rules.txt10	Org_Rules.txt10	Loc_Rules.txt10
+Mark	false	false	false	false	Per_Rules.txt3	Org_Rules.txt3	Loc_Rules.txt3
 beschlossen	false	false	false	false			
 mit	false	false	false	false			
 denen	false	false	false	false			
@@ -620,19 +620,19 @@ der	false	false	false	false
 Firma	false	false	false	false			
 Mosolf	false	false	false	false			
 in	false	false	false	false			
-Bremerhaven	false	false	true	false	Loc_Rules.txt16		
+Bremerhaven	false	false	true	false	Loc_Rules.txt13		
 abgeladen	false	false	false	false			
 werden	false	false	false	false			
 in	false	false	false	false			
-Vegesack	false	false	true	false	Loc_Rules.txt21		
+Vegesack	false	false	true	false	Loc_Rules.txt16		
 abladen	false	false	false	false			
 Der	false	false	false	false			
 Chef	false	false	false	false			
 der	false	false	false	false			
 Bremer	false	false	false	false			
 Investitions-Gesellschaft	false	false	false	false			
-BIG	false	true	false	false	Org_Rules.txt6	Loc_Rules.txt6	
-Ulrich	true	false	false	false	Per_Rules.txt9	Org_Rules.txt9	Loc_Rules.txt9
+BIG	false	true	false	false	Org_Rules.txt12	Loc_Rules.txt12	
+Ulrich	true	false	false	false	Per_Rules.txt1	Org_Rules.txt1	Loc_Rules.txt1
 Keller	true	false	false	false			
 erklärte	false	false	false	false			
 dem	false	false	false	false			
@@ -650,7 +650,7 @@ auch	false	false	false	false
 ein	false	false	false	false			
 Ersatzteillager	false	false	false	false			
 in	false	false	false	false			
-Vegesack	false	false	true	false	Loc_Rules.txt31		
+Vegesack	false	false	true	false	Loc_Rules.txt16		
 einrichtet	false	false	false	false			
 berichteten	false	false	false	false			
 SPD-Wirtschaftspolitiker	false	false	false	false			
@@ -658,7 +658,7 @@ Auch	false	false	false	false
 die	false	false	false	false			
 Vertreter	false	false	false	false			
 der	false	false	false	false			
-AfB	false	true	false	false	Org_Rules.txt4	Loc_Rules.txt4	
+AfB	false	true	false	false	Org_Rules.txt12	Loc_Rules.txt12	
 stimmten	false	false	false	false			
 den	false	false	false	false			
 86	false	false	false	false			
@@ -729,7 +729,7 @@ Sinn	false	false	false	false
 Die	false	false	false	false			
 wollten	false	false	false	false			
 die	false	false	false	false			
-BLG	false	true	false	false	Org_Rules.txt4	Loc_Rules.txt4	
+BLG	false	true	false	false	Org_Rules.txt12	Loc_Rules.txt12	
 schonen	false	false	false	false			
 K.	false	false	false	false			
 W.	false	false	false	false			
