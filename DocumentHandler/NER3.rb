@@ -13,7 +13,7 @@ class NER3 < Nokogiri::XML::SAX::Document
 	end
 	
 	def ner_main
-		File.open("outm.txt", 'a') {|f| f.write("Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rule1" + "\t" + "Rule2" + "\t" + "Rule3" + "\n")}
+		File.open("out.txt", 'a') {|f| f.write("Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rule1" + "\t" + "Rule2" + "\t" + "Rule3" + "\n")}
 		data = DocumentHandler.new 
 		data.new_Element()	
 		r = RuleHandler.new
@@ -38,7 +38,7 @@ class NER3 < Nokogiri::XML::SAX::Document
 					line = line + 1
 					end
 			}
-			r = RuleHandler.new
+			#r = RuleHandler.new
 			r.read_rules('ausnahmen.txt')
 			text.sentences.each {|sentence|
 				
@@ -65,7 +65,7 @@ class NER3 < Nokogiri::XML::SAX::Document
 			sentence.sentence_parts.each {|word|
 				#if the word is no punctuation mark, it will be written in out.txt
 				if word.pos !~ /[$]/
-					File.open("outm.txt", 'a') {|f| f.write(word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\t" + word.rule1.to_s + "\t" + word.rule2.to_s + "\t" + word.rule3.to_s + "\n")}
+					File.open("out.txt", 'a') {|f| f.write(word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\t" + word.rule1.to_s + "\t" + word.rule2.to_s + "\t" + word.rule3.to_s + "\n")}
 				end
 			}
 		}

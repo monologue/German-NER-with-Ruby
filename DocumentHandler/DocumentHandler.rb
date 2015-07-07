@@ -86,7 +86,7 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 
 	def new_Element()
 		parser = Nokogiri::XML::SAX::Parser.new(self)
-		parser.parse_file('micro.xml')
+		parser.parse_file('train.xml')
 	end
 
 	def end_document
@@ -276,13 +276,3 @@ class Word
 		w = [id, lemma, pos]
 	end
 end
-
-
-
-
-
-
-
-
-
-
