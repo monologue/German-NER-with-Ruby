@@ -749,7 +749,6 @@ Altaf
 Altan
 Altan-Cengic
 Altay
-Alter
 Alti
 Altin
 Altinb
@@ -906,7 +905,6 @@ Anca
 Anca-Ligia
 Ancangela
 Ancilla
-And
 Anda
 Andela
 Andelija
@@ -1505,7 +1503,6 @@ Arsic
 Arsim
 Arsla
 Arslan
-Art
 Artemios
 Artemis
 Arth
@@ -1665,7 +1662,6 @@ Attila
 Attilio
 Attiogbe
 Aude
-Audi
 Audilio
 Audomar
 Audrey
@@ -1911,7 +1907,6 @@ Balint
 Baliu
 Baliz
 Balizt
-Ball
 Balta
 Baltaci
 Baltazar
@@ -2185,7 +2180,6 @@ Berengar
 Bereni
 Berenice
 Berenike
-Berg
 Berghin
 Bergi
 Bergis
@@ -2302,7 +2296,6 @@ Betin
 Betina
 Betis
 Betma
-Bett
 Betti
 Bettie
 Bettin
@@ -5934,7 +5927,6 @@ Fotiadis
 Fotini
 Fotios
 Fotis
-Fotos
 Fouad
 Foumy
 Fourman
@@ -6392,7 +6384,6 @@ Georgeta
 Georgette
 Georg-Heinz
 Georgi
-Georgia
 Georgiadis
 Georgiana
 Georgiedis
@@ -6986,7 +6977,6 @@ Gérard
 Grassemi
 Gratian
 Grawford
-Graz
 Grazia
 Graziana
 Graziano
@@ -7712,7 +7702,6 @@ Hasani
 Hasanovic
 Hasan-Yilmaz
 Hasbi
-Hase
 Haseda
 Hasema
 Hasene
@@ -7761,7 +7750,6 @@ Hattem
 Hatto
 Hatun
 Hauke
-Haus
 Hauser
 Hausic
 Hau-Vinh
@@ -8365,7 +8353,6 @@ Hou
 Houchang
 Houcine
 Hounkpati
-House
 Housein
 Houssein-Mahmaud
 Houz
@@ -8976,7 +8963,6 @@ Isil
 Isis
 Iska
 Iskender
-Islam
 Isle
 Isleif
 Isler
@@ -9008,7 +8994,6 @@ Isolde
 Isolina
 Isoline
 Isott
-Israel
 Isrene
 Issa
 Issai
@@ -11188,7 +11173,6 @@ Lee
 Leena
 Leeroe
 Lefteris
-Leib
 Leiba
 Leida
 Leif
@@ -11369,7 +11353,6 @@ Liesl
 Liessie
 Lieu
 Lieu-Dac
-Liga
 Lihua
 Liisa
 Lija
@@ -11882,7 +11865,6 @@ Mahrokh
 Mahsas
 Mahvash
 Mahza
-Mai
 Maid
 Maida
 Maide
@@ -11975,7 +11957,6 @@ Malve
 Malvina
 Malvine
 Maly
-Mama
 Mamad
 Mamadou
 Mamju
@@ -13815,7 +13796,6 @@ Nathaly
 Nathan
 Nathanail
 Natlaie
-Nato
 Natolina
 Natsia
 Natsuko
@@ -14243,14 +14223,12 @@ Norgard
 Nori
 Noriko
 Norimichi
-Norm
 Norma
 Norman
 Normann
 Nortrud
 Nosman
 Nosratollah
-Not
 Notburga
 Nothburga
 Notker
@@ -14305,7 +14283,6 @@ Nunzia
 Nunziata
 Nunzio
 Nunzis
-Nur
 Nura
 Nuradin
 Nurago
@@ -14348,7 +14325,6 @@ Nusret
 Nusreta
 Nusser
 Ünver
-O
 Oanh
 Obrad
 Obradovio
@@ -14394,13 +14370,11 @@ Ognoon
 Ogus
 Oguz
 Oguzkan
-Oh
 Ohg
 Ohmar
 Ohno
 Ohran
 Ojghaz
-Ok
 Okan
 Okay
 Okcana
@@ -14506,8 +14480,6 @@ Orkan
 Orkun
 Orla-Christiana
 Orlanda
-Orlando
-Orleans
 Orman
 Ornella
 Oron-Michael
@@ -14729,7 +14701,6 @@ Paresa
 Pari
 Paricia
 Parim
-Paris
 Parkash
 Parlapanis
 Parlos
@@ -17158,7 +17129,6 @@ Sie
 Siebert
 Siebold
 Siedtje
-Sieg
 Siegbe
 Siegber
 Siegbert
@@ -17532,7 +17502,6 @@ Son
 Sona
 Sondra
 Soner
-Song
 Songül
 Sonia
 Soniamaria
@@ -18088,7 +18057,6 @@ Szolek
 Szolga
 Szulim
 Szwarc
-Tabak
 Tabea
 Tabitha
 Tabo
@@ -18347,7 +18315,6 @@ Thasin
 Thauh
 Thawat
 Thayaparan
-The
 Thea
 Theano
 Thed
@@ -20105,7 +20072,6 @@ Yordan
 Yorgi
 Yorgun
 Yoriko
-York
 Yosef
 Yoseph
 Yoshiaki

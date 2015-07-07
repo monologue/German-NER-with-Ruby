@@ -13,7 +13,7 @@ class NER < Nokogiri::XML::SAX::Document
 	end
 	
 	def ner_main
-		File.open("out.txt", 'a') {|f| f.write("ID" + "\t" + "Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rules" + "\n")}
+		File.open("outm.txt", 'a') {|f| f.write("ID" + "\t" + "Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rules" + "\n")}
 		data = DocumentHandler.new 
 		data.new_Element()	
 		r = RuleHandler.new
@@ -44,7 +44,7 @@ class NER < Nokogiri::XML::SAX::Document
 				line = 0
 				while line < sentence.sentence_parts.length
 					r.rules.each_with_index do |rule, index|
-						if rule.category == 'PERf' || rule.category == 'LOCf'
+						if rule.category == 'PERf' || rule.category == 'LOCf' || rule.category == 'ORGf'
 							if rule.matched?(text, sentence.sentence_parts, line)
 								rule.change(sentence.sentence_parts, line)
 								line = line +1
@@ -66,7 +66,7 @@ class NER < Nokogiri::XML::SAX::Document
 			sentence.sentence_parts.each {|word|
 				#if the word is no punctuation mark, it will be written in out.txt
 				if word.pos !~ /[$]/
-					File.open("out.txt", 'a') {|f| f.write(word.id + "\t" + word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\t" + word.rules.to_s + "\n")}
+					File.open("outm.txt", 'a') {|f| f.write(word.id + "\t" + word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\t" + word.rules.to_s + "\n")}
 				end
 			}
 		}

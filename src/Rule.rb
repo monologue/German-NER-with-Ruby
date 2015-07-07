@@ -120,11 +120,17 @@ class Rule
 		case @category
 			when 'PERf'
 			if sentence[line+i].per == true
-				puts "true??? #{sentence[line + i].per}"
-				while sentence[line+i].per == true
+				#puts "true??? #{sentence[line + i].per}"
+				while sentence[line+i].per == true 
 					sentence[line+i].del_per
 					e.del_word(sentence[line+i].form)
 					i += 1
+					#if (line + i) > sentence.length
+					#	break
+					#end
+						if (sentence.length-1 < line + i)
+							return false
+						end
 				end
 			else puts "no per"
 			end
@@ -136,6 +142,22 @@ class Rule
 					e.del_word(sentence[line+i].form)
 					i += 1
 				end
+			end
+				when 'ORGf'
+			if sentence[line+i].org == true
+				#puts "true??? #{sentence[line + i].per}"
+				while sentence[line+i].org == true 
+					sentence[line+i].del_org
+					e.del_word(sentence[line+i].form)
+					i += 1
+					#if (line + i) > sentence.length
+					#	break
+					#end
+						if (sentence.length-1 < line + i)
+							return false
+						end
+				end
+			else puts "no per"
 			end
 		end
 	end
@@ -271,6 +293,18 @@ class CaseCondition < Condition
 				return true
 			end
 			return false		
+		end
+		if @value == "fC"
+			if sentence[line + @position].form =~ /[A-Z][a-z]*/ 
+				return true
+			end
+			return false
+		end
+		if @value == "mixed"
+			if sentence[line + @position].form =~ /[a-z]*\S[A-Z]\S*/ 
+				return true
+			end
+			return false
 		end
 	end
 end

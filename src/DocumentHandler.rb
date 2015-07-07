@@ -86,8 +86,8 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 
 	def new_Element()
 		parser = Nokogiri::XML::SAX::Parser.new(self)
-		parser.parse_file('train.xml')
-		#parser.parse_file('micro.xml')
+		#parser.parse_file('train.xml')
+		parser.parse_file('micro.xml')
 	end
 
 	def end_document

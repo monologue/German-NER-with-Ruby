@@ -7,7 +7,7 @@ class TestNER
 		#@data1 = CSV.read("out.txt", {col_sep: "\t", quote_char: "\0", headers: true})
 		#@data2 = CSV.read("train.txt", {col_sep: "\t", quote_char: "\0", headers: true})
 		@data1 = CSV.read("outm.txt", {col_sep: "\t", quote_char: "\0", headers: true})
-		@data2 = CSV.read("test.txt", {col_sep: "\t", quote_char: "\0", headers: true})
+		@data2 = CSV.read("micro.txt", {col_sep: "\t", quote_char: "\0", headers: true})
 		
 		@count = { "PER" => 0,  "ORG" => 0, "LOC" => 0, "OTH" => 0}
 		@found = { 'PER' => 0,  "ORG" => 0, "LOC" => 0, "OTH" => 0}

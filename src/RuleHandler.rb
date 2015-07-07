@@ -11,8 +11,8 @@ class RuleHandler
 		@falseRules = ['PERf', 'ORGf', 'LOCf', 'OTHf']
 	end
 
-	def read_rules(data) 
-		File.readlines(data).each do |line|
+	def read_rules(data)
+		File.readlines("Rules/"+data).each do |line|
 			@rules << split_rule(line)
 		end
 	end
