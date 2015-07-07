@@ -7,7 +7,7 @@ class ElementOf
 	NUMBERS = File.readlines("Numbers.txt").map { |l| l.chomp  }
 	NACH = ["in", "nach"]
 	ORGEND = File.readlines("OrgEnding.txt").map{|l| l.chomp}
-	
+	NOLOC = File.readlines("not_loc.txt").map{|l| l.chomp}
 	
 	def NameList(word)
 		return PER.include?(word)
@@ -15,8 +15,8 @@ class ElementOf
 	
 	def Numbers(word)
 		i = 0
-		while i < LEXICON.length-1
-			if LEXiCON[i] =~ word
+		while i < NUMBERS.length-1
+			if NUMBERS[i] =~ word
 				return true
 			end
 			return false
@@ -52,5 +52,9 @@ class ElementOf
 	
 	def OrgEnding(word)
 		return ORG.include?(word)
+	end
+	
+	def NoLoc?(word)
+		return NOLOC.include?(word)
 	end
 end

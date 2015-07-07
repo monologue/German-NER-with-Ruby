@@ -1,2 +1,3 @@
 [token.0 = Mark, token.-1 = ElementOf.Numbers] => PERf
 [token.0 = Mark, token.-1 = ElementOf.number] => PERf
+[token.0 = ElementOf.noLoc] => LOCf

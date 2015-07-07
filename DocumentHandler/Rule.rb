@@ -40,11 +40,11 @@ class Rule
 	
 	def matched?(text, sentence, line)
 		result = false
-		if category == 'PERf'
+		if category == 'PERf' || category == 'LOCf'
 			@conditions.each do |condition|
 				if condition.matched?(text, sentence, line) == false
 					return false
-				elseif condition.matched?(text, sentence, line) == true
+				else if condition.matched?(text, sentence, line) == true
 						result = true
 				else 
 							#puts sentence[line].id
@@ -52,6 +52,7 @@ class Rule
 							#exit
 				end
 					return result
+			end
 			end
 			
 		else
@@ -109,7 +110,7 @@ class Rule
 				e.add_word(sentence[line + i].form)
 				i = i +1
 			end
-		else puts "andere Kategorie in apply"
+		#else puts "andere Kategorie in apply"
 		end
 	end
 	
@@ -119,8 +120,19 @@ class Rule
 		case @category
 			when 'PERf'
 			if sentence[line+i].per == true
+				puts "true??? #{sentence[line + i].per}"
 				while sentence[line+i].per == true
 					sentence[line+i].del_per
+					e.del_word(sentence[line+i].form)
+					i += 1
+				end
+			else puts "no per"
+			end
+			when 'LOCf'
+			if sentence[line+i].loc == true
+				puts "true"
+				while sentence[line+i].loc == true
+					sentence[line+i].del_loc
 					e.del_word(sentence[line+i].form)
 					i += 1
 				end
@@ -181,6 +193,7 @@ class TokenCondition < Condition
 				when /number/ then return e.numeric?(sentence[line + position].form)
 				when /InNach/ then return e.InNach(sentence[line + position].form)
 				when /OrgEnding/ then return e.OrgEnding(sentence[line + position].form)
+				when /noLoc/ then return e.NoLoc?(sentence[line + position].form)
 					#if e.InNach(sentence[line + position].form) == true
 					#	puts sentence[line].form
 					#	puts sentence[line + position].form
