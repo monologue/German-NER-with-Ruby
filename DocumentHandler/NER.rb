@@ -44,6 +44,7 @@ class NER < Nokogiri::XML::SAX::Document
 				line = 0
 				while line < sentence.sentence_parts.length
 					r.rules.each_with_index do |rule, index|
+					if rule.category == 'PERf'
 						if rule.matched?(text, sentence.sentence_parts, line)
 							rule.change(sentence.sentence_parts, line)
 							line = line +1
@@ -52,6 +53,7 @@ class NER < Nokogiri::XML::SAX::Document
 							line = line + 1
 						end
 						end
+					end
 					end
 				end	
 			}
