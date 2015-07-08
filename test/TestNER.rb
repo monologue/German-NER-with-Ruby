@@ -4,10 +4,10 @@ class TestNER
 
 	attr_accessor :data1, :data2, :count, :found, :wrong_found, :Columns, :not_ne
 	def initialize
-		#@data1 = CSV.read("out.txt", {col_sep: "\t", quote_char: "\0", headers: true})
-		#@data2 = CSV.read("train.txt", {col_sep: "\t", quote_char: "\0", headers: true})
-		@data1 = CSV.read("outm.txt", {col_sep: "\t", quote_char: "\0", headers: true})
-		@data2 = CSV.read("micro.txt", {col_sep: "\t", quote_char: "\0", headers: true})
+		@data1 = CSV.read("C:/git/German-NER-with-Ruby/Output/out.txt", {col_sep: "\t", quote_char: "\0", headers: true})
+		@data2 = CSV.read("C:/git/German-NER-with-Ruby/test/expected/train.txt", {col_sep: "\t", quote_char: "\0", headers: true})
+		#@data1 = CSV.read("C:/git/German-NER-with-Ruby/Output/outm.txt", {col_sep: "\t", quote_char: "\0", headers: true})
+		#@data2 = CSV.read("C:/git/German-NER-with-Ruby/test/expected/micro.txt", {col_sep: "\t", quote_char: "\0", headers: true})
 		
 		@count = { "PER" => 0,  "ORG" => 0, "LOC" => 0, "OTH" => 0}
 		@found = { 'PER' => 0,  "ORG" => 0, "LOC" => 0, "OTH" => 0}
@@ -30,6 +30,7 @@ class TestNER
 			@Columns.each {|col|
 				if file1[i][col] != file2[i][col] && file2[i][col] == 'true' && file1[i][col] == 'false'
 					@count[col] += 1
+					write_not_found_data(file1[i]['ID'], file2[i]['Word'], col)
 				end
 				if file1[i][col] == file2[i][col]
 					if (file1[i][col] == 'true')
@@ -60,11 +61,11 @@ class TestNER
 	end
 	
 	def write_false_data(id, word, ne, rules)
-		File.open("#{ne}.txt", 'a') {|f| f.write(id + "\t" + word + "\t" + ne + "\t" + rules + "\n")}
+		File.open("C:/git/German-NER-with-Ruby/test/false/#{ne}.txt", 'a') {|f| f.write(id + "\t" + word + "\t" + ne + "\t" + rules + "\n")}
 	end
 	
-	def write_not_found_data(file, line, col)
-		
+	def write_not_found_data(id, word, ne)
+		File.open("C:/git/German-NER-with-Ruby/test/notfound/#{ne}.txt", 'a') {|f| f.write(id + "\t" + word + "\t" + ne + "\n")}
 	end
 end
 

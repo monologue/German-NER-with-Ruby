@@ -7,13 +7,14 @@ require 'csv'
 
 class NER < Nokogiri::XML::SAX::Document
 	attr_accessor :ner
-	@@rule_lists = ['Per_Rules.txt', 'Org_Rules.txt', 'Loc_Rules.txt', 'ausnahmen.txt']
+	#@@rule_lists = ['Per_Rules.txt', 'Org_Rules.txt', 'Loc_Rules.txt', 'ausnahmen.txt']
+	@@rule_lists = ['Oth_Rules.txt', 'ausnahmen.txt']
 	def initialize
 		@ner = Array.new
 	end
 	
 	def ner_main
-		File.open("outm.txt", 'a') {|f| f.write("ID" + "\t" + "Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rules" + "\n")}
+		File.open("C:/git/German-NER-with-Ruby/Output/out.txt", 'a') {|f| f.write("ID" + "\t" + "Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rules" + "\n")}
 		data = DocumentHandler.new 
 		data.new_Element()	
 		r = RuleHandler.new
@@ -66,7 +67,7 @@ class NER < Nokogiri::XML::SAX::Document
 			sentence.sentence_parts.each {|word|
 				#if the word is no punctuation mark, it will be written in out.txt
 				if word.pos !~ /[$]/
-					File.open("outm.txt", 'a') {|f| f.write(word.id + "\t" + word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\t" + word.rules.to_s + "\n")}
+					File.open("C:/git/German-NER-with-Ruby/Output/out.txt", 'a') {|f| f.write(word.id + "\t" + word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\t" + word.rules.to_s + "\n")}
 				end
 			}
 		}

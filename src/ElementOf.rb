@@ -1,18 +1,22 @@
 class ElementOf
 	#Methods should check if List contains word
-	LOC = File.readlines("Cities.txt").map { |l| l.chomp  }
-	PER = File.readlines("FirstNames.txt").map { |l| l.chomp  }
-	ORG = File.readlines("OrgEnding.txt").map { |l| l.chomp  }
+	LOC = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/Cities.txt").map { |l| l.chomp  }
+	PER = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/FirstNames.txt").map { |l| l.chomp.force_encoding(Encoding::UTF_8)}
+	ORG = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/OrgEnding.txt").map { |l| l.chomp  }
 	LEXICON = Array.new
-	NUMBERS = File.readlines("Numbers.txt").map { |l| l.chomp  }
+	NUMBERS = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/Numbers.txt").map { |l| l.chomp  }
 	NACH = ["in", "nach"]
-	ORGEND = File.readlines("OrgEnding.txt").map{|l| l.chomp}
-	NOLOC = File.readlines("not_loc.txt").map{|l| l.chomp}
+	ORGEND = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/OrgEnding.txt").map{|l| l.chomp}
+	NOLOC = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/not_loc.txt").map{|l| l.chomp}
+	MITARBEITER = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/Mitarbeiter.txt").map{|l| l.chomp}
 	
 	def NameList(word)
-		return PER.include?(word)
+		return PER.include?(word.force_encoding(Encoding::UTF_8))
 	end
 	
+	def Mitarbeiter(word)
+		return MITARBEITER.include?(word)
+	end
 	def Numbers(word)
 		i = 0
 		while i < NUMBERS.length-1
@@ -54,7 +58,7 @@ class ElementOf
 		return ORG.include?(word)
 	end
 	
-	def NoLoc?(word)
+	def NoLoc(word)
 		return NOLOC.include?(word)
 	end
 end

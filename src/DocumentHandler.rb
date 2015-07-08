@@ -8,7 +8,6 @@ The DocumentHandler creates three arrays: text, sentence and word.
 #Create a new instance of type Text for every text and push it to the @@current_element array.
 #Create a new instance of type Sentence for every sentence and push it to the @@current_element array.
 require_relative 'RuleHandler.rb'
-#require_relative 'DocumentHandler.rb'
 require_relative 'Rule.rb'
 require 'nokogiri'
 require 'csv'
@@ -86,8 +85,8 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 
 	def new_Element()
 		parser = Nokogiri::XML::SAX::Parser.new(self)
-		#parser.parse_file('train.xml')
-		parser.parse_file('micro.xml')
+		parser.parse_file('C:/git/German-NER-with-Ruby/Input/train.xml')
+		#parser.parse_file('C:/git/German-NER-with-Ruby/Input/micro.xml')
 	end
 
 	def end_document
@@ -106,7 +105,7 @@ end
 
 class Text
 
-	attr_accessor :id, :sentences, :ne_per, :ne_org, :ne_oth
+	attr_accessor :id, :sentences, :ne_per, :ne_org, :ne_oth, :ne_loc
 	
 	def initialize(name)
 		@id = name
@@ -114,6 +113,7 @@ class Text
 		@ne_per = Array.new
 		@ne_org = Array.new
 		@ne_oth = Array.new
+		@ne_loc = Array.new
 	end
 	
 #This method adds an sentence to the sentences
@@ -127,22 +127,33 @@ class Text
 	
 	def current_lexicon(word, type)
 		case type
-		when "ORG" && ne_org.include?(word) == false
-			ne_org << word
-		when "PER" 
-			if ne_per.include?(word) == false
-				ne_per << word
-			end
-		when "OTH" && ne_oth.include?(word) == false
-			ne_oth << word
+			when "ORG" 
+				if ne_org.include?(word) == false
+					@ne_org << word
+				end
+			when "PER" 
+				if ne_per.include?(word) == false
+					@ne_per << word
+				end
+			when "OTH" && ne_oth.include?(word) == false
+				@ne_oth << word
+			
+			when "LOC" 
+				if ne_loc.include?(word) == false
+					@ne_loc << word
+				end
 		end
 	end
 	
-	def check_lexicon(word)
-		return ne_per.include?(word)
-		 
-	end
+	def check_lexicon(word, category)
+		case category
+		when "PER" then return ne_per.include?(word)
+		when "ORG" then return ne_org.include?(word)
+		when "LOC" then return ne_loc.include?(word)
+		when "OTH" then return ne_oth.include?(word)
+		end
 	
+	end
 end
 
 class Sentence

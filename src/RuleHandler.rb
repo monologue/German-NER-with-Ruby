@@ -12,7 +12,7 @@ class RuleHandler
 	end
 
 	def read_rules(data)
-		File.readlines("Rules/"+data).each do |line|
+		File.readlines("C:/git/German-NER-with-Ruby/Rules/"+data).each do |line|
 			@rules << split_rule(line)
 		end
 	end
@@ -49,6 +49,7 @@ class RuleHandler
 			when "pow" then return PartOfWordCondition.new(element[1].to_i, element[2].to_s)
 			when "punct" then return PunctuationCondition.new(element[1].to_i, element[2].to_s)
 			when "context" then return ContextCondition.new(element[1].to_i, element[2].to_s)
+			when "lemma" then return LemmaCondition.new(element[1].to_i, element[2].to_s)
 		end
 		puts "default"
 	end	
