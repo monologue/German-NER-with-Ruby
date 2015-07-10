@@ -158,10 +158,9 @@ end
 
 class Sentence
 
-	attr_accessor :id, :satzzeichen, :sentence_parts, :NE
+	attr_accessor :id, :sentence_parts, :NE
 	
 	def initialize(name)
-		@satzzeichen = String.new
 		@sentence_parts = Array.new
 		@NE = false
 		@id = name

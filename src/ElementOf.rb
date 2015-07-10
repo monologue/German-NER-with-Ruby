@@ -1,6 +1,8 @@
 class ElementOf
-	#Methods should check if List contains word
-	LOC = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/Cities.txt").map { |l| l.chomp  }
+	
+	attr_reader :result
+	CITIES = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/GerCities.txt").map { |l| l.chomp  }
+	STATES = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/States.txt").map { |l| l.chomp.force_encoding(Encoding::UTF_8)  }
 	PER = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/FirstNames.txt").map { |l| l.chomp.force_encoding(Encoding::UTF_8)}
 	ORG = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/OrgEnding.txt").map { |l| l.chomp  }
 	LEXICON = Array.new
@@ -10,6 +12,10 @@ class ElementOf
 	NOLOC = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/not_loc.txt").map{|l| l.chomp}
 	MITARBEITER = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/Mitarbeiter.txt").map{|l| l.chomp}
 	
+	def initialize()
+		@result = false
+	end
+
 	def NameList(word)
 		return PER.include?(word.force_encoding(Encoding::UTF_8))
 	end
@@ -51,9 +57,20 @@ class ElementOf
 	end
 	
 	def LocationList(word)
-		return LOC.include?(word)
+		if City(word) == true
+			return
+		else return State(word)
+		end 
 	end
-	
+
+	def City(word)
+		return CITIES.include?(word)
+	end
+
+	def State(word)
+		return STATES.include?(word.force_encoding(Encoding::UTF_8))
+	end
+
 	def OrgEnding(word)
 		return ORG.include?(word)
 	end

@@ -27,20 +27,18 @@ class NER < Nokogiri::XML::SAX::Document
 				while line < sentence.sentence_parts.length
 					r.rules.each_with_index do |rule, index|
 						if rule.matched?(text, sentence.sentence_parts, line)
-							i = 0
+							i = 0	
 							rule.apply(sentence.sentence_parts, line)
 							while i < rule.length
 								sentence.sentence_parts[line + i].add_rule("#{index},")
 								text.current_lexicon(sentence.sentence_parts[line + i].form, rule.category)
 								i = i +1
 							end
-							#break
 						end
 					end
 					line = line + 1
 					end
 			}
-			#r.read_rules('ausnahmen.txt')
 			text.sentences.each {|sentence|	
 				line = 0
 				while line < sentence.sentence_parts.length

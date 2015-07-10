@@ -64,9 +64,9 @@ class Rule
 			if 	condition.matched?(text, sentence, line, category) == true
 				result = true
 			else
-				puts condition
-				puts sentence[line].id
-				puts "unbekannter Fehler in Rule.matched?2" 
+				#puts condition
+				#puts sentence[line].id
+				#puts "unbekannter Fehler in Rule.matched?2" 
 				#exit
 			end
 		end		
@@ -191,7 +191,8 @@ class TokenCondition < Condition
 		if (sentence.length-1 < line + @position)
 			return false
 		end
-		if @value == sentence[line + @position].form
+		if @value.force_encoding(Encoding::UTF_8) == sentence[line + @position].form.force_encoding(Encoding::UTF_8)
+			puts @value
 			return true
 		end
 		if @value =~ /ElementOf/
@@ -211,6 +212,7 @@ class TokenCondition < Condition
 		return false
 		
 		end
+		return false
 	end
 end
 
