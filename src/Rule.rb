@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require_relative 'DocumentHandler.rb'
 require_relative 'ElementOf.rb'
 class Condition
@@ -192,7 +193,6 @@ class TokenCondition < Condition
 			return false
 		end
 		if @value.force_encoding(Encoding::UTF_8) == sentence[line + @position].form.force_encoding(Encoding::UTF_8)
-			puts @value
 			return true
 		end
 		if @value =~ /ElementOf/
@@ -257,10 +257,14 @@ class SuffixCondition < Condition
 		if (sentence.length-1 < line + @position)
 			return false
 		end
+
+		if (sentence[line + @position].form).start_with?(@value)
+			return false
+		end
+
 		if (sentence[line + @position].form).end_with?(@value)
 			return true
-		else
-			return false
+		else return false
 		end
 	end
 end
@@ -273,6 +277,13 @@ class PrefixCondition < Condition
 	def matched?(text, sentence, line, category)
 		if (sentence.length-1 < line + @position)
 			return false
+		end
+		if (sentence[line + @position].form).end_with?(@value)
+			return false
+		end
+		if (sentence[line + @position].form).end_with?(@value)
+			return true
+		else return false
 		end
 	end
 end

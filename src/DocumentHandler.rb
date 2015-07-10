@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 =begin
 The class DocumentHandler takes a xml-Document (in this case mini.xml) and parses it with Nokogiris Saxparser.
 Therefore the methods start_element und end_element looksup elements in the data and performes tasks when they 
@@ -192,6 +194,9 @@ class Word
 		@per = false
 		@oth = false
 		@rules = Array.new
+		@morph = "default"
+		@func = "default"
+		@lemma = "default"
 	end
 	
 	def add_rule(string)

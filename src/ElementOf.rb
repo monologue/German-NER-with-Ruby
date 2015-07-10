@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class ElementOf
 	
 	attr_reader :result
