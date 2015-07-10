@@ -20,11 +20,12 @@ class RuleHandler
 	def split_rule(string)
 		r = Rule.new
 		i = 0
-		splitPatternCondition = /(\w+\.-*\d+\s+\=\s+[\w\.]+)+/
+		#splitPatternCondition = /(\w+\.-*\d+\s+\=\s+[\w\.]+)+/
+		splitPatternCondition = /(\w+\.-*\d+\s+\=\s+[\w\.äößü]+)+/
 		splitPatternRule = /\>\s+(\w+)\s+(\d+).(\d+)/
 		splitPatternRuleException = /\>\s+(\w+)/
-		while string.scan(splitPatternCondition)[i]
-			r.add_condition(condition_parts(string.scan(splitPatternCondition)[i].to_s))			
+		while string.encode('UTF-8').scan(splitPatternCondition)[i]
+			r.add_condition(condition_parts(string.encode('UTF-8').scan(splitPatternCondition)[i].to_s.encode('UTF-8')))			
 			i = i + 1
 		end
 			if falseRules.include?(string.scan(splitPatternRuleException)[0][0])
