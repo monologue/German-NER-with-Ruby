@@ -1,0 +1,10 @@
+Arzt
+Bürgermeister
+Chefarzt
+Doktor
+Dr.
+Frau
+Herr
+Papst
+Prof.
+Professor

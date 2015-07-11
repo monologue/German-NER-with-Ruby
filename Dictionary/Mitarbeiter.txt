@@ -1,0 +1,8 @@
+Mitarbeiter
+Mitarbeiterin
+Angestellter
+Angestellte
+Vertreter
+Vertreterin
+Geschäftsführer
+Geschäftsführerin
