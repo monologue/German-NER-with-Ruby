@@ -7,6 +7,8 @@
 [POS.0 = NN, token.0 = ElementOf.CurrentLexicon] => PER 0,1
 [POS.0 = NE, token.0 = ElementOf.CurrentLexicon] => PER 0,1
 [POS.0 = NE, lemma.0 = ElementOf.CurrentLexicon] => PER 0,1
+[POS.0 = NN, token.-1 = ElementOf.Anrede] => PER 0,1
+[POS.0 = NE, token.-1 = ElementOf.Anrede] => PER 0,1
 [case.0 = token, POS.0 = NE, case.1 = token] => PER 0,2
 [case.0 = token, POS.0 = NE, case.1 = token] => PER 0,2
 [POS.0 = NN, POS.1 = NN, POS.2 = NN, token.2 = ElementOf.OrgEnding] => ORG 0,3
@@ -24,6 +26,12 @@
 [POS.0 = NN, lemma.-1 = Firma, POS.-2 = ART, POS.1 = NN] => ORG 0,2
 [POS.0 = NN, token.0 = ElementOf.CurrentLexicon] => ORG 0,1
 [POS.0 = NE, token.0 = ElementOf.CurrentLexicon] => ORG 0,1
+[POS.0 = NN, token.0 = Institut, POS.1 = APPR, POS.2 = NN] => ORG 0,3
+[POS.0 = NE, token.0 = Institut, POS.1 = APPR, token.1 = für, POS.2 = NE] => ORG 0,3
+[POS.0 = NN, lemma.0 = Institut, POS.1 = APPR, POS.2 = NN] => ORG 0,3
+[POS.0 = NE, lemma.0 = Institus, POS.1 = APPR, POS.2 = NN] => ORG 0,3
+[POS.0 = NN, lemma.0 = Institus, POS.1 = APPR, POS.2 = NE] => ORG 0,3
+[token.0 = Club, POS.1 = ART] => ORG 0,3
 [POS.0 = NE, lemma.-1 = Konzern, POS.-2 = ART, POS.1 = NN] => ORG 0,2
 [POS.0 = NN, lemma.-1 = Konzern, POS.-2 = ART, POS.1 = NE] => ORG 0,2
 [POS.0 = NE, lemma.-1 = Konzern, POS.-2 = ART, POS.1 = NE] => ORG 0,2
