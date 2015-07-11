@@ -87,7 +87,8 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 
 	def new_Element()
 		parser = Nokogiri::XML::SAX::Parser.new(self)
-		parser.parse_file('C:/git/German-NER-with-Ruby/Input/train.xml')
+		#parser.parse_file('C:/git/German-NER-with-Ruby/Input/train.xml')
+		parser.parse_file('C:/git/German-NER-with-Ruby/Input/develop.xml')
 		#parser.parse_file('C:/git/German-NER-with-Ruby/Input/micro.xml')
 	end
 

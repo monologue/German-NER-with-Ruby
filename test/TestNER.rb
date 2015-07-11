@@ -5,8 +5,10 @@ class TestNER
 
 	attr_accessor :data1, :data2, :count, :found, :wrong_found, :Columns, :not_ne
 	def initialize
-		@data1 = CSV.read("C:/git/German-NER-with-Ruby/Output/out.txt", {col_sep: "\t", quote_char: "\0", headers: true})
-		@data2 = CSV.read("C:/git/German-NER-with-Ruby/test/expected/train.txt", {col_sep: "\t", quote_char: "\0", headers: true})
+		#@data1 = CSV.read("C:/git/German-NER-with-Ruby/Output/out.txt", {col_sep: "\t", quote_char: "\0", headers: true})
+		#@data2 = CSV.read("C:/git/German-NER-with-Ruby/test/expected/train.txt", {col_sep: "\t", quote_char: "\0", headers: true})
+		@data1 = CSV.read("C:/git/German-NER-with-Ruby/Output/out-develop.txt", {col_sep: "\t", quote_char: "\0", headers: true})
+		@data2 = CSV.read("C:/git/German-NER-with-Ruby/test/expected/develop.txt", {col_sep: "\t", quote_char: "\0", headers: true})
 		#@data1 = CSV.read("C:/git/German-NER-with-Ruby/Output/outm.txt", {col_sep: "\t", quote_char: "\0", headers: true})
 		#@data2 = CSV.read("C:/git/German-NER-with-Ruby/test/expected/micro.txt", {col_sep: "\t", quote_char: "\0", headers: true})
 		
@@ -19,6 +21,24 @@ class TestNER
 	
 	def read_data()
 		compare(data1, data2)
+	end
+
+	def count_female()
+		femalePer = 0 
+		femaleOrg = 0
+		femaleLoc = 0
+		for i in 0..data2.size-1
+			if (data2[i]["PER"] == "true") && (data2[i]["Morph"] =~ /..f/)
+				femalePer += 1
+			end
+			if (data2[i]["ORG"] == "true") && (data2[i]["Morph"] =~ /..f/)
+				femaleOrg += 1
+			end
+			if (data2[i]["LOC"] == "true") && (data2[i]["Morph"] =~ /..f/)
+				femaleLoc += 1
+			end
+		end
+		puts "femalePer: " + femalePer.to_s + " femaleLoc: " + femaleLoc.to_s + " femaleOrg: " + femaleOrg.to_s
 	end
 	
 	def compare(file1, file2)
@@ -71,4 +91,4 @@ end
 
 t = TestNER.new()
 t.read_data()
-
+t.count_female()

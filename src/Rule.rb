@@ -202,12 +202,12 @@ class TokenCondition < Condition
 				when /Numbers/ then return e.Numbers(sentence[line + position].form)
 				when /number/ then return e.numeric?(sentence[line + position].form)
 				when /InNach/ then return e.InNach(sentence[line + position].form)
-				when /OrgEnding/ then return e.OrgEnding(sentence[line + position].form)
 				when /noLoc/ then return e.NoLoc(sentence[line + position].form)
 				when /Mitarbeiter/ then return e.Mitarbeiter(sentence[line + position].form)
 				when /Anrede/ then return e.Anrede(sentence[line + position].form)
-				when /Org/ then return e.Organisation(sentence[line + position].form)
-				when /noOrg/ then return e.NoOrg?(sentence[line + position].form)
+				when /.Org/ then return e.Organisation(sentence[line + position].form)
+				when /noOrg/ then return e.NoOrg(sentence[line + position].form)
+				#when /noOrg/ then puts "word: " + sentence[line + position].form + e.NoOrg(sentence[line + position].form)
 			end
 		return false
 		
@@ -240,12 +240,11 @@ class LemmaCondition < Condition
 				when /Numbers/ then return e.Numbers(sentence[line + position].lemma)
 				when /number/ then return e.numeric?(sentence[line + position].lemma)
 				when /InNach/ then return e.InNach(sentence[line + position].lemma)
-				#when /OrgEnding/ then return e.OrgEnding(sentence[line + position].lemma)
-				when /noLoc/ then return e.NoLoc?(sentence[line + position].lemma)
+				when /noLoc/ then return e.NoLoc(sentence[line + position].lemma)
 				when /Anrede/ then return e.Anrede(sentence[line + position].lemma)
 				when /Mitarbeiter/ then return e.Mitarbeiter(sentence[line + position].lemma)
 				when /Org/ then return e.Organisation(sentence[line + position].lemma)
-				when /noOrg/ then return e.NoOrg?(sentence[line + position].lemma)
+				when /noOrg/ then return e.NoOrg(sentence[line + position].lemma)
 
 			end
 		return false
