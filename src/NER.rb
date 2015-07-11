@@ -1,4 +1,3 @@
-# encoding: UTF-8
 	#bei mehreren LIsten, rulehandler weiterentwickeln, einlesen der Schleife in extra schleife außerhalb
 require_relative 'RuleHandler.rb'
 require_relative 'DocumentHandler.rb'
@@ -15,7 +14,7 @@ class NER < Nokogiri::XML::SAX::Document
 	end
 	
 	def ner_main
-		File.open("C:/git/German-NER-with-Ruby/Output/outm.txt", 'a') {|f| f.write("ID" + "\t" + "Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rules" + "\n")}
+		File.open("C:/git/German-NER-with-Ruby/Output/out-develop.txt", 'a') {|f| f.write("ID" + "\t" + "Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rules" + "\n")}
 		data = DocumentHandler.new 
 		data.new_Element()	
 		r = RuleHandler.new
@@ -66,7 +65,7 @@ class NER < Nokogiri::XML::SAX::Document
 			sentence.sentence_parts.each {|word|
 				#if the word is no punctuation mark, it will be written in out.txt
 				if word.pos !~ /[$]/
-					File.open("C:/git/German-NER-with-Ruby/Output/outm.txt", 'a') {|f| f.write(word.id + "\t" + word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\t" + word.rules.to_s + "\n")}
+					File.open("C:/git/German-NER-with-Ruby/Output/out-develop.txt", 'a') {|f| f.write(word.id + "\t" + word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\t" + word.rules.to_s + "\n")}
 				end
 			}
 		}

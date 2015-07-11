@@ -5,7 +5,7 @@ class CreateDictionary
 	attr_accessor :dictionary
 
 	def initialize()
-		@data = CSV.read("C:/git/German-NER-with-Ruby/test/expected/micro.txt", {col_sep: "\t", quote_char: "\0", headers: true})
+		@data = CSV.read("C:/git/German-NER-with-Ruby/test/expected/train.txt", {col_sep: "\t", quote_char: "\0", headers: true})
 		
 
 	end

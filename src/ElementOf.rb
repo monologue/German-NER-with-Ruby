@@ -7,19 +7,33 @@ class ElementOf
 	STATES = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/States.txt").map { |l| l.chomp.force_encoding(Encoding::UTF_8)  }
 	PER = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/FirstNames.txt").map { |l| l.chomp.force_encoding(Encoding::UTF_8)}
 	ORG = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/OrgEnding.txt").map { |l| l.chomp  }
+	ORGANISATION = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/ORG.txt").map { |l| l.chomp  }
 	LEXICON = Array.new
 	NUMBERS = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/Numbers.txt").map { |l| l.chomp  }
 	NACH = ["in", "nach"]
 	ORGEND = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/OrgEnding.txt").map{|l| l.chomp}
 	NOLOC = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/not_loc.txt").map{|l| l.chomp}
 	MITARBEITER = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/Mitarbeiter.txt").map{|l| l.chomp}
-	
+	ANREDE = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/Anrede.txt").map{|l| l.chomp}
+	NOORG = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/not_org.txt").map{|l| l.chomp}
+
 	def initialize()
 		@result = false
 	end
 
 	def NameList(word)
 		return PER.include?(word.force_encoding(Encoding::UTF_8))
+	end
+
+	def NoOrg?(word)
+		return NOORG.include?(word)
+	end
+	def Organisation(word)
+		return ORGANISATION.include?(word)
+	end
+	
+	def Anrede(word)
+		return ANREDE.include?(word)
 	end
 	
 	def Mitarbeiter(word)

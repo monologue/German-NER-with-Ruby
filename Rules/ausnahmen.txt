@@ -1,3 +1,8 @@
 [token.0 = Mark, token.-1 = ElementOf.Numbers] => PERf
 [token.0 = Mark, token.-1 = ElementOf.number] => PERf
 [token.0 = ElementOf.noLoc] => LOCf
+[suffix.0 = angaben] => LOCf
+[suffix.0 = angabe] => LOCf
+[suffix.0 = Angaben] => LOCf
+[token.0 = Angaben] => LOCf
+[token.0 = ElementOf.noOrg] => ORGf
