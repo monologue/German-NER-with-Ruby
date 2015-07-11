@@ -126,7 +126,7 @@ class TestData < Nokogiri::XML::SAX::Document
 	end
 	
 	def end_document
-		File.open("C:/git/German-NER-with-Ruby/test/expected/train.txt", 'a') {|f| f.write("Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\n")}
+		File.open("C:/git/German-NER-with-Ruby/test/expected/micro.txt", 'a') {|f| f.write("ID" + "\t" + "Word" + "\t" + "Lemma" + "\t" + "Morph" + "\t" + "Func" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\n")}
 		texts.each {|text|
 			text.sentences.each {|sentence|
 				write_ner(sentence.sentence_parts)}
@@ -137,7 +137,7 @@ class TestData < Nokogiri::XML::SAX::Document
 		sentence.each {|word|
 			#if the word is no punctuation mark, it will be written in test.txt
 			if word.pos !~ /[$]/
-				File.open("C:/git/German-NER-with-Ruby/test/expected/train.txt", 'a') {|f| f.write(word.form + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\n")}
+				File.open("C:/git/German-NER-with-Ruby/test/expected/micro.txt", 'a') {|f| f.write(word.id + "\t" + word.form + "\t" + word.lemma + "\t" + word.morph + "\t" + word.func + "\t" + word.per.to_s + "\t" + word.org.to_s + "\t" + word.loc.to_s + "\t" + word.oth.to_s + "\n")}
 			else 
 			next
 			end
@@ -146,7 +146,7 @@ class TestData < Nokogiri::XML::SAX::Document
 	
 	def new_Element()
 		parser = Nokogiri::XML::SAX::Parser.new(self)
-		parser.parse_file('C:/git/German-NER-with-Ruby/test/Input/train.txttrain.xml')
+		parser.parse_file('C:/git/German-NER-with-Ruby/test/Input/micro.xml')
 		#parser.parse_file('micro.xml')
 	end
 end
@@ -161,5 +161,5 @@ class NE
 	end
 end
 parser = Nokogiri::XML::SAX::Parser.new(TestData.new)
-parser.parse_file('C:/git/German-NER-with-Ruby/Input/train.xml')
-#parser.parse_file('micro.xml')
+#parser.parse_file('C:/git/German-NER-with-Ruby/Input/train.xml')
+parser.parse_file('C:/git/German-NER-with-Ruby/Input/micro.xml')

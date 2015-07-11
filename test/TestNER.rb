@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'csv'
 
 class TestNER 
@@ -14,7 +15,6 @@ class TestNER
 		@wrong_found = { "PER" => 0,  "ORG" => 0, "LOC" => 0, "OTH" => 0}
 		@Columns = ['Word','PER', 'ORG', 'LOC', 'OTH']
 		@not_ne = 0
-		@rules = {"1" => 0, "2" => 0, "3" => 0, "4" => 0, "5" => 0, "6" => 0, "7" => 0, "8" => 0, "9" => 0, "10" => 0, "11" => 0, "12" => 0, "13" => 0, "14" => 0, "15" => 0, "16" => 0, "17" => 0}
 	end
 	
 	def read_data()

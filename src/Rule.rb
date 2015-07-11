@@ -41,7 +41,7 @@ class Rule
 	
 	def matched?(text, sentence, line)
 		result = false
-		if category == 'PERf' || category == 'LOCf'
+		if category == 'PERf' || category == 'LOCf' || category == 'ORGf'
 			@conditions.each do |condition|
 				if condition.matched?(text, sentence, line, category) == false
 					return false
@@ -143,21 +143,18 @@ class Rule
 					end
 				end
 			end
-				when 'ORGf'
+			when 'ORGf'
 			if sentence[line+i].org == true
 				#puts "true??? #{sentence[line + i].per}"
 				while sentence[line+i].org == true 
 					sentence[line+i].del_org
 					e.del_word(sentence[line+i].form)
 					i += 1
-					#if (line + i) > sentence.length
-					#	break
-					#end
-						if (sentence.length-1 < line + i)
-							return false
-						end
+					if (sentence.length-1 < line + i)
+						return false
+					end
 				end
-			else puts "no per"
+			else return false
 			end
 		end
 	end
@@ -171,7 +168,7 @@ class POSCondition < Condition
 	end
 	
 	def matched?(text, sentence, line, category)
-		if (sentence.length-1 < line + @position)
+		if (sentence.length-1 < line + @position) || (0 > line + @position) || (sentence[line + @position].form =~ /[$]/)
 			return false
 		end
 		if @value == sentence[line + @position].pos
@@ -208,6 +205,9 @@ class TokenCondition < Condition
 				when /OrgEnding/ then return e.OrgEnding(sentence[line + position].form)
 				when /noLoc/ then return e.NoLoc(sentence[line + position].form)
 				when /Mitarbeiter/ then return e.Mitarbeiter(sentence[line + position].form)
+				when /Anrede/ then return e.Anrede(sentence[line + position].form)
+				when /Org/ then return e.Organisation(sentence[line + position].form)
+				when /noOrg/ then return e.NoOrg?(sentence[line + position].form)
 			end
 		return false
 		
@@ -228,6 +228,7 @@ class LemmaCondition < Condition
 		end
 		if @value == sentence[line + @position].form
 			return true
+		else return false
 		end
 		if @value =~ /ElementOf/
 			e = ::ElementOf.new
@@ -239,8 +240,13 @@ class LemmaCondition < Condition
 				when /Numbers/ then return e.Numbers(sentence[line + position].lemma)
 				when /number/ then return e.numeric?(sentence[line + position].lemma)
 				when /InNach/ then return e.InNach(sentence[line + position].lemma)
-				when /OrgEnding/ then return e.OrgEnding(sentence[line + position].lemma)
+				#when /OrgEnding/ then return e.OrgEnding(sentence[line + position].lemma)
 				when /noLoc/ then return e.NoLoc?(sentence[line + position].lemma)
+				when /Anrede/ then return e.Anrede(sentence[line + position].lemma)
+				when /Mitarbeiter/ then return e.Mitarbeiter(sentence[line + position].lemma)
+				when /Org/ then return e.Organisation(sentence[line + position].lemma)
+				when /noOrg/ then return e.NoOrg?(sentence[line + position].lemma)
+
 			end
 		return false
 		
