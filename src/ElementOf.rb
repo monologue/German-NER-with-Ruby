@@ -25,7 +25,7 @@ class ElementOf
 		return PER.include?(word.force_encoding(Encoding::UTF_8))
 	end
 
-	def NoOrg?(word)
+	def NoOrg(word)
 		return NOORG.include?(word)
 	end
 	def Organisation(word)
