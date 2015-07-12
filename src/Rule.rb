@@ -331,7 +331,7 @@ class CaseCondition < Condition
 		end
 		
 		if @value == "aC" 
-			if sentence[line + @position].form =~ /[A-Z]+$/ 
+			if sentence[line + @position].form =~ /^[A-Z]+$/ 
 				return true
 			end
 			return false		
