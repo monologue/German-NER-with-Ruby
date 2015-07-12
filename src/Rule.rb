@@ -15,12 +15,13 @@ end
 
 class Rule
 	
-	attr_accessor :conditions, :category, :start, :length
+	attr_accessor :conditions, :category, :start, :length, :index
 	
-	def initialize
+	def initialize(index)
 		@conditions = Array.new
 		@category = String.new
 		@length = 0
+		@index = index
 	end
 	
 	def add_condition(condition)
@@ -41,11 +42,12 @@ class Rule
 	
 	def matched?(text, sentence, line)
 		result = false
+=begin
 		if category == 'PERf' || category == 'LOCf' || category == 'ORGf'
 			@conditions.each do |condition|
 				if condition.matched?(text, sentence, line, category) == false
 					return false
-				else if condition.matched?(text, sentence, line, category) == true
+				elsif condition.matched?(text, sentence, line, category) == true
 						result = true
 				else 
 							#puts sentence[line].id
@@ -54,9 +56,9 @@ class Rule
 				end
 					return result
 			end
-			end
 			
 		else
+=end
 		@conditions.each do |condition|
 			
 			if condition.matched?(text, sentence, line, category) == false
@@ -64,52 +66,49 @@ class Rule
 			end
 			if 	condition.matched?(text, sentence, line, category) == true
 				result = true
-			else
-				#puts condition
-				#puts sentence[line].id
-				#puts "unbekannter Fehler in Rule.matched?2" 
-				#exit
+			else 
+				puts "should not happen"
+				exit
 			end
 		end		
 		return result
 	end
-	end
 	
 	def apply(sentence, line)
-	i = 1
+	i = 0
 	e = ElementOf.new
+	if @category =~ /[A-Z]{3}f/
+		return change(sentence, line)
+	end
+
 	case @category	
 		when "PER"
-			sentence[line].add_per 
-			e.add_word(sentence[line].form)
 			while i < @length 
 				#puts "#{sentence[line+i].form} #{sentence[line + i].id}"
 				sentence[line+i].add_per 
-				e.add_word(sentence[line + i].form)
+				sentence[line + i].add_rule("#{index}")
+				e.add_word(sentence[line + i].form, category)
 				i = i +1
 			end
 		when "ORG" 
-			sentence[line].add_org
-			e.add_word(sentence[line].form)
 			while i < @length 
 				sentence[line+i].add_org
-				e.add_word(sentence[line + i].form)
+				sentence[line + i].add_rule("#{index}")
+				e.add_word(sentence[line + i].form, category)
 				i = i +1
 			end
 		when "OTH" 
-			sentence[line].add_oth
-			e.add_word(sentence[line].form)
 			while i < @length 
 				sentence[line+i].add_oth
-				e.add_word(sentence[line + i].form)
+				sentence[line + i].add_rule("#{index}")
+				e.add_word(sentence[line + i].form, category)
 				i = i +1
 			end
 		when "LOC" 
-			sentence[line].add_loc
-			e.add_word(sentence[line].form)
 			while i < @length 
 				sentence[line+i].add_loc
-				e.add_word(sentence[line + i].form)
+				sentence[line + i].add_rule("#{index}")
+				e.add_word(sentence[line + i].form, category)
 				i = i +1
 			end
 		#else puts "andere Kategorie in apply"
@@ -124,7 +123,8 @@ class Rule
 			if sentence[line+i].per == true
 				while sentence[line+i].per == true 
 					sentence[line+i].del_per
-					e.del_word(sentence[line+i].form)
+					sentence[line+i].add_rule("#{-index}")
+					e.del_word(sentence[line+i].form, "PER")
 					i += 1
 					if (sentence.length-1 < line + i)
 						return false
@@ -136,7 +136,8 @@ class Rule
 			if sentence[line+i].loc == true
 				while sentence[line+i].loc == true
 					sentence[line+i].del_loc
-					e.del_word(sentence[line+i].form)
+					sentence[line+i].add_rule("#{-index}")
+					e.del_word(sentence[line+i].form, "LOC")
 					i += 1
 					if (sentence.length-1 < line + i)
 						return false
@@ -148,13 +149,15 @@ class Rule
 				#puts "true??? #{sentence[line + i].per}"
 				while sentence[line+i].org == true 
 					sentence[line+i].del_org
-					e.del_word(sentence[line+i].form)
+					sentence[line+i].add_rule("#{-index}")
+					e.del_word(sentence[line+i].form, "ORG")
 					i += 1
 					if (sentence.length-1 < line + i)
 						return false
 					end
 				end
-			else return false
+			else 
+				return false
 			end
 		end
 	end
@@ -168,7 +171,7 @@ class POSCondition < Condition
 	end
 	
 	def matched?(text, sentence, line, category)
-		if (sentence.length-1 < line + @position) || (0 > line + @position) || (sentence[line + @position].form =~ /[$]/)
+		if (sentence.length-1 < line + @position) || (0 > line + @position) 
 			return false
 		end
 		if @value == sentence[line + @position].pos
@@ -185,8 +188,7 @@ class TokenCondition < Condition
 	end
 	
 	def matched?(text, sentence, line, category)
-		#puts @value
-		if (sentence.length-1 < line + @position)
+		if (sentence.length-1 < line + @position) || (0 > line + @position) 
 			return false
 		end
 		if @value.force_encoding(Encoding::UTF_8) == sentence[line + @position].form.force_encoding(Encoding::UTF_8)
@@ -198,19 +200,18 @@ class TokenCondition < Condition
 				when  /NameList/ then return e.NameList(sentence[line + @position].form) 
 				when /LocationList/ then return e.LocationList(sentence[line + @position].form)
 				when /OrgEnding/ then return e.OrgEnding(sentence[line + @position].form)
-				when /CurrentLexicon/ then return text.check_lexicon(sentence[line + @position].form, category)
+				when /CurrentLexicon/ then return e.check_lexicon(sentence[line + @position].form, category)
 				when /Numbers/ then return e.Numbers(sentence[line + position].form)
 				when /number/ then return e.numeric?(sentence[line + position].form)
 				when /InNach/ then return e.InNach(sentence[line + position].form)
 				when /noLoc/ then return e.NoLoc(sentence[line + position].form)
 				when /Mitarbeiter/ then return e.Mitarbeiter(sentence[line + position].form)
 				when /Anrede/ then return e.Anrede(sentence[line + position].form)
-				when /.Org/ then return e.Organisation(sentence[line + position].form)
+				when /\.Org$/ then return e.Organisation(sentence[line + position].form)
 				when /noOrg/ then return e.NoOrg(sentence[line + position].form)
-				#when /noOrg/ then puts "word: " + sentence[line + position].form + e.NoOrg(sentence[line + position].form)
+				when /found/ then return sentence[line + position].org
+
 			end
-		return false
-		
 		end
 		return false
 	end
@@ -223,7 +224,7 @@ class LemmaCondition < Condition
 	end
 	
 	def matched?(text, sentence, line, category)
-		if (sentence.length-1 < line + @position)
+		if (sentence.length-1 < line + @position) || (0 > line + @position) 
 			return false
 		end
 		if @value == sentence[line + @position].form
@@ -236,16 +237,16 @@ class LemmaCondition < Condition
 				when  /NameList/ then return e.NameList(sentence[line + @position].lemma) 
 				when /LocationList/ then return e.LocationList(sentence[line + @position].lemma) 
 				when /OrgEnding/ then return e.OrgEnding(sentence[line + @position].lemma)
-				when /CurrentLexicon/ then return text.check_lexicon(sentence[line + @position].lemma, category)
+				when /CurrentLexicon/ then return e.check_lexicon(sentence[line + @position].lemma, category)
 				when /Numbers/ then return e.Numbers(sentence[line + position].lemma)
 				when /number/ then return e.numeric?(sentence[line + position].lemma)
 				when /InNach/ then return e.InNach(sentence[line + position].lemma)
 				when /noLoc/ then return e.NoLoc(sentence[line + position].lemma)
 				when /Anrede/ then return e.Anrede(sentence[line + position].lemma)
 				when /Mitarbeiter/ then return e.Mitarbeiter(sentence[line + position].lemma)
-				when /Org/ then return e.Organisation(sentence[line + position].lemma)
+				when /\.Org$/ then return e.Organisation(sentence[line + position].lemma)
 				when /noOrg/ then return e.NoOrg(sentence[line + position].lemma)
-
+				when /found/ then return sentence[line + position].org
 			end
 		return false
 		
@@ -259,7 +260,7 @@ class SuffixCondition < Condition
 		@value = value
 	end
 	def matched?(text, sentence, line, category)
-		if (sentence.length-1 < line + @position)
+		if (sentence.length-1 < line + @position) || (0 > line + @position) 
 			return false
 		end
 
@@ -269,7 +270,8 @@ class SuffixCondition < Condition
 
 		if (sentence[line + @position].form).end_with?(@value)
 			return true
-		else return false
+		else 
+			return false
 		end
 	end
 end
@@ -280,7 +282,7 @@ class PrefixCondition < Condition
 		@value = value
 	end
 	def matched?(text, sentence, line, category)
-		if (sentence.length-1 < line + @position)
+		if (sentence.length-1 < line + @position) || (0 > line + @position) 
 			return false
 		end
 		if (sentence[line + @position].form).end_with?(@value)
@@ -288,8 +290,8 @@ class PrefixCondition < Condition
 		end
 		if (sentence[line + @position].form).end_with?(@value)
 			return true
-		else return false
 		end
+		return false
 	end
 end
 
@@ -299,7 +301,7 @@ class PartOfWordCondition < Condition
 		@value = value
 	end
 	def matched?(text, sentence, line, category)
-		if (sentence.length-1 < line + @position)
+		if (sentence.length-1 < line + @position) || (0 > line + @position) 
 			return false
 		end
 	end
@@ -311,7 +313,7 @@ class PunctationCondition < Condition
 		@value = value
 	end
 	def matched?(text, sentence, line, category)
-		if (sentence.length-1 < line + @position)
+		if (sentence.length-1 < line + @position) || (0 > line + @position) 
 			return false
 		end
 	end
@@ -324,7 +326,7 @@ class CaseCondition < Condition
 	end
 	
 	def matched?(text, sentence, line, category)
-		if (sentence.length-1 < line + @position)
+		if (sentence.length-1 < line + @position) || (0 > line + @position) 
 			return false
 		end
 		
@@ -352,5 +354,6 @@ class CaseCondition < Condition
 			end
 			return false
 		end
+		return false
 	end
 end

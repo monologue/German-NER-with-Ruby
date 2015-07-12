@@ -15,12 +15,12 @@ class RuleHandler
 
 	def read_rules(data)
 		File.readlines("C:/git/German-NER-with-Ruby/Rules/"+data).each do |line|
-			@rules << split_rule(line)
+			@rules << split_rule(line, @rules.length)
 		end
 	end
 
-	def split_rule(string)
-		r = Rule.new
+	def split_rule(string, index)
+		r = Rule.new(index)
 		i = 0
 		splitPatternCondition = /(\w+\.-*\d+\s+\=\s+[\w\.äößü]+)+/
 		splitPatternRule = /\>\s+(\w+)\s+(\d+).(\d+)/

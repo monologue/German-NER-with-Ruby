@@ -1,4 +1,4 @@
-eins
+﻿eins
 zwei
 drei
 vier
@@ -8,7 +8,7 @@ sieben
 acht
 neun
 zehn
-elt
+elf
 zwölf
 dreizehn
 zwanzig

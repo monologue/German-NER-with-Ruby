@@ -32,6 +32,8 @@
 [POS.0 = NE, lemma.0 = Institus, POS.1 = APPR, POS.2 = NN] => ORG 0,3
 [POS.0 = NN, lemma.0 = Institus, POS.1 = APPR, POS.2 = NE] => ORG 0,3
 [token.0 = Club, POS.1 = ART] => ORG 0,3
+[POS.0 = NN, token.-1 = KON, token.-2 = ElementOf.found] => ORG 0,1
+[POS.0 = NN, POS.1 = token.-1 = KON, token.-2 = ElementOf.found] => ORG 0,2
 [POS.0 = NE, lemma.-1 = Konzern, POS.-2 = ART, POS.1 = NN] => ORG 0,2
 [POS.0 = NN, lemma.-1 = Konzern, POS.-2 = ART, POS.1 = NE] => ORG 0,2
 [POS.0 = NE, lemma.-1 = Konzern, POS.-2 = ART, POS.1 = NE] => ORG 0,2

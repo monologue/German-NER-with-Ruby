@@ -8,8 +8,8 @@ class ElementOf
 	PER = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/FirstNames.txt").map { |l| l.chomp.force_encoding(Encoding::UTF_8)}
 	ORG = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/OrgEnding.txt").map { |l| l.chomp  }
 	ORGANISATION = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/ORG.txt").map { |l| l.chomp  }
-	LEXICON = Array.new
-	NUMBERS = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/Numbers.txt").map { |l| l.chomp  }
+	@@lexicon = {"PER" => [], "ORG" => [], "LOC" => [], "OTH" => []}
+	NUMBERS = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/Numbers.txt").map { |l| l.chomp.force_encoding(Encoding::UTF_8)}
 	NACH = ["in", "nach"]
 	ORGEND = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/OrgEnding.txt").map{|l| l.chomp}
 	NOLOC = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/not_loc.txt").map{|l| l.chomp}
@@ -41,13 +41,15 @@ class ElementOf
 	end
 	def Numbers(word)
 		i = 0
+		puts "word: " + word.encoding.to_s
+		puts "number: " + NUMBERS[0].encoding.to_s
 		while i < NUMBERS.length-1
-			if NUMBERS[i] =~ word
+			if word =~ /#{NUMBERS[i]}/i
 				return true
 			end
-			return false
-		#return NUMBERS.include?(word)
-	end
+			i += 1
+		end
+		return false
 	end
 	def OrgEnding(word)
 		return ORGEND.include?(word)
@@ -58,14 +60,22 @@ class ElementOf
 	end
 	 
 
-	def add_word(word)
-		LEXICON << word
+	def add_word(word, category)
+		@@lexicon[category] << word
 	end
 	
-	def del_word(word)
-		if LEXICON.include?(word)
-			LEXICON.delete(word)
+	def del_word(word, category)
+		if @@lexicon[category].include?(word)
+			@@lexicon[category].delete(word)
 		end
+	end
+
+	def check_lexicon(word, category)
+		return @@lexicon[category].include?(word)
+	end
+
+	def clear_lexicon()
+		@@lexicon = {"PER" => [], "ORG" => [], "LOC" => [], "OTH" => []}
 	end
 	
 	def InNach(word)
@@ -74,8 +84,9 @@ class ElementOf
 	
 	def LocationList(word)
 		if City(word) == true
-			return
-		else return State(word)
+			return true
+		else 
+			return State(word)
 		end 
 	end
 

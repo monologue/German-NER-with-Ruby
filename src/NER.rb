@@ -14,7 +14,7 @@ class NER < Nokogiri::XML::SAX::Document
 	end
 	
 	def ner_main
-		File.open("C:/git/German-NER-with-Ruby/Output/out-develop.txt", 'a') {|f| f.write("ID" + "\t" + "Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rules" + "\n")}
+		File.open("C:/git/German-NER-with-Ruby/Output/out-develop.txt", 'w') {|f| f.write("ID" + "\t" + "Word" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\t" + "Rules" + "\n")}
 		data = DocumentHandler.new 
 		data.new_Element()	
 		r = RuleHandler.new
@@ -22,23 +22,24 @@ class NER < Nokogiri::XML::SAX::Document
 			r.read_rules(rule_list)
 		}
 		data.texts.each {|text|
-			text.sentences.each {|sentence|
-				line = 0
-				while line < sentence.sentence_parts.length
-					r.rules.each_with_index do |rule, index|
+			r.rules.each_with_index do |rule, index|
+				text.sentences.each {|sentence|
+					line = 0
+					while line < sentence.sentence_parts.length
 						if rule.matched?(text, sentence.sentence_parts, line)
-							i = 0	
+							#i = 0	
 							rule.apply(sentence.sentence_parts, line)
-							while i < rule.length
-								sentence.sentence_parts[line + i].add_rule("#{index},")
-								text.current_lexicon(sentence.sentence_parts[line + i].form, rule.category)
-								i = i +1
-							end
+							#while i < rule.length
+								#sentence.sentence_parts[line + i].add_rule("#{index},")
+								#text.current_lexicon(sentence.sentence_parts[line + i].form, rule.category)
+								#i = i +1
+							#end
 						end
+						line = line + 1
 					end
-					line = line + 1
-					end
-			}
+				}
+			end
+=begin
 			text.sentences.each {|sentence|	
 				line = 0
 				while line < sentence.sentence_parts.length
@@ -48,14 +49,15 @@ class NER < Nokogiri::XML::SAX::Document
 								rule.change(sentence.sentence_parts, line)
 								line = line +1
 								break
-							else if index == r.rules.size-1
+							elsif index == r.rules.size-1
 								line = line + 1
 							end
-							end
+							#end
 						end
 					end
 				end	
 			}
+=end
 			write_ner(text)
 		}
 	end	

@@ -123,7 +123,7 @@ class Text
 	def add_content(obj)
 		sentences << obj
 	end
-	
+=begin	
 	def get_current_sentence
 		return sentences.last(1)
 	end
@@ -150,13 +150,13 @@ class Text
 	
 	def check_lexicon(word, category)
 		case category
-		when "PER" then return ne_per.include?(word)
-		when "ORG" then return ne_org.include?(word)
-		when "LOC" then return ne_loc.include?(word)
-		when "OTH" then return ne_oth.include?(word)
+			when "PER" then return ne_per.include?(word)
+			when "ORG" then return ne_org.include?(word)
+			when "LOC" then return ne_loc.include?(word)
+			when "OTH" then return ne_oth.include?(word)
 		end
-	
-	end
+		return false
+=end
 end
 
 class Sentence

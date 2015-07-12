@@ -4,12 +4,15 @@ require_relative "C:/git/German-NER-with-Ruby/src/DocumentHandler.rb"
 class TestData < Nokogiri::XML::SAX::Document
 	
 	@@current_element = Array.new
-	@@org = false
-	@@per = false
-	@@oth = false
-	@@loc = false
+	@@org = 0
+	@@per = 0
+	@@oth = 0
+	@@loc = 0
 	@@ne = Array.new
-	
+	@@pattern = /(s[0-9]*_[0-9]*)/
+	@@span = Hash.new
+	@@close_before = false
+
 	attr_accessor :texts
 	
 	def initialize()
@@ -31,14 +34,21 @@ class TestData < Nokogiri::XML::SAX::Document
 		end
 		
 		if name == 'ne'
-			n = NE.new(attrs[0][1], attrs[1][1])
+			span = nil	
+			if attrs.length > 2 && attrs[2][0] == "span"
+				span = attrs[2][1].scan(@@pattern)[1][0]
+			end
+			n = NE.new(attrs[0][1], attrs[1][1], span)
+			if span != nil
+				@@span[span] = n
+			end
 			@@ne << n
 			case attrs[1][1]
-				when "PER" then @@per = true
-				when "ORG" then @@org = true
-				when "LOC" then @@loc = true
-				when "GPE" then @@loc = true
-				when "OTH" then @@oth = true
+				when "PER" then @@per += 1
+				when "ORG" then @@org += 1
+				when "LOC" then @@loc += 1
+				when "GPE" then @@loc += 1
+				when "OTH" then @@oth += 1
 			end
 
 		end
@@ -71,16 +81,17 @@ class TestData < Nokogiri::XML::SAX::Document
 					end
 					
 				}
-			if @@per == true
+				
+			if @@per > 0
 				w.add_per
-			end
-			if @@org == true
+				end
+			if @@org > 0
 				w.add_org
 			end
-			if @@loc == true
+			if @@loc > 0
 				w.add_loc
 			end
-			if @@oth == true
+			if @@oth > 0
 				w.add_oth
 			end
 		
@@ -88,10 +99,6 @@ class TestData < Nokogiri::XML::SAX::Document
 			@@current_element << w
 		end
 		
-	end
-	
-	def set_ne(ne)
-		ne = !ne
 	end
 	
 	def end_element(name, attrs =[])
@@ -104,29 +111,40 @@ class TestData < Nokogiri::XML::SAX::Document
 			@@current_element.pop
 		end
 		
-		if name == 'ne'
-			case @@ne.last.type
-				when "PER" then @@per = false
-				when "ORG" then @@org = false
-				when "LOC" then @@loc = false
-				when "GPE" then @@loc = false
-				when "OTH" then @@oth = false
+		if name == 'ne' 
+			if @@ne.last.span == nil || !@@span.has_key?(@@ne.last.span)
+				case @@ne.last.type
+					when "PER" then @@per -= 1
+					when "ORG" then @@org -= 1
+					when "LOC" then @@loc -= 1
+					when "GPE" then @@loc -= 1
+					when "OTH" then @@oth -= 1
+				end		
 			end
-			@@ne.pop
-			 
-			if @@ne.last != nil && @@ne.last.type == 'ORG'
-				@@org = true
-			end
-			
+			@@ne.pop	
+
 		end
 		
 		if name == 'word'
-			@@current_element.pop
+			w = @@current_element.pop
+			if !@@span.empty? && @@span.has_key?(w.id)
+				if !@@ne.include?(@@span[w.id])
+					case @@span[w.id].type
+						when "PER" then @@per -= 1
+						when "ORG" then @@org -= 1
+						when "LOC" then @@loc -= 1
+						when "GPE" then @@loc -= 1
+						when "OTH" then @@oth -= 1
+					end
+				end
+				@@span.delete(w.id)
+				
+			end
 		end	
 	end
 	
 	def end_document
-		File.open("C:/git/German-NER-with-Ruby/test/expected/develop.txt", 'a') {|f| f.write("ID" + "\t" + "Word" + "\t" + "Lemma" + "\t" + "Morph" + "\t" + "Func" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\n")}
+		File.open("C:/git/German-NER-with-Ruby/test/expected/develop.txt", 'w') {|f| f.write("ID" + "\t" + "Word" + "\t" + "Lemma" + "\t" + "Morph" + "\t" + "Func" + "\t" + "PER" + "\t" + "ORG" + "\t" + "LOC" + "\t" + "OTH" + "\n")}
 		texts.each {|text|
 			text.sentences.each {|sentence|
 				write_ner(sentence.sentence_parts)}
@@ -153,11 +171,12 @@ end
 
 class NE
 
-	attr_accessor :name, :type
+	attr_accessor :name, :type, :span
 	
-	def initialize(id, type)
+	def initialize(id, type, span = nil)
 		@name = id
 		@type = type
+		@span = span
 	end
 end
 parser = Nokogiri::XML::SAX::Parser.new(TestData.new)
