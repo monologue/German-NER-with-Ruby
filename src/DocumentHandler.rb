@@ -122,41 +122,9 @@ class Text
 #This method adds an sentence to the sentences
 	def add_content(obj)
 		sentences << obj
-	end
-=begin	
-	def get_current_sentence
-		return sentences.last(1)
-	end
-	
-	def current_lexicon(word, type)
-		case type
-			when "ORG" 
-				if ne_org.include?(word) == false
-					@ne_org << word
-				end
-			when "PER" 
-				if ne_per.include?(word) == false
-					@ne_per << word
-				end
-			when "OTH" && ne_oth.include?(word) == false
-				@ne_oth << word
-			
-			when "LOC" 
-				if ne_loc.include?(word) == false
-					@ne_loc << word
-				end
-		end
-	end
-	
-	def check_lexicon(word, category)
-		case category
-			when "PER" then return ne_per.include?(word)
-			when "ORG" then return ne_org.include?(word)
-			when "LOC" then return ne_loc.include?(word)
-			when "OTH" then return ne_oth.include?(word)
-		end
-		return false
-=end
+	end	
+		
+
 end
 
 class Sentence

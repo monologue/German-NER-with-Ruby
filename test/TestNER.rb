@@ -34,25 +34,39 @@ class TestNER
 				if file1[i][col] != file2[i][col] && file2[i][col] == 'true' && file1[i][col] == 'false'
 					@count[col] += 1
 					write_not_found_data(file1[i]['ID'], file2[i]['Word'], col)
+					JSON.parse(file1[i]["Rules"]).each {|key|
+						if key.to_i < 0 && rules_quality[-key.to_i]["type"] == col
+							@rules_quality[-key.to_i]["false_positive"] += 1
+						end
+					}
 				end
 				if file1[i][col] == file2[i][col]
 					if (file1[i][col] == 'true')
 						@found[col] += 1
 						@count[col] += 1
 						JSON.parse(file1[i]["Rules"]).each {|key|
-							@rules_quality[key.to_i]["correct"] += 1
+							if key.to_i >= 0 && @rules_quality[key.to_i]["type"] == col
+								@rules_quality[key.to_i]["correct"] += 1
+							end
 						}
 						#hier datei mit positiven regeln hochzählen
 					end
 					if (file1[i][col] == 'false')
 						@not_ne += 1
+						JSON.parse(file1[i]["Rules"]).each {|key|
+							if key.to_i < 0 && @rules_quality[-key.to_i]["type"] == col
+								@rules_quality[-key.to_i]["correct"] += 1
+							end
+						}
 					end
 				end
 				if file1[i][col] != file2[i][col] && file1[i][col] == 'true' && file2[i][col] == 'false'
 					@wrong_found[col] += 1
 					@not_ne += 1
 					JSON.parse(file1[i]["Rules"]).each {|key|
-						@rules_quality[key.to_i]["false_positive"] += 1
+						if key.to_i >= 0 && @rules_quality[key.to_i]["type"] == col
+							@rules_quality[key.to_i]["false_positive"] += 1
+						end
 					}
 
 					
@@ -89,9 +103,9 @@ class TestNER
 	end
 
 	def read_rules(filename)
-		File.readlines(filename).each_with_index do |line, index|
+		File.readlines(filename).each do |line|
 			type = line.scan(/=>\s(\w{3})/)[0][0]
-			@rules_quality.push({"id" => index, "type" => type, "correct" => 0, "false_positive" => 0})
+			@rules_quality.push({"id" => @rules_quality.length, "type" => type, "correct" => 0, "false_positive" => 0})
 		end
 	end
 
@@ -105,6 +119,7 @@ class TestNER
 end
 
 t = TestNER.new()
-t.read_rules("C:/git/German-NER-with-Ruby/Rules/Oth_Rules.txt")
+t.read_rules("../Rules/Oth_Rules.txt")
+t.read_rules("../Rules/ausnahmen.txt")
 t.read_data()
 t.write_rules_quality("quality.txt")
