@@ -1,6 +1,6 @@
-# encoding: UTF-8
 require_relative 'DocumentHandler.rb'
 require_relative 'ElementOf.rb'
+
 class Condition
 	attr_reader :feature, :position, :value
 	def initialize(feature, position, value)
@@ -8,9 +8,10 @@ class Condition
 		@position = position
 		@value = value
 	end
-	#a condition used on a line from a sentence can be true or false
+
 	def matched?(text, sentence, line, category)
 	end
+
 end 
 
 class Rule
@@ -42,25 +43,7 @@ class Rule
 	
 	def matched?(text, sentence, line)
 		result = false
-=begin
-		if category == 'PERf' || category == 'LOCf' || category == 'ORGf'
-			@conditions.each do |condition|
-				if condition.matched?(text, sentence, line, category) == false
-					return false
-				elsif condition.matched?(text, sentence, line, category) == true
-						result = true
-				else 
-							#puts sentence[line].id
-							#puts "unbekannter Fehler in Rule.matched?1" 
-							#exit
-				end
-					return result
-			end
-			
-		else
-=end
-		@conditions.each do |condition|
-			
+		@conditions.each do |condition|		
 			if condition.matched?(text, sentence, line, category) == false
 				return false
 			end
@@ -75,43 +58,41 @@ class Rule
 	end
 	
 	def apply(sentence, line)
-	i = 0
-	e = ElementOf.new
-	if @category =~ /[A-Z]{3}f/
-		return change(sentence, line)
-	end
+		i = 0
+		e = ElementOf.new
+		if @category =~ /[A-Z]{3}f/
+			return change(sentence, line)
+		end
 
-	case @category	
-		when "PER"
-			while i < @length 
-				#puts "#{sentence[line+i].form} #{sentence[line + i].id}"
-				sentence[line+i].add_per 
-				sentence[line + i].add_rule("#{index}")
-				e.add_word(sentence[line + i].form, category)
-				i = i +1
-			end
-		when "ORG" 
-			while i < @length 
-				sentence[line+i].add_org
-				sentence[line + i].add_rule("#{index}")
-				e.add_word(sentence[line + i].form, category)
-				i = i +1
-			end
-		when "OTH" 
-			while i < @length 
-				sentence[line+i].add_oth
-				sentence[line + i].add_rule("#{index}")
-				e.add_word(sentence[line + i].form, category)
-				i = i +1
-			end
-		when "LOC" 
-			while i < @length 
-				sentence[line+i].add_loc
-				sentence[line + i].add_rule("#{index}")
-				e.add_word(sentence[line + i].form, category)
-				i = i +1
-			end
-		#else puts "andere Kategorie in apply"
+		case @category	
+			when "PER"
+				while i < @length 
+					sentence[line+i].add_per 
+					sentence[line + i].add_rule("#{index}")
+					e.add_word(sentence[line + i].form, category)
+					i = i +1
+				end
+			when "ORG" 
+				while i < @length 
+					sentence[line+i].add_org
+					sentence[line + i].add_rule("#{index}")
+					e.add_word(sentence[line + i].form, category)
+					i = i +1
+				end
+			when "OTH" 
+				while i < @length 
+					sentence[line+i].add_oth
+					sentence[line + i].add_rule("#{index}")
+					e.add_word(sentence[line + i].form, category)
+					i = i +1
+				end
+			when "LOC" 
+				while i < @length 
+					sentence[line+i].add_loc
+					sentence[line + i].add_rule("#{index}")
+					e.add_word(sentence[line + i].form, category)
+					i = i +1
+				end
 		end
 	end
 	
@@ -120,47 +101,45 @@ class Rule
 		e = ElementOf.new
 		case @category
 			when 'PERf'
-			if sentence[line+i].per == true
-				while sentence[line+i].per == true 
-					sentence[line+i].del_per
-					sentence[line+i].add_rule("#{-index}")
-					e.del_word(sentence[line+i].form, "PER")
-					i += 1
-					if (sentence.length-1 < line + i)
-						return false
+				if sentence[line+i].per == true
+					while sentence[line+i].per == true 
+						sentence[line+i].del_per
+						sentence[line+i].add_rule("#{-index}")
+						e.del_word(sentence[line+i].form, "PER")
+						i += 1
+						if (sentence.length-1 < line + i)
+							return false
+						end
 					end
 				end
-			else puts "no per"
-			end
 			when 'LOCf'
-			if sentence[line+i].loc == true
-				while sentence[line+i].loc == true
-					sentence[line+i].del_loc
-					sentence[line+i].add_rule("#{-index}")
-					e.del_word(sentence[line+i].form, "LOC")
-					i += 1
-					if (sentence.length-1 < line + i)
-						return false
+				if sentence[line+i].loc == true
+					while sentence[line+i].loc == true
+						sentence[line+i].del_loc
+						sentence[line+i].add_rule("#{-index}")
+						e.del_word(sentence[line+i].form, "LOC")
+						i += 1
+						if (sentence.length-1 < line + i)
+							return false
+						end
 					end
 				end
-			end
 			when 'ORGf'
-			if sentence[line+i].org == true
-				#puts "true??? #{sentence[line + i].per}"
-				while sentence[line+i].org == true 
-					sentence[line+i].del_org
-					sentence[line+i].add_rule("#{-index}")
-					e.del_word(sentence[line+i].form, "ORG")
-					i += 1
-					if (sentence.length-1 < line + i)
-						return false
+				if sentence[line+i].org == true
+					while sentence[line+i].org == true 
+						sentence[line+i].del_org
+						sentence[line+i].add_rule("#{-index}")
+						e.del_word(sentence[line+i].form, "ORG")
+						i += 1
+						if (sentence.length-1 < line + i)
+							return false
+						end
 					end
 				end
-			else 
-				return false
-			end
+			else return false
 		end
 	end
+
 end
 
 class POSCondition < Condition
@@ -179,6 +158,7 @@ class POSCondition < Condition
 		end
 		return false
 	end
+
 end
 
 class TokenCondition < Condition
@@ -210,11 +190,11 @@ class TokenCondition < Condition
 				when /\.Org$/ then return e.Organisation(sentence[line + position].form)
 				when /noOrg/ then return e.NoOrg(sentence[line + position].form)
 				when /found/ then return sentence[line + position].org
-
 			end
 		end
 		return false
 	end
+
 end
 
 class LemmaCondition < Condition
@@ -248,10 +228,10 @@ class LemmaCondition < Condition
 				when /noOrg/ then return e.NoOrg(sentence[line + position].lemma)
 				when /found/ then return sentence[line + position].org
 			end
-		return false
-		
+			return false
 		end
 	end
+
 end
 
 class SuffixCondition < Condition
@@ -274,6 +254,7 @@ class SuffixCondition < Condition
 			return false
 		end
 	end
+
 end
 
 class PrefixCondition < Condition
@@ -281,6 +262,7 @@ class PrefixCondition < Condition
 		@position = position
 		@value = value
 	end
+
 	def matched?(text, sentence, line, category)
 		if (sentence.length-1 < line + @position) || (0 > line + @position) 
 			return false
@@ -300,11 +282,13 @@ class PartOfWordCondition < Condition
 		@position = position
 		@value = value
 	end
+
 	def matched?(text, sentence, line, category)
 		if (sentence.length-1 < line + @position) || (0 > line + @position) 
 			return false
 		end
 	end
+
 end
 
 class PunctationCondition < Condition
@@ -312,11 +296,13 @@ class PunctationCondition < Condition
 		@position = position
 		@value = value
 	end
+
 	def matched?(text, sentence, line, category)
 		if (sentence.length-1 < line + @position) || (0 > line + @position) 
 			return false
 		end
 	end
+
 end
 
 class CaseCondition < Condition
@@ -329,7 +315,6 @@ class CaseCondition < Condition
 		if (sentence.length-1 < line + @position) || (0 > line + @position) 
 			return false
 		end
-		
 		if @value == "aC" 
 			if sentence[line + @position].form =~ /^[A-Z]+$/ 
 				return true
@@ -356,4 +341,5 @@ class CaseCondition < Condition
 		end
 		return false
 	end
+	
 end

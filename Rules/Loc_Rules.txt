@@ -1,8 +1,0 @@
-[POS.0 = NE, token.0 = ElementOf.LocationList] => LOC 0,1
-[POS.0 = NN, token.0 = ElementOf.LocationList] => LOC 0,1
-[POS.0 = NN, token.-1 = ElementOf.InNach] => LOC 0,1
-[POS.0 = NE, token.-1 = ElementOf.InNach] => LOC 0,1
-[POS.0 = NE, token.0 = ElementOf.CurrentLexicon] => LOC 0,1
-[POS.0 = NN, token.0 = ElementOf.CurrentLexicon] => LOC 0,1 
-[POS.0 = NN, lemma.0 = ElementOf.LocationList] => LOC 0,1
-[POS.0 = NE, lemma.0 = ElementOf.LocationList] => LOC 0,1

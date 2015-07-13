@@ -1,20 +1,12 @@
-# encoding: UTF-8
-
-=begin
-The class DocumentHandler takes a xml-Document (in this case mini.xml) and parses it with Nokogiris Saxparser.
-Therefore the methods start_element und end_element looksup elements in the data and performes tasks when they 
-arrive.
-The DocumentHandler creates three arrays: text, sentence and word.
-=end
-#this class parses the input-document and gives back an array for every text.
-#Create a new instance of type Text for every text and push it to the @@current_element array.
-#Create a new instance of type Sentence for every sentence and push it to the @@current_element array.
 require_relative 'RuleHandler.rb'
 require_relative 'Rule.rb'
 require 'nokogiri'
 require 'csv'
+
 class DocumentHandler < Nokogiri::XML::SAX::Document
+
 	attr_accessor :texts, :rules
+
 	@@count_text = 0
 	@@current_element = Array.new
 	@@ne = nil
@@ -45,27 +37,18 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 			w = Word.new(attrs[0][1])
 			attrs.each {|attribute|
 				case attribute[0]
-					when "xml:id"
-						#do nothing
-					when "form"
-						w.add_form(attribute[1])
-					when "pos"
-						w.add_pos(attribute[1])
-					when "lemma"
-						w.add_lemma(attribute[1])
-					when "morph"
-						w.add_morph(attribute[1])
-					when "func"
-						w.add_func(attribute[1])
-					when "parent"
-						w.add_parent(attribute[1])
-					when "deprel"
-						w.add_deprel(attribute[1])
-					when "dephead"
-						w.add_dephead(attribute[1])
+					when "xml:id" then #do nothing
+					when "form" then w.add_form(attribute[1])
+					when "pos" then w.add_pos(attribute[1])
+					when "lemma" then w.add_lemma(attribute[1])
+					when "morph" then w.add_morph(attribute[1])
+					when "func" then w.add_func(attribute[1])
+					when "parent" then w.add_parent(attribute[1])
+					when "deprel" then w.add_deprel(attribute[1])
+					when "dephead" then w.add_dephead(attribute[1])
 					when "comment" #do nothing
 					when "wsd-lexunits" #do nothing
-					else puts "Fehler!\n ----------------------------------------------------------------\n #{w.id} #{attribute}"
+					else puts "Fehler!\n ------------------\n #{w.id} #{attribute} in DocumentHandler start_element"
 				end
 			}
 			@@current_element.last.add_content(w)
@@ -92,18 +75,16 @@ class DocumentHandler < Nokogiri::XML::SAX::Document
 		#parser.parse_file('C:/git/German-NER-with-Ruby/Input/micro.xml')
 	end
 
-	def end_document
-	end
-	
-	#this method simply counts the number of texts and sentences existing in the input-document.
 	def count_frequency(name)
 		if name == 'text'
 			@@count_text += 1
 		end
+		
 		if name == 'sentence'
 			@@count_sentence += 1
 		end
 	end	
+
 end
 
 class Text
@@ -119,11 +100,9 @@ class Text
 		@ne_loc = Array.new
 	end
 	
-#This method adds an sentence to the sentences
 	def add_content(obj)
 		sentences << obj
-	end	
-		
+	end		
 
 end
 
@@ -140,11 +119,7 @@ class Sentence
 	def add_content(obj)
 		sentence_parts << obj
 	end
-	
-	def output
-		sentence_parts.each {|word|
-			word.output()}
-	end
+
 end
 
 class Word
@@ -241,15 +216,10 @@ class Word
 		if pos == punctuation
 			Punctuation.new()
 		end
+
 		if pos =! pos_list
 			puts "/n Fehler, unbekanntes pos /n" 
 		end
 	end
-	def print()
-		puts form
-	end
-	
-	def output
-		w = [id, lemma, pos]
-	end
+
 end

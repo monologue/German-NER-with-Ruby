@@ -5,16 +5,14 @@ class CreateDictionary
 	attr_accessor :dictionary
 
 	def initialize()
-		@data = CSV.read("C:/git/German-NER-with-Ruby/test/expected/train.txt", {col_sep: "\t", quote_char: "\0", headers: true})
-		
-
+		@data = CSV.read("../test/expected/train.txt", {col_sep: "\t", quote_char: "\0", headers: true})
 	end
 
 	def read_data()
 	end
 
 	def create_dicitionary()
-		dictionary = Array.new		
+		@dictionary = Array.new		
 		string = String.new
 		for i in 0..data.size-1	
 		# for i in 660..675			
@@ -40,11 +38,8 @@ class CreateDictionary
  
 			end
 		end
-		# puts dictionary
 		dictionary = dictionary.uniq.sort
-		
-
-		file = File.open("C:/git/German-NER-with-Ruby/Dictionary/ORG.txt", "a+")
+		file = File.open("../Dictionary/ORG.txt", "a+")
 		dictionary.each do |line| 
 			file.write(line + "\n")
 		end

@@ -1,9 +1,5 @@
-# encoding: UTF-8
-
-#reads the rules and calls split_rule for every line, one line contains one rule
-#this function splits the rules after a pattern and saves the parts in an array and returns this array
-#splitting the ruleParts/conditions into the three elements feature, position, value
 require_relative 'Rule.rb'
+
 class RuleHandler
 	attr_accessor :rules, :sentences, :falseRules#, :rule
 	
@@ -14,7 +10,7 @@ class RuleHandler
 	end
 
 	def read_rules(data)
-		File.readlines("C:/git/German-NER-with-Ruby/Rules/"+data).each do |line|
+		File.readlines("../Rules/"+data).each do |line|
 			@rules << split_rule(line, @rules.length)
 		end
 	end

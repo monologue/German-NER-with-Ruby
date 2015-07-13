@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class ElementOf
 	
 	attr_reader :result
@@ -28,6 +26,7 @@ class ElementOf
 	def NoOrg(word)
 		return NOORG.include?(word)
 	end
+	
 	def Organisation(word)
 		return ORGANISATION.include?(word)
 	end
@@ -39,10 +38,9 @@ class ElementOf
 	def Mitarbeiter(word)
 		return MITARBEITER.include?(word)
 	end
+
 	def Numbers(word)
 		i = 0
-		puts "word: " + word.encoding.to_s
-		puts "number: " + NUMBERS[0].encoding.to_s
 		while i < NUMBERS.length-1
 			if word =~ /#{NUMBERS[i]}/i
 				return true
@@ -51,9 +49,11 @@ class ElementOf
 		end
 		return false
 	end
+
 	def OrgEnding(word)
 		return ORGEND.include?(word)
 	end
+
 	 def numeric?(string)
 		return true if string =~ /\A\d+\Z/
 		true if Float(string) rescue false
@@ -105,4 +105,5 @@ class ElementOf
 	def NoLoc(word)
 		return NOLOC.include?(word)
 	end
+
 end
