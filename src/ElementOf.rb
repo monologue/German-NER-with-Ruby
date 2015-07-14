@@ -14,11 +14,25 @@ class ElementOf
 	MITARBEITER = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/Mitarbeiter.txt").map{|l| l.chomp}
 	ANREDE = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/Anrede.txt").map{|l| l.chomp}
 	NOORG = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/not_org.txt").map{|l| l.chomp}
+	FOOTBALL = File.readlines("C:/git/German-NER-with-Ruby/Dictionary/football.txt").map{|l| l.chomp}
 
 	def initialize()
 		@result = false
 	end
 
+	def ContextFootball?(sentence, line, frame)
+		i = line.to_i - frame[0].to_i
+		for i in line.to_i-frame[0].to_i..line.to_i+frame[0].to_i
+			if sentence[i] != nil
+				if FOOTBALL.include?(sentence[i].form)
+					return true
+				end
+			end
+			i += 1
+		end
+		return false
+	end
+			
 	def NameList(word)
 		return PER.include?(word.force_encoding(Encoding::UTF_8))
 	end

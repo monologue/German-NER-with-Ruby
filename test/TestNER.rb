@@ -104,6 +104,7 @@ class TestNER
 end
 
 t = TestNER.new()
-t.read_rules("../Rules/Oth_Rules.txt")
+#t.read_rules("../Rules/Rules.txt")
+t.read_rules("../Rules/single_rule.txt")
 t.read_data()
 t.write_rules_quality("quality.txt")

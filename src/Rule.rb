@@ -305,6 +305,25 @@ class PunctationCondition < Condition
 
 end
 
+class ContextCondition < Condition
+	def initialize(position, value)
+		@position = position
+		@value = value
+	end
+
+	def matched?(text, sentence, line, category)
+	if (sentence.length-1 < line + @position) || (0 > line + @position) 
+		return false
+	end
+	if @value =~ /ElementOf/
+		e = ElementOf.new
+		case @value
+			when /.football/ then return e.ContextFootball?(sentence, line, value.scan(/\.\d/))
+		end
+	end
+end
+end
+
 class CaseCondition < Condition
 	def initialize(position, value)
 		@position = position

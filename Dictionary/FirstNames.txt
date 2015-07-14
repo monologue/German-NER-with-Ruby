@@ -1005,7 +1005,6 @@ Angel
 Angela
 Angelantonio
 Angele
-Angeles
 Angeletta
 Angeli
 Angelica
@@ -1826,14 +1825,12 @@ Baban
 Babar
 Babara
 Babek
-Babel
 Babett
 Babette
 Babetty
 Babic
 Babsi
 Babur
-Baby
 Baccouche
 Bachir
 Bachisio
@@ -2200,7 +2197,6 @@ Berit
 Berith
 Berk
 Berlinde
-Bern
 Berna
 Bernadet
 Bernadett
@@ -2294,7 +2290,6 @@ Besnik
 Beth
 Betin
 Betina
-Betis
 Betma
 Betti
 Bettie
@@ -5894,7 +5889,6 @@ Floriana
 Floriane
 Floriano
 Florica
-Florida
 Florika
 Florim
 Florin
@@ -11154,7 +11148,6 @@ Lübomir
 Lüder
 Lüdmil
 Lüdya
-Le
 Lea
 Leah
 Leander
@@ -12812,7 +12805,6 @@ Mercy
 Merdali
 Merdzan
 Merdzanic
-Meretz
 Merhunisa
 Meri
 Meriadeg
@@ -14781,7 +14773,6 @@ Paul-Günter
 Paulheinz
 Paul-Heinz
 Paul-Henry
-Pauli
 Paulic
 Paulin
 Paulina
@@ -16866,7 +16857,6 @@ Sepo
 Sepp
 Sepp-Michael
 Süer
-Sera
 Serafeddin
 Serafetin
 Serafettin

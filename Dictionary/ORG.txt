@@ -52,7 +52,6 @@ Aidshilfe
 Air 2000
 Air France
 Air Holland
-Akademie
 Akademietheater
 Aktion Sühnezeichen
 Aktionsgemeinschaft
@@ -189,7 +188,6 @@ Betis
 Betis Sevilla
 Bewaffneten Islamischen Gruppe
 Bewag
-Bewegung
 Bewegungsfreies Honduras
 Bezirks-SPD
 Bezirksverbandes
@@ -394,7 +392,6 @@ Deep Purple
 Degussa
 Delta
 Democratia Proletaria
-Demokratie
 Demokratische Konvergenz
 Demokratische Liga
 Demokratische Partei
@@ -485,10 +482,7 @@ Doppstadt Umwelttechnik GmBH
 Dow Chemical
 Drob Inn
 Drug Enforcement Agency
-Dschungel
 Dubrovnik Peace Project
-Durchblick
-Durchbruch
 Dutenhofen
 Dutenhofens
 Dänischen Handball-Verband
@@ -701,7 +695,6 @@ German Open
 Germania 1900 Halberstedt
 Gestapo
 Gewerbe im Park
-Gewerkschaft
 Gildemeister Projecta
 Gladbach
 Glasgow Rangers
@@ -731,7 +724,6 @@ Grundbergsee
 Grundig
 Grundstücks AG
 Gruner + Jahr
-Gruppe
 Grüne
 Guardian
 Guinness-Buch
@@ -746,7 +738,6 @@ HSG Dutenhofen
 HUK-Coburg
 Habakuks Gartenlaube
 Hackesche Höfe
-Hafen
 Haffmans
 Haffmans-Verlag
 Hahn-Meitner-Institut
@@ -912,7 +903,6 @@ Joop
 Jorge Salazar II
 Jorge Salazar III
 Jouy-en-Josas
-Jugend
 Jugend gegen Rassismus
 Jugend gegen Rassismus in Europa
 Jugend-Aktion
@@ -1928,7 +1918,6 @@ die Fantastischen Vier
 documenta
 dpa
 dtv
-du
 edition
 edition Sirene
 epd
@@ -1950,7 +1939,6 @@ olympischen Spielen
 orthodoxe Kirche
 pakistanischen Nationalbank
 pap
-radikal
 regionale Menschenrechtstribunal
 rtr
 sog. Unterstützungskommandos

@@ -36,7 +36,8 @@ class RuleHandler
 	end
 	
 	def condition_parts(string)
-		splitPattern = /([a-zA-Z]+).(-\d|\d)\s.\s(\w+.\w+|\w+)/
+		#splitPattern = /([a-zA-Z]+).(-\d|\d)\s.\s(\w+.\w+|\w+)/
+		splitPattern = /([a-zA-Z]+).(-\d|\d)\s.\s(\w+\.\w+\.\d|\w+.\w+|\w+)/
 		element = string.scan(splitPattern)[0]
 		case element[0]
 			when "POS" then return POSCondition.new(element[1].to_i, element[2])							
